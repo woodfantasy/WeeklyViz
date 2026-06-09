@@ -1,4 +1,4 @@
-English | [中文](README.zh-CN.md)
+English | [中文](README.zh-CN.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Español](README.es.md) | [Português](README.pt.md) | [Français](README.fr.md)
 
 <p align="center">
   <img src="weeklyviz/assets/logo.svg" width="128" height="128" alt="WeeklyViz Logo">
