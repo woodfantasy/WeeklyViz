@@ -1,7 +1,7 @@
 [[English](README.md) | [中文](README.zh-CN.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Español](README.es.md) | [Português](README.pt.md) | Français
 
 <p align="center">
-  <img src="weeklyviz/assets/logo.svg" width="128" height="128" alt="WeeklyViz Logo">
+  <img src="assets/logo.svg" width="128" height="128" alt="WeeklyViz Logo">
 </p>
 
 <h1 align="center">WeeklyViz</h1>
@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href=""><img src="https://img.shields.io/badge/version-0.1-blue.svg" alt="Version"></a>
+  <a href=""><img src="https://img.shields.io/badge/version-0.11-blue.svg" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"></a>
   <a href=""><img src="https://img.shields.io/badge/platform-Codex_/_Claude_Code-purple.svg" alt="Platform"></a>
 </p>
@@ -66,30 +66,34 @@ git clone https://github.com/woodfantasy/WeeklyViz.git .cursor/skills/weeklyviz
 
 #### Étape 1: Extraire les Données
 ```bash
-python3 weeklyviz/scripts/weeklyviz.py extract \
+python3 scripts/weeklyviz.py extract \
   --input path/to/metrics.xlsx path/to/updates.md \
   --output source-bundle.json
 ```
 
 #### Étape 2: Rédiger le Modèle de Rapport
-Définissez le fichier `report-model.json` conformément au schéma [report.schema.json](weeklyviz/references/report.schema.json).
+Définissez le fichier `report-model.json` conformément au schéma [report.schema.json](references/report.schema.json).
 
 #### Étape 3: Valider et Générer le HTML
 ```bash
 # Valider les données et les règles des graphiques
-python3 weeklyviz/scripts/weeklyviz.py validate --report report-model.json
+python3 scripts/weeklyviz.py validate --report report-model.json
 
 # Compiler en HTML
-python3 weeklyviz/scripts/weeklyviz.py render --report report-model.json --output weekly-report.html
+python3 scripts/weeklyviz.py render --report report-model.json --output weekly-report.html
 
 # Valider l'accessibilité
-node weeklyviz/scripts/validate_html.mjs weekly-report.html
+node scripts/validate_html.mjs weekly-report.html
 ```
 
 ---
 
 ## 📋 Historique des Versions
 
+*   **v0.11.0** (2026-06-09)
+    - Structure des dossiers aplatie à la racine pour l'installation et l'exécution standard des agents.
+    - Conception et mise à niveau premium du modèle `Editorial` avec arrière-plan pointillé, barre de style macOS, ombres portées solides, listes à puces et barres latérales.
+    - Politique de sécurité pour exclure les données locales sensibles de Shiji dans le référentiel public.
 *   **v0.1.0** (2026-06-09)
     - Version initiale.
     - Outil d'extraction pour CSV, XLSX, DOCX, MD et texte brut.

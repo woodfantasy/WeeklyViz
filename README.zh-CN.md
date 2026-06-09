@@ -1,7 +1,7 @@
 [English](README.md) | 中文 | [日本語](README.ja.md) | [한국어](README.ko.md) | [Español](README.es.md) | [Português](README.pt.md) | [Français](README.fr.md)
 
 <p align="center">
-  <img src="weeklyviz/assets/logo.svg" width="128" height="128" alt="WeeklyViz Logo">
+  <img src="assets/logo.svg" width="128" height="128" alt="WeeklyViz Logo">
 </p>
 
 <h1 align="center">WeeklyViz</h1>
@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href=""><img src="https://img.shields.io/badge/version-0.1-blue.svg" alt="版本"></a>
+  <a href=""><img src="https://img.shields.io/badge/version-0.11-blue.svg" alt="版本"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="协议"></a>
   <a href=""><img src="https://img.shields.io/badge/platform-Codex_/_Claude_Code-purple.svg" alt="平台"></a>
 </p>
@@ -87,27 +87,27 @@ git clone https://github.com/woodfantasy/WeeklyViz.git agents/skills/weeklyviz
 将你本周的所有电子表格、Markdown 更新或者备忘录汇总到一个文件夹中，运行提取命令：
 
 ```bash
-python3 weeklyviz/scripts/weeklyviz.py extract \
+python3 scripts/weeklyviz.py extract \
   --input path/to/metrics.xlsx path/to/updates.md \
   --output source-bundle.json
 ```
 这将解析文件并将它们映射到 `source-bundle.json` 中唯一的源 Hash ID。
 
 #### 第二步：编写报告模型
-编写排版规划，参照 [report.schema.json](weeklyviz/references/report.schema.json) 构建 `report-model.json`。每个核心 KPI、进度条和图表都必须带上 `source_refs` 指向 `source-bundle.json` 中的数据源。
+编写排版规划，参照 [report.schema.json](references/report.schema.json) 构建 `report-model.json`。每个核心 KPI、进度条和图表都必须带上 `source_refs` 指向 `source-bundle.json` 中的数据源。
 
 #### 第三步：校验并渲染 HTML
 校验报告数据模型并编译最终的离线 HTML 报告：
 
 ```bash
 # 校验数据模型是否符合结构规范与限制
-python3 weeklyviz/scripts/weeklyviz.py validate --report report-model.json
+python3 scripts/weeklyviz.py validate --report report-model.json
 
 # 渲染 HTML 报告
-python3 weeklyviz/scripts/weeklyviz.py render --report report-model.json --output weekly-report.html
+python3 scripts/weeklyviz.py render --report report-model.json --output weekly-report.html
 
 # 校验生成的 HTML 报告的无障碍与结构合规性
-node weeklyviz/scripts/validate_html.mjs weekly-report.html
+node scripts/validate_html.mjs weekly-report.html
 ```
 
 ---
@@ -119,38 +119,38 @@ WeeklyViz/
 ├── README.md                      # 英文文档
 ├── README.zh-CN.md                # 中文文档
 ├── .gitignore                     # Git 忽略文件
-└── weeklyviz/                     # Skill 包核心目录
-    ├── SKILL.md                   # 核心技能指令 (Skill 大脑)
-    ├── agents/
-    │   └── openai.yaml            # OpenAI 自定义 Agent 配置文件
-    ├── scripts/
-    │   ├── weeklyviz.py           # 核心 CLI (提取, 校验, 渲染)
-    │   └── validate_html.mjs      # HTML 结构与 A11y 校验器
-    ├── references/
-    │   ├── report.schema.json     # 报告数据模型的 JSON Schema
-    │   ├── chart-selection.md     # 图表选型与规约指南
-    │   ├── design-system.md       # 设计系统 Token 与布局规范
-    │   ├── visual-composition.md  # 视觉密度与节奏排版指南
-    │   └── qa-checklist.md        # 质量控制检查清单
-    ├── assets/
-    │   ├── logo.svg               # 矢量品牌 Logo
-    │   ├── runtime/
-    │   │   ├── report.css         # 报告样式表
-    │   │   └── report.js          # 行内编辑器交互脚本
-    │   ├── templates/
-    │   │   ├── executive.json     # 经营看板模板
-    │   │   ├── editorial.json     # 社论风大字报模板
-    │   │   └── product-operations.json # 研发网格明细模板
-    │   └── vendor/
-    │       └── echarts.min.js     # Apache ECharts 运行时 (锁定 v5)
-    ├── tests/
-    │   └── test_weeklyviz.py      # Python 单元测试集
-    └── evals/
-        ├── evals.json             # 评测元数据
-        ├── README.md              # 评测数据方针
-        ├── fixtures/
-        │   └── report-model.json  # 虚构报告测试数据
-        └── weeklyviz-golden.html  # 编译的合成 Golden HTML
+├── SKILL.md                       # 核心技能指令 (Skill 大脑)
+├── agents/
+│   └── openai.yaml                # OpenAI 自定义 Agent 配置文件
+├── scripts/
+│   ├── weeklyviz.py               # 核心 CLI (提取, 校验, 渲染)
+│   └── validate_html.mjs          # HTML 结构与 A11y 校验器
+├── references/
+│   ├── report.schema.json         # 报告数据模型的 JSON Schema
+│   ├── chart-selection.md         # 图表选型与规约指南
+│   ├── design-system.md           # 设计系统 Token 与布局规范
+│   ├── visual-composition.md      # 视觉密度与节奏排版指南
+│   └── qa-checklist.md            # 质量控制检查清单
+├── assets/
+│   ├── logo.svg                   # 矢量品牌 Logo
+│   ├── runtime/
+│   │   ├── report.css             # 报告样式表
+│   │   └── report.js              # 行内编辑器交互脚本
+│   ├── templates/
+│   │   ├── executive.json         # 经营看板模板
+│   │   ├── editorial.json         # 社论风大字报模板
+│   │   └── product-operations.json # 研发网格明细模板
+│   └── vendor/
+│       └── echarts.min.js         # Apache ECharts 运行时 (锁定 v5)
+├── tests/
+│   └── test_weeklyviz.py          # Python 单元测试集
+└── evals/
+    ├── evals.json             # 评测元数据
+    ├── README.md              # 评测数据方针
+    ├── fixtures/
+    │   └── report-model.json  # 虚构报告测试数据
+    └── weeklyviz-golden.html  # 编译的合成 Golden HTML
+
 ```
 
 ---
@@ -161,7 +161,7 @@ WeeklyViz/
 
 ```bash
 # 查看所有可用命令和帮助
-python3 weeklyviz/scripts/weeklyviz.py --help
+python3 scripts/weeklyviz.py --help
 ```
 
 ### 数据提取 (`extract`)
@@ -184,7 +184,7 @@ python3 weeklyviz/scripts/weeklyviz.py --help
 
 ## 🏗️ 设计系统与主题
 
-WeeklyViz 提供三款面向不同汇报对象的精美版式（详情见 [design-system.md](weeklyviz/references/design-system.md)）：
+WeeklyViz 提供三款面向不同汇报对象的精美版式（详情见 [design-system.md](references/design-system.md)）：
 
 *   **Executive (`executive.json`)**: 深邃暗色主标题与灰白背景，字号小，适合汇报给管理层的高密度信息看板。
 *   **Editorial (`editorial.json`)**: 宽大舒服的排版比例与香草/薰衣草淡紫色系，突出叙事和宏观故事性。
@@ -199,6 +199,10 @@ WeeklyViz 提供三款面向不同汇报对象的精美版式（详情见 [desig
 
 ## 📋 发布版本
 
+*   **v0.11.0** (2026-06-09)
+    - 扁平化目录结构至根目录，适配标准的 Agent 加载与安装规范。
+    - 升级并重构 `Editorial` 模版为更高级的社论风格，加入 dots 背景、macOS 窗口栏装饰、硬投影卡片、点线指标列表与双侧边栏装饰。
+    - 确立安全隔离策略，将包含用户真实业务数据的周报与数据文件彻底排除出 Git 追踪列表。
 *   **v0.1.0** (2026-06-09)
     - 初始版本发布。
     - 实现对 CSV, XLSX, DOCX, MD, Plain Text 的完整多源数据提取器。

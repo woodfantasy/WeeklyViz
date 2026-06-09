@@ -925,6 +925,14 @@ def render_html(model: Dict[str, Any], template: Dict[str, Any], css: str, runti
 <body class="{"sources-visible" if report['presentation']['source_display'] == 'expanded' else ""}">
   <a class="skip-link" href="#report-main">跳到主要内容</a>
   <div class="app-shell">
+    <div class="global-sidebar left-sidebar" aria-hidden="true">
+      <div class="sidebar-text">WEEKLY</div>
+      <div class="sidebar-text">ANALYTICS</div>
+    </div>
+    <div class="global-sidebar right-sidebar" aria-hidden="true">
+      <div class="sidebar-text">STUDIO</div>
+      <div class="sidebar-text">REPORT</div>
+    </div>
     <nav class="toolbar" aria-label="报告工具">
       <div class="toolbar-brand"><span class="brand-mark">WV</span><span>WeeklyViz</span></div>
       <div class="toolbar-actions">

@@ -1,7 +1,7 @@
 [English](README.md) | [中文](README.zh-CN.md) | [日本語](README.ja.md) | 한국어 | [Español](README.es.md) | [Português](README.pt.md) | [Français](README.fr.md)
 
 <p align="center">
-  <img src="weeklyviz/assets/logo.svg" width="128" height="128" alt="WeeklyViz Logo">
+  <img src="assets/logo.svg" width="128" height="128" alt="WeeklyViz Logo">
 </p>
 
 <h1 align="center">WeeklyViz</h1>
@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href=""><img src="https://img.shields.io/badge/version-0.1-blue.svg" alt="Version"></a>
+  <a href=""><img src="https://img.shields.io/badge/version-0.11-blue.svg" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"></a>
   <a href=""><img src="https://img.shields.io/badge/platform-Codex_/_Claude_Code-purple.svg" alt="Platform"></a>
 </p>
@@ -66,30 +66,34 @@ git clone https://github.com/woodfantasy/WeeklyViz.git .cursor/skills/weeklyviz
 
 #### 1단계: 데이터 추출
 ```bash
-python3 weeklyviz/scripts/weeklyviz.py extract \
+python3 scripts/weeklyviz.py extract \
   --input path/to/metrics.xlsx path/to/updates.md \
   --output source-bundle.json
 ```
 
 #### 2단계: 보고서 모델 작성
-[report.schema.json](weeklyviz/references/report.schema.json)에 맞추어 `report-model.json` 데이터를 정의합니다.
+[report.schema.json](references/report.schema.json)에 맞추어 `report-model.json` 데이터를 정의합니다.
 
 #### 3단계: 검증 및 HTML 렌더링
 ```bash
 # 스키마 및 차트 제약 검증
-python3 weeklyviz/scripts/weeklyviz.py validate --report report-model.json
+python3 scripts/weeklyviz.py validate --report report-model.json
 
 # HTML 렌더링
-python3 weeklyviz/scripts/weeklyviz.py render --report report-model.json --output weekly-report.html
+python3 scripts/weeklyviz.py render --report report-model.json --output weekly-report.html
 
 # 접근성 검증
-node weeklyviz/scripts/validate_html.mjs weekly-report.html
+node scripts/validate_html.mjs weekly-report.html
 ```
 
 ---
 
 ## 📋 버전 정보
 
+*   **v0.11.0** (2026-06-09)
+    - 표준 에이전트 로드 및 설치를 위해 디렉터리 계층 구조를 루트 폴더로 평탄화(Flatten).
+    - `Editorial` 템플릿에 도트 배경, macOS 창 표시 장식, 하드 그림자 카드, 도트라인 리스트, 양측 사이드바 장식을 추가하는 프리미엄 업그레이드 단행.
+    - 보안 강화를 위해 민감한 내부 데이터(Shiji 주간 보고서 등)를 Git 추적에서 제외하도록 .gitignore를 구성하고 안전 정책을 수립.
 *   **v0.1.0** (2026-06-09)
     - 최초 버전 배포.
     - CSV, XLSX, DOCX, MD, Plain Text 지원 데이터 추출기.

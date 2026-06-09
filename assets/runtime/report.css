@@ -1290,20 +1290,324 @@ html[data-template="product-operations"] .section-heading > span {
   color: var(--surface);
 }
 
+/* ==========================================================================
+   UPGRADED PREMIUM HIGH-FASHION EDITORIAL (LAVENDER) DESIGN SYSTEM
+   ========================================================================== */
+
+/* Font family mappings for editorial */
+html[data-template="editorial"] {
+  --font-title: 'Outfit', 'Cabinet Grotesk', 'Avenir Next', 'SF Pro Display', -apple-system, sans-serif;
+  --font-serif: 'Playfair Display', 'Didot', 'Georgia', serif;
+  --font-body: 'Outfit', 'Avenir Next', 'SF Pro Display', 'Inter', sans-serif;
+  --font-mono: 'Share Tech Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+  font-family: var(--font-body);
+}
+
+html[data-template="editorial"] body {
+  background-color: var(--background);
+}
+
+/* Background dots pattern grid */
+html[data-template="editorial"] body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-image: radial-gradient(rgba(139, 124, 232, 0.12) 1.5px, transparent 0);
+  background-size: 24px 24px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Persistent Vintage Paper Noise Overlay */
+html[data-template="editorial"] body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* macOS Chrome / Brutalist Outlined browser window layout */
 html[data-template="editorial"] .report-wrap {
-  border: 2px solid color-mix(in srgb, var(--text) 78%, var(--border));
-  box-shadow: 12px 12px 0 color-mix(in srgb, var(--accent) 14%, transparent);
+  border: 1.5px solid var(--primary);
+  border-radius: 24px;
+  background: var(--surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 12px 12px 0px rgba(17, 17, 22, 0.05);
+  transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 html[data-template="editorial"] .report-chrome {
-  background: linear-gradient(90deg, var(--soft-accent), color-mix(in srgb, var(--accent) 28%, var(--surface)));
+  background: #C3B4E6;
+  border-bottom: 1.5px solid var(--primary);
+  padding: 14px 28px;
+  color: var(--primary);
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.08em;
 }
 
+html[data-template="editorial"] .chrome-dots i {
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--primary);
+  border-radius: 50%;
+  background: #FF8B8B;
+  transition: transform 0.2s;
+}
+html[data-template="editorial"] .chrome-dots i:nth-child(2) {
+  background: #FFD48B;
+}
+html[data-template="editorial"] .chrome-dots i:nth-child(3) {
+  background: #8BFF8B;
+}
+
+/* Hero section */
+html[data-template="editorial"] .report-hero {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(139, 124, 232, 0.08));
+  border-bottom: 1.5px dashed rgba(17, 17, 22, 0.1);
+  color: var(--primary);
+  padding: 38px 45px 32px 45px;
+}
+
+html[data-template="editorial"] .hero-meta {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+html[data-template="editorial"] .report-hero h1 {
+  font-family: var(--font-title);
+  font-size: 2.3rem;
+  font-weight: 800;
+  text-shadow: 2px 2px 0px rgba(139, 124, 232, 0.35);
+  letter-spacing: -0.02em;
+  color: var(--primary);
+}
+
+html[data-template="editorial"] .hero-subtitle {
+  font-family: var(--font-title);
+  font-size: 0.95rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-top: 8px;
+}
+
+html[data-template="editorial"] .hero-facts {
+  border-top: 1.5px dashed rgba(17, 17, 22, 0.08);
+  padding-top: 14px;
+  display: flex;
+  gap: 12px;
+}
+
+html[data-template="editorial"] .hero-facts span {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(17, 17, 22, 0.12);
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--text);
+}
+
+/* Section Headings */
+html[data-template="editorial"] .section-heading {
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 8px;
+  margin-bottom: 20px;
+}
+
+html[data-template="editorial"] .section-heading span {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--accent);
+}
+
+html[data-template="editorial"] .section-heading h2 {
+  font-family: var(--font-title);
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+/* Card Styling: brutalist flat shadows */
 html[data-template="editorial"] .kpi-card,
 html[data-template="editorial"] .chart-card,
-html[data-template="editorial"] .work-item {
-  border-color: color-mix(in srgb, var(--text) 28%, var(--border));
-  box-shadow: 6px 6px 0 color-mix(in srgb, var(--text) 5%, transparent);
+html[data-template="editorial"] .work-item,
+html[data-template="editorial"] .progress-item,
+html[data-template="editorial"] .action-card {
+  border: 1.5px solid var(--primary);
+  border-radius: 20px !important;
+  background: var(--surface) !important;
+  box-shadow: 12px 12px 0px rgba(17, 17, 22, 0.05) !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+html[data-template="editorial"] .kpi-card::after {
+  display: none; /* remove default background circle */
+}
+
+html[data-template="editorial"] .kpi-card:hover,
+html[data-template="editorial"] .chart-card:hover,
+html[data-template="editorial"] .work-item:hover,
+html[data-template="editorial"] .progress-item:hover,
+html[data-template="editorial"] .action-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 12px 12px 0px var(--accent), 0 20px 45px rgba(139, 124, 232, 0.15) !important;
+}
+
+html[data-template="editorial"] .kpi-value {
+  font-family: var(--font-title);
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.02em;
+}
+
+/* Dotted spacer list styling */
+html[data-template="editorial"] .kpi-details,
+html[data-template="editorial"] .work-metrics {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+html[data-template="editorial"] .kpi-detail,
+html[data-template="editorial"] .work-metric {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: none;
+  font-size: 11px;
+  padding-bottom: 0;
+}
+
+html[data-template="editorial"] .kpi-detail span,
+html[data-template="editorial"] .work-metric span {
+  color: var(--muted);
+  flex: none;
+}
+
+html[data-template="editorial"] .kpi-detail::after,
+html[data-template="editorial"] .work-metric::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px dotted var(--border);
+  margin: 0 8px;
+}
+
+html[data-template="editorial"] .kpi-detail strong,
+html[data-template="editorial"] .work-metric strong {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--text);
+  flex: none;
+  order: 2; /* Move values to the right side of the dotted line */
+}
+
+/* Sidebar structure */
+.global-sidebar {
+  display: none;
+}
+
+html[data-template="editorial"] .global-sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6rem 0;
+  z-index: 100;
+  pointer-events: none;
+  font-family: var(--font-title);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.4em;
+  color: var(--primary);
+  opacity: 0.45;
+  transition: color 0.5s ease;
+}
+
+html[data-template="editorial"] .left-sidebar {
+  left: 15px;
+  border-right: 1px solid rgba(17, 17, 22, 0.06);
+}
+
+html[data-template="editorial"] .right-sidebar {
+  right: 15px;
+  border-left: 1px solid rgba(17, 17, 22, 0.06);
+}
+
+html[data-template="editorial"] .sidebar-text {
+  writing-mode: vertical-rl;
+  text-transform: uppercase;
+  transform: rotate(180deg);
+  display: inline-block;
+}
+
+/* Executive summary banner */
+html[data-template="editorial"] .summary-band {
+  background: rgba(139, 124, 232, 0.05);
+  border: 1.5px solid var(--primary);
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+html[data-template="editorial"] .summary-band h2 {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--primary);
+}
+
+html[data-template="editorial"] .summary-copy > p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+html[data-template="editorial"] .summary-copy ul {
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+html[data-template="editorial"] .summary-copy li {
+  font-size: 0.88rem;
+  color: var(--text);
+}
+
+/* Progress items */
+html[data-template="editorial"] .progress-item {
+  border-top-width: 1.5px;
+}
+
+html[data-template="editorial"] .progress-copy h3,
+html[data-template="editorial"] .progress-copy strong {
+  font-family: var(--font-title);
+  font-weight: 700;
+}
+
+/* Action cards */
+html[data-template="editorial"] .action-card {
+  border-left-width: 6px;
 }
 
 @media (max-width: 960px) {

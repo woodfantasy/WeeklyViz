@@ -1,7 +1,7 @@
 [[English](README.md) | [中文](README.zh-CN.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Español](README.es.md) | Português | [Français](README.fr.md)
 
 <p align="center">
-  <img src="weeklyviz/assets/logo.svg" width="128" height="128" alt="WeeklyViz Logo">
+  <img src="assets/logo.svg" width="128" height="128" alt="WeeklyViz Logo">
 </p>
 
 <h1 align="center">WeeklyViz</h1>
@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href=""><img src="https://img.shields.io/badge/version-0.1-blue.svg" alt="Version"></a>
+  <a href=""><img src="https://img.shields.io/badge/version-0.11-blue.svg" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"></a>
   <a href=""><img src="https://img.shields.io/badge/platform-Codex_/_Claude_Code-purple.svg" alt="Platform"></a>
 </p>
@@ -66,30 +66,34 @@ git clone https://github.com/woodfantasy/WeeklyViz.git .cursor/skills/weeklyviz
 
 #### Passo 1: Extrair os Dados
 ```bash
-python3 weeklyviz/scripts/weeklyviz.py extract \
+python3 scripts/weeklyviz.py extract \
   --input path/to/metrics.xlsx path/to/updates.md \
   --output source-bundle.json
 ```
 
 #### Passo 2: Escrever o Modelo
-Crie o arquivo `report-model.json` de acordo com a estrutura definida em [report.schema.json](weeklyviz/references/report.schema.json).
+Crie o arquivo `report-model.json` de acordo com a estrutura definida em [report.schema.json](references/report.schema.json).
 
 #### Passo 3: Validar e Compilar
 ```bash
 # Validar dados e regras dos gráficos
-python3 weeklyviz/scripts/weeklyviz.py validate --report report-model.json
+python3 scripts/weeklyviz.py validate --report report-model.json
 
 # Renderizar HTML
-python3 weeklyviz/scripts/weeklyviz.py render --report report-model.json --output weekly-report.html
+python3 scripts/weeklyviz.py render --report report-model.json --output weekly-report.html
 
 # Verificar acessibilidade
-node weeklyviz/scripts/validate_html.mjs weekly-report.html
+node scripts/validate_html.mjs weekly-report.html
 ```
 
 ---
 
 ## 📋 Versões de Lançamento
 
+*   **v0.11.0** (2026-06-09)
+    - Estrutura de diretórios aplanada na pasta raiz para instalação e execução padrão do agente.
+    - Design e atualização premium do modelo `Editorial` com fundos pontilhados, barra de estilo macOS, sombras sólidas deslocadas, listas de tópicos e barras laterais.
+    - Política de segurança para excluir dados locais sensíveis do Shiji no repositório público do GitHub.
 *   **v0.1.0** (2026-06-09)
     - Lançamento inicial.
     - Extrator de dados para CSV, XLSX, DOCX, MD e texto sem formatação.

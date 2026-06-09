@@ -1,7 +1,7 @@
 [English](README.md) | [中文](README.zh-CN.md) | 日本語 | [한국어](README.ko.md) | [Español](README.es.md) | [Português](README.pt.md) | [Français](README.fr.md)
 
 <p align="center">
-  <img src="weeklyviz/assets/logo.svg" width="128" height="128" alt="WeeklyViz Logo">
+  <img src="assets/logo.svg" width="128" height="128" alt="WeeklyViz Logo">
 </p>
 
 <h1 align="center">WeeklyViz</h1>
@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href=""><img src="https://img.shields.io/badge/version-0.1-blue.svg" alt="Version"></a>
+  <a href=""><img src="https://img.shields.io/badge/version-0.11-blue.svg" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"></a>
   <a href=""><img src="https://img.shields.io/badge/platform-Codex_/_Claude_Code-purple.svg" alt="Platform"></a>
 </p>
@@ -66,30 +66,34 @@ git clone https://github.com/woodfantasy/WeeklyViz.git .cursor/skills/weeklyviz
 
 #### ステップ 1: データの抽出
 ```bash
-python3 weeklyviz/scripts/weeklyviz.py extract \
+python3 scripts/weeklyviz.py extract \
   --input path/to/metrics.xlsx path/to/updates.md \
   --output source-bundle.json
 ```
 
 #### ステップ 2: 報告モデルの作成
-[report.schema.json](weeklyviz/references/report.schema.json) に従って `report-model.json` を構築します。
+[report.schema.json](references/report.schema.json) に従って `report-model.json` を構築します。
 
 #### ステップ 3: 検証とHTMLレンダリング
 ```bash
 # スキーマと図表ルールの検証
-python3 weeklyviz/scripts/weeklyviz.py validate --report report-model.json
+python3 scripts/weeklyviz.py validate --report report-model.json
 
 # HTMLレンダリング
-python3 weeklyviz/scripts/weeklyviz.py render --report report-model.json --output weekly-report.html
+python3 scripts/weeklyviz.py render --report report-model.json --output weekly-report.html
 
 # アクセシビリティ検証
-node weeklyviz/scripts/validate_html.mjs weekly-report.html
+node scripts/validate_html.mjs weekly-report.html
 ```
 
 ---
 
 ## 📋 リリースバージョン
 
+*   **v0.11.0** (2026-06-09)
+    - エージェントの標準的な読み込みとインストールのために、ディレクトリ階層をルートフォルダにフラット化。
+    - `Editorial` テンプレートのプレミアムアップグレード（ドット背景、macOSスタイルのウィンドウバー、ハードシャドウ、ドット付き指標リスト、ダブルサイドバー装飾の追加）。
+    - 公開リポジトリへのコミットを防ぐため、内部機密データ（Shiji週報など）を Git 追跡から完全に除外する安全ポリシーの策定。
 *   **v0.1.0** (2026-06-09)
     - 初回リリース。
     - CSV, XLSX, DOCX, MD, プレーンテキスト抽出器。

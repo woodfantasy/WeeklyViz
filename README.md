@@ -1,7 +1,7 @@
 English | [中文](README.zh-CN.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Español](README.es.md) | [Português](README.pt.md) | [Français](README.fr.md)
 
 <p align="center">
-  <img src="weeklyviz/assets/logo.svg" width="128" height="128" alt="WeeklyViz Logo">
+  <img src="assets/logo.svg" width="128" height="128" alt="WeeklyViz Logo">
 </p>
 
 <h1 align="center">WeeklyViz</h1>
@@ -11,7 +11,7 @@ English | [中文](README.zh-CN.md) | [日本語](README.ja.md) | [한국어](RE
 </p>
 
 <p align="center">
-  <a href=""><img src="https://img.shields.io/badge/version-0.1-blue.svg" alt="Version"></a>
+  <a href=""><img src="https://img.shields.io/badge/version-0.11-blue.svg" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"></a>
   <a href=""><img src="https://img.shields.io/badge/platform-Codex_/_Claude_Code-purple.svg" alt="Platform"></a>
 </p>
@@ -87,27 +87,27 @@ Please learn this skill: https://github.com/woodfantasy/WeeklyViz
 Gather all your weekly spreadsheets, notes, or Markdown updates into a single folder and run the extraction script:
 
 ```bash
-python3 weeklyviz/scripts/weeklyviz.py extract \
+python3 scripts/weeklyviz.py extract \
   --input path/to/metrics.xlsx path/to/updates.md \
   --output source-bundle.json
 ```
 This parses files and maps them to unique source hashes in `source-bundle.json`.
 
 #### Step 2: Compose Report Model
-Write a composition plan and construct a `report-model.json` following [report.schema.json](weeklyviz/references/report.schema.json). Every KPI, progress bar, and chart must specify `source_refs` pointing back to the hashes inside `source-bundle.json`.
+Write a composition plan and construct a `report-model.json` following [report.schema.json](references/report.schema.json). Every KPI, progress bar, and chart must specify `source_refs` pointing back to the hashes inside `source-bundle.json`.
 
 #### Step 3: Validate and Render HTML
 Validate the report model and compile the final offline HTML report:
 
 ```bash
 # Validate model structure and constraints
-python3 weeklyviz/scripts/weeklyviz.py validate --report report-model.json
+python3 scripts/weeklyviz.py validate --report report-model.json
 
 # Render HTML
-python3 weeklyviz/scripts/weeklyviz.py render --report report-model.json --output weekly-report.html
+python3 scripts/weeklyviz.py render --report report-model.json --output weekly-report.html
 
 # Validate HTML accessibility and assets offline
-node weeklyviz/scripts/validate_html.mjs weekly-report.html
+node scripts/validate_html.mjs weekly-report.html
 ```
 
 ---
@@ -119,38 +119,37 @@ WeeklyViz/
 ├── README.md                      # English documentation
 ├── README.zh-CN.md                # Chinese documentation
 ├── .gitignore                     # Git ignore file
-└── weeklyviz/                     # Skill package
-    ├── SKILL.md                   # Core instructions (the Skill's brain)
-    ├── agents/
-    │   └── openai.yaml            # OpenAI Custom Agent configuration
-    ├── scripts/
-    │   ├── weeklyviz.py           # Main CLI (extract, validate, render)
-    │   └── validate_html.mjs      # HTML structure & A11y validator
-    ├── references/
-    │   ├── report.schema.json     # JSON Schema for report data models
-    │   ├── chart-selection.md     # Guidelines for choosing the right charts
-    │   ├── design-system.md       # Design system tokens and layouts
-    │   ├── visual-composition.md  # Composition density and rhythms
-    │   └── qa-checklist.md        # Quality assurance checklist
-    ├── assets/
-    │   ├── logo.svg               # Vector brand logo
-    │   ├── runtime/
-    │   │   ├── report.css         # Report styling
-    │   │   └── report.js          # Interactive inline editor
-    │   ├── templates/
-    │   │   ├── executive.json     # Executive dark mode template
-    │   │   ├── editorial.json     # Editorial lavender typography template
-    │   │   └── product-operations.json # Operative details & grid template
-    │   └── vendor/
-    │       └── echarts.min.js     # Apache ECharts runtime (pinned v5)
-    ├── tests/
-    │   └── test_weeklyviz.py      # Python unittest suite
-    └── evals/
-        ├── evals.json             # Evaluation metadata
-        ├── README.md              # Test data policy
-        ├── fixtures/
-        │   └── report-model.json  # Synthetic report fixture
-        └── weeklyviz-golden.html  # Compiled synthetic golden HTML
+├── SKILL.md                       # Core instructions (the Skill's brain)
+├── agents/
+│   └── openai.yaml                # OpenAI Custom Agent configuration
+├── scripts/
+│   ├── weeklyviz.py               # Main CLI (extract, validate, render)
+│   └── validate_html.mjs          # HTML structure & A11y validator
+├── references/
+│   ├── report.schema.json         # JSON Schema for report data models
+│   ├── chart-selection.md         # Guidelines for choosing the right charts
+│   ├── design-system.md           # Design system tokens and layouts
+│   ├── visual-composition.md      # Composition density and rhythms
+│   └── qa-checklist.md            # Quality assurance checklist
+├── assets/
+│   ├── logo.svg                   # Vector brand logo
+│   ├── runtime/
+│   │   ├── report.css             # Report styling
+│   │   └── report.js              # Interactive inline editor
+│   ├── templates/
+│   │   ├── executive.json         # Executive dark mode template
+│   │   ├── editorial.json         # Editorial lavender typography template
+│   │   └── product-operations.json # Operative details & grid template
+│   └── vendor/
+│       └── echarts.min.js         # Apache ECharts runtime (pinned v5)
+├── tests/
+│   └── test_weeklyviz.py          # Python unittest suite
+└── evals/
+    ├── evals.json                 # Evaluation metadata
+    ├── README.md                  # Test data policy
+    ├── fixtures/
+    │   └── report-model.json      # Synthetic report fixture
+    └── weeklyviz-golden.html      # Compiled synthetic golden HTML
 ```
 
 ---
@@ -161,7 +160,7 @@ The command-line interface `weeklyviz.py` handles the local development loop:
 
 ```bash
 # Display help and commands
-python3 weeklyviz/scripts/weeklyviz.py --help
+python3 scripts/weeklyviz.py --help
 ```
 
 ### Extraction (`extract`)
@@ -184,7 +183,7 @@ python3 weeklyviz/scripts/weeklyviz.py --help
 
 ## 🏗️ Design System & Themes
 
-WeeklyViz implements three default layouts optimized for different reporting targets (see [design-system.md](weeklyviz/references/design-system.md)):
+WeeklyViz implements three default layouts optimized for different reporting targets (see [design-system.md](references/design-system.md)):
 
 *   **Executive (`executive.json`)**: Neutral background with deep dark primary headers, optimized for executive dashboards with compact spacings.
 *   **Editorial (`editorial.json`)**: Uses expressive typography with larger headings and a lavender-themed color palette.
@@ -199,6 +198,10 @@ You can modify layouts globally or at a section level using:
 
 ## 📋 Release Versions
 
+*   **v0.11.0** (2026-06-09)
+    - Flattened directory hierarchy to root folder for standard agent execution and installation.
+    - Redesigned and upgraded the `Editorial` template with Y2K-neutral layouts, glassmorphism, hard-offset shadows, dotted lists, and double sidebars.
+    - Safe execution policy for separating user-sensitive weekly report data.
 *   **v0.1.0** (2026-06-09)
     - Initial release of the WeeklyViz project.
     - Full-featured parser CLI supporting CSV, XLSX, DOCX, MD, and Plain Text.

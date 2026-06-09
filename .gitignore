@@ -21,7 +21,8 @@ yarn-error.log*
 /weekly-report.html
 /source-bundle.json
 /report-model.json
-/weeklyviz/weekly-report.html
-/weeklyviz/source-bundle.json
-/weeklyviz/report-model.json
 
+# Exclude sensitive/internal data and models
+/shiji-report-model.json
+*-report-model.json
+*weekly-report.html
