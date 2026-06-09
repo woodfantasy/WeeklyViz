@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href=""><img src="https://img.shields.io/badge/version-0.11-blue.svg" alt="Version"></a>
+  <a href=""><img src="https://img.shields.io/badge/version-0.1.1-blue.svg" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"></a>
   <a href=""><img src="https://img.shields.io/badge/platform-Codex_/_Claude_Code-purple.svg" alt="Platform"></a>
 </p>
@@ -90,7 +90,7 @@ node scripts/validate_html.mjs weekly-report.html
 
 ## 📋 Versões de Lançamento
 
-*   **v0.11.0** (2026-06-09)
+*   **v0.1.1** (2026-06-09)
     - Estrutura de diretórios aplanada na pasta raiz para instalação e execução padrão do agente.
     - Design e atualização premium do modelo `Editorial` com fundos pontilhados, barra de estilo macOS, sombras sólidas deslocadas, listas de tópicos e barras laterais.
     - Política de segurança para excluir dados locais sensíveis do Shiji no repositório público do GitHub.

@@ -11,7 +11,7 @@ English | [中文](README.zh-CN.md) | [日本語](README.ja.md) | [한국어](RE
 </p>
 
 <p align="center">
-  <a href=""><img src="https://img.shields.io/badge/version-0.11-blue.svg" alt="Version"></a>
+  <a href=""><img src="https://img.shields.io/badge/version-0.1.1-blue.svg" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"></a>
   <a href=""><img src="https://img.shields.io/badge/platform-Codex_/_Claude_Code-purple.svg" alt="Platform"></a>
 </p>
@@ -198,7 +198,7 @@ You can modify layouts globally or at a section level using:
 
 ## 📋 Release Versions
 
-*   **v0.11.0** (2026-06-09)
+*   **v0.1.1** (2026-06-09)
     - Flattened directory hierarchy to root folder for standard agent execution and installation.
     - Redesigned and upgraded the `Editorial` template with Y2K-neutral layouts, glassmorphism, hard-offset shadows, dotted lists, and double sidebars.
     - Safe execution policy for separating user-sensitive weekly report data.

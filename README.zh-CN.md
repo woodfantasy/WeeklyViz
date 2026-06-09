@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href=""><img src="https://img.shields.io/badge/version-0.11-blue.svg" alt="版本"></a>
+  <a href=""><img src="https://img.shields.io/badge/version-0.1.1-blue.svg" alt="版本"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="协议"></a>
   <a href=""><img src="https://img.shields.io/badge/platform-Codex_/_Claude_Code-purple.svg" alt="平台"></a>
 </p>
@@ -199,7 +199,7 @@ WeeklyViz 提供三款面向不同汇报对象的精美版式（详情见 [desig
 
 ## 📋 发布版本
 
-*   **v0.11.0** (2026-06-09)
+*   **v0.1.1** (2026-06-09)
     - 扁平化目录结构至根目录，适配标准的 Agent 加载与安装规范。
     - 升级并重构 `Editorial` 模版为更高级的社论风格，加入 dots 背景、macOS 窗口栏装饰、硬投影卡片、点线指标列表与双侧边栏装饰。
     - 确立安全隔离策略，将包含用户真实业务数据的周报与数据文件彻底排除出 Git 追踪列表。

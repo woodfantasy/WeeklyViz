@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href=""><img src="https://img.shields.io/badge/version-0.11-blue.svg" alt="Version"></a>
+  <a href=""><img src="https://img.shields.io/badge/version-0.1.1-blue.svg" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"></a>
   <a href=""><img src="https://img.shields.io/badge/platform-Codex_/_Claude_Code-purple.svg" alt="Platform"></a>
 </p>
@@ -90,7 +90,7 @@ node scripts/validate_html.mjs weekly-report.html
 
 ## 📋 リリースバージョン
 
-*   **v0.11.0** (2026-06-09)
+*   **v0.1.1** (2026-06-09)
     - エージェントの標準的な読み込みとインストールのために、ディレクトリ階層をルートフォルダにフラット化。
     - `Editorial` テンプレートのプレミアムアップグレード（ドット背景、macOSスタイルのウィンドウバー、ハードシャドウ、ドット付き指標リスト、ダブルサイドバー装飾の追加）。
     - 公開リポジトリへのコミットを防ぐため、内部機密データ（Shiji週報など）を Git 追跡から完全に除外する安全ポリシーの策定。
