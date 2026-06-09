@@ -1,0 +1,24 @@
+{
+  "skill_name": "weeklyviz",
+  "fixture_policy": "All scenarios and values are synthetic and must not contain production or benchmark content.",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "使用完全虚构的数据，把一份包含产品发布、工程质量、风险和下周计划的周报做成可编辑的离线 HTML。信息很多，但要让管理者先看到结论和证据。",
+      "expected_output": "A compact synthetic report with a decision headline, proof objects, varied section rhythm, summarized source markers, risks, and next actions.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "将虚构的使用指标 CSV、质量指标 XLSX 和研发进展 Markdown 合并成品牌感较强的示例周报，重点展示采用趋势、质量表现、交付进展和下一步动作。",
+      "expected_output": "An editorial synthetic report with traceable KPIs, justified charts, outcome and next-step cards, balanced desktop composition, and responsive mobile layout.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "用虚构数据生成一份产品研发周报：包含多个目标进度、三张趋势图、项目进展和质量风险，避免做成无限向下的流水账。",
+      "expected_output": "A product-operations synthetic report using compact density, responsive progress grids, a purposeful wide final chart, project cards, and a clear report index.",
+      "files": []
+    }
+  ]
+}

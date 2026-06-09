@@ -1,0 +1,13 @@
+{
+  "id": "product-operations",
+  "label": "Product Operations",
+  "description": "清晰、精确的产品研发与运营周报",
+  "theme": {
+    "primary": "#0F5B78",
+    "accent": "#14B8A6",
+    "background": "#F1F6F7",
+    "surface": "#FFFFFF",
+    "text": "#102A34",
+    "muted": "#607780"
+  }
+}

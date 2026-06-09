@@ -1,0 +1,13 @@
+{
+  "id": "editorial",
+  "label": "Editorial",
+  "description": "品牌感更强的薰衣草叙事型周报",
+  "theme": {
+    "primary": "#6750A4",
+    "accent": "#A78BFA",
+    "background": "#F6F3FC",
+    "surface": "#FFFFFF",
+    "text": "#242033",
+    "muted": "#716A80"
+  }
+}

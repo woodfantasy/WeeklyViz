@@ -1,0 +1,414 @@
+{
+  "metadata": {
+    "report_id": "weeklyviz-synthetic-demo",
+    "title": "示例产品研发周报",
+    "subtitle": "完全虚构的功能演示数据",
+    "locale": "zh-CN",
+    "source_label": "Synthetic demo fixtures",
+    "synthetic": true,
+    "period": {
+      "label": "2030.01.08 - 01.14",
+      "start": "2030-01-08",
+      "end": "2030-01-14"
+    }
+  },
+  "template": "editorial",
+  "theme": {
+    "primary": "#6750A4",
+    "accent": "#A78BFA",
+    "background": "#F6F3FC",
+    "surface": "#FFFFFF",
+    "text": "#242033",
+    "muted": "#716A80"
+  },
+  "presentation": {
+    "density": "compact",
+    "section_layout": "cards",
+    "source_display": "summary",
+    "show_toc": true
+  },
+  "summary": {
+    "headline": "核心版本按计划发布，性能优化进入验证阶段",
+    "body": "本报告仅用于 WeeklyViz 功能测试，所有名称、进展和数值均为虚构。示例团队完成协作面板 2.0 发布，关键任务成功率与满意度保持稳定；批量导入性能尚未达到目标，需要继续优化。",
+    "highlights": [
+      "协作面板 2.0 已向全部测试租户开放",
+      "关键任务成功率达到 98.6%",
+      "批量导入 P95 耗时降至 7.8 秒，仍高于 6 秒目标"
+    ]
+  },
+  "kpis": [
+    {
+      "id": "weekly-active-workspaces",
+      "label": "周活跃工作区",
+      "value": 1240,
+      "display": "1,240",
+      "unit": "个",
+      "note": "虚构指标，用于演示 KPI 与趋势展示。",
+      "details": [
+        {
+          "label": "新建工作区",
+          "value": "186"
+        },
+        {
+          "label": "连续活跃",
+          "value": "72.4%"
+        }
+      ],
+      "trend": {
+        "value": "+4.2%",
+        "label": "周环比",
+        "direction": "up"
+      },
+      "source_refs": [
+        "src-usage-metrics"
+      ]
+    },
+    {
+      "id": "task-success-rate",
+      "label": "关键任务成功率",
+      "value": 98.6,
+      "display": "98.6%",
+      "unit": "%",
+      "note": "创建、分配和完成任务的综合成功率。",
+      "details": [
+        {
+          "label": "创建成功率",
+          "value": "99.2%"
+        },
+        {
+          "label": "完成成功率",
+          "value": "98.1%"
+        }
+      ],
+      "trend": {
+        "value": "+0.7pp",
+        "label": "周环比",
+        "direction": "up"
+      },
+      "derived": true,
+      "formula": "成功任务数 / 总任务请求数 * 100",
+      "source_refs": [
+        "src-quality-metrics"
+      ]
+    },
+    {
+      "id": "support-satisfaction",
+      "label": "支持满意度",
+      "value": 92.4,
+      "display": "92.4%",
+      "unit": "%",
+      "note": "来自虚构的测试问卷样本。",
+      "details": [
+        {
+          "label": "有效样本",
+          "value": "328"
+        },
+        {
+          "label": "首次响应",
+          "value": "18 分钟"
+        }
+      ],
+      "trend": {
+        "value": "-0.3pp",
+        "label": "周环比",
+        "direction": "flat"
+      },
+      "source_refs": [
+        "src-support-summary"
+      ]
+    }
+  ],
+  "progress": [
+    {
+      "id": "release-rollout",
+      "label": "新版本覆盖",
+      "current": 100,
+      "target": 100,
+      "unit": "%",
+      "status": "complete",
+      "source_refs": [
+        "src-release-notes"
+      ]
+    },
+    {
+      "id": "import-latency",
+      "label": "导入性能优化",
+      "current": 72,
+      "target": 100,
+      "unit": "%",
+      "status": "watch",
+      "source_refs": [
+        "src-performance-log"
+      ]
+    },
+    {
+      "id": "help-center-refresh",
+      "label": "帮助中心改版",
+      "current": 8,
+      "target": 10,
+      "unit": "篇",
+      "status": "on-track",
+      "source_refs": [
+        "src-content-plan"
+      ]
+    }
+  ],
+  "charts": [
+    {
+      "id": "workspace-trend",
+      "type": "area",
+      "title": "活跃工作区趋势",
+      "question": "示例产品的工作区活跃是否保持稳定？",
+      "unit": "个",
+      "insight": "周中短暂回落后恢复，周末值高于周初。",
+      "insight_points": [
+        "周四为样例周期最低点 1,168",
+        "周日恢复至 1,286"
+      ],
+      "labels": [
+        "01-08",
+        "01-09",
+        "01-10",
+        "01-11",
+        "01-12",
+        "01-13",
+        "01-14"
+      ],
+      "series": [
+        {
+          "name": "活跃工作区",
+          "values": [
+            1196,
+            1238,
+            1214,
+            1168,
+            1205,
+            1272,
+            1286
+          ]
+        }
+      ],
+      "source_refs": [
+        "src-usage-metrics"
+      ]
+    },
+    {
+      "id": "support-topic-mix",
+      "type": "donut",
+      "title": "支持请求构成",
+      "question": "测试支持请求主要集中在哪些主题？",
+      "unit": "条",
+      "insight": "权限配置和数据导入合计占 61%，适合优先补充自助排查内容。",
+      "labels": [
+        "权限配置",
+        "数据导入",
+        "通知设置",
+        "其他"
+      ],
+      "series": [
+        {
+          "name": "请求数",
+          "values": [
+            84,
+            67,
+            51,
+            46
+          ]
+        }
+      ],
+      "source_refs": [
+        "src-support-summary"
+      ]
+    },
+    {
+      "id": "delivery-stage",
+      "type": "horizontal-bar",
+      "title": "研发事项阶段分布",
+      "question": "虚构研发事项主要集中在哪个阶段？",
+      "unit": "项",
+      "insight": "验证阶段事项最多，下周应优先完成性能与兼容性验收。",
+      "labels": [
+        "已发布",
+        "验证中",
+        "开发中",
+        "待排期"
+      ],
+      "series": [
+        {
+          "name": "事项数",
+          "values": [
+            6,
+            9,
+            5,
+            3
+          ]
+        }
+      ],
+      "source_refs": [
+        "src-delivery-board"
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "id": "delivery-progress",
+      "title": "本周交付进展",
+      "summary": "示例内容覆盖产品、工程和客户支持三种常见工作流，仅用于验证卡片布局与信息层级。",
+      "layout": "grid",
+      "items": [
+        {
+          "title": "协作面板 2.0",
+          "body": "完成全量测试发布，新增筛选器和快捷操作已通过基础可用性验证。",
+          "status": "complete",
+          "owner": "产品示例组",
+          "meta": "全量测试发布",
+          "outcome": "目标测试租户均已获得新版本，未发现阻断级问题。",
+          "next": "整理首周反馈并确认后续优化优先级。",
+          "metrics": [
+            {
+              "label": "覆盖率",
+              "value": "100%"
+            },
+            {
+              "label": "阻断问题",
+              "value": "0"
+            }
+          ],
+          "source_refs": [
+            "src-release-notes",
+            "src-quality-metrics"
+          ]
+        },
+        {
+          "title": "批量导入优化",
+          "body": "完成解析链路重构，P95 耗时已下降，但大文件场景仍未达到目标。",
+          "status": "watch",
+          "owner": "工程示例组",
+          "meta": "性能验证中",
+          "outcome": "虚构基准中的 P95 耗时由 11.4 秒降至 7.8 秒。",
+          "next": "优化校验阶段的内存分配并补充大文件压力测试。",
+          "metrics": [
+            {
+              "label": "当前 P95",
+              "value": "7.8 秒"
+            },
+            {
+              "label": "目标 P95",
+              "value": "6 秒"
+            }
+          ],
+          "source_refs": [
+            "src-performance-log"
+          ]
+        },
+        {
+          "title": "自助支持内容",
+          "body": "完成 8 篇帮助文档重写，并将高频问题链接加入应用内支持入口。",
+          "status": "on-track",
+          "owner": "支持示例组",
+          "meta": "8 / 10 篇",
+          "outcome": "权限配置与通知设置主题已完成覆盖。",
+          "next": "补齐数据导入与故障排查两篇内容。",
+          "source_refs": [
+            "src-content-plan",
+            "src-support-summary"
+          ]
+        }
+      ]
+    }
+  ],
+  "risks": [
+    {
+      "title": "大文件导入性能仍未达标",
+      "body": "虚构压测中，超过 50 MB 的文件仍可能出现明显等待。",
+      "owner": "工程示例组",
+      "severity": "high",
+      "source_refs": [
+        "src-performance-log"
+      ]
+    },
+    {
+      "title": "部分浏览器兼容性样本不足",
+      "body": "旧版浏览器的回归样本较少，发布结论仍需补充验证。",
+      "owner": "质量示例组",
+      "severity": "medium",
+      "source_refs": [
+        "src-quality-metrics",
+        "src-release-notes"
+      ]
+    }
+  ],
+  "next_actions": [
+    {
+      "title": "完成导入性能验收",
+      "body": "补充三档文件规模的压力测试，并将 P95 耗时压至虚构目标线以内。",
+      "owner": "工程示例组",
+      "due": "01-19",
+      "status": "planned",
+      "source_refs": [
+        "src-performance-log"
+      ]
+    },
+    {
+      "title": "收敛新版本反馈",
+      "body": "整理测试租户反馈，形成下一迭代的优先级清单。",
+      "owner": "产品示例组",
+      "due": "01-20",
+      "status": "planned",
+      "source_refs": [
+        "src-release-notes"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-usage-metrics",
+      "label": "虚构使用指标",
+      "type": "csv-table",
+      "location": "synthetic-usage.csv / rows 1-8",
+      "note": "完全虚构，仅用于功能测试"
+    },
+    {
+      "id": "src-quality-metrics",
+      "label": "虚构质量指标",
+      "type": "xlsx-sheet",
+      "location": "synthetic-quality.xlsx / Metrics",
+      "note": "完全虚构，仅用于功能测试"
+    },
+    {
+      "id": "src-support-summary",
+      "label": "虚构支持汇总",
+      "type": "xlsx-sheet",
+      "location": "synthetic-support.xlsx / Summary",
+      "note": "完全虚构，仅用于功能测试"
+    },
+    {
+      "id": "src-release-notes",
+      "label": "虚构发布记录",
+      "type": "markdown-section",
+      "location": "synthetic-update.md / 发布进展",
+      "note": "完全虚构，仅用于功能测试"
+    },
+    {
+      "id": "src-performance-log",
+      "label": "虚构性能记录",
+      "type": "csv-table",
+      "location": "synthetic-performance.csv / rows 1-12",
+      "note": "完全虚构，仅用于功能测试"
+    },
+    {
+      "id": "src-content-plan",
+      "label": "虚构内容计划",
+      "type": "markdown-section",
+      "location": "synthetic-update.md / 支持内容",
+      "note": "完全虚构，仅用于功能测试"
+    },
+    {
+      "id": "src-delivery-board",
+      "label": "虚构交付看板",
+      "type": "xlsx-sheet",
+      "location": "synthetic-delivery.xlsx / Board",
+      "note": "完全虚构，仅用于功能测试"
+    }
+  ]
+}

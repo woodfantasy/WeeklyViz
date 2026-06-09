@@ -1,0 +1,13 @@
+{
+  "id": "executive",
+  "label": "Executive",
+  "description": "克制、高密度的管理层经营周报",
+  "theme": {
+    "primary": "#25324A",
+    "accent": "#4F6BED",
+    "background": "#F4F6FA",
+    "surface": "#FFFFFF",
+    "text": "#172033",
+    "muted": "#61708A"
+  }
+}

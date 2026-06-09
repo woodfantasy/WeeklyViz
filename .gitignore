@@ -1,0 +1,27 @@
+# macOS System Files
+.DS_Store
+
+# Python Cache & Virtual Environments
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.venv/
+venv/
+env/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# WeeklyViz User Execution / Temporary Files
+/weekly-report.html
+/source-bundle.json
+/report-model.json
+/weeklyviz/weekly-report.html
+/weeklyviz/source-bundle.json
+/weeklyviz/report-model.json
+

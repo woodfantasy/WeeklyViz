@@ -1,0 +1,4 @@
+interface:
+  display_name: "WeeklyViz"
+  short_description: "生成专业、可编辑、可追溯的可视化 HTML 工作周报"
+  default_prompt: "使用 $weeklyviz 将这些工作数据整理为专业、可编辑的离线 HTML 周报。"
