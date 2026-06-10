@@ -17,10 +17,10 @@
 </p>
 
 <p align="center">
-  生の更新データ、スプレッドシート、ドキュメントを、<strong>プロフェッショナルでレスポンシブ、編集可能、ソース追跡可能なオフラインHTML週報</strong>にワンショットで変換します。
+  生の更新データ、スプレッドシート、ドキュメントを、<strong>プロフェッショナルでレスポンシブ、編集可能、ソース追跡可能なオフラインHTML週報</strong>にAIエージェントが自動で変換します。
 </p>
 
-[Agent Skills](https://agentskills.io) 仕様に基づいて構築された Claude Skill およびスタンドアロンツールです。構造化されたデータ抽出と社論レベルのデザインシステムを組み合わせて、作業文、KPI、およびチャートを洗練された週報ブリーフィングに変換します。開発者、製品マネージャー、および運用チームが、乱雑なコピー＆ペースト週報をなくし、視覚的なレポートを作成するのを支援するように設計されています。
+[Agent Skills](https://agentskills.io) 仕様に基づいて構築された Claude スキルおよびスタンドアロンツールです。AIエージェント（Claude Code、Cursor、Codexなど）とシームレスに連携するように設計されています。Pythonスクリプトを実行したりコードを書く代わりに、このスキルをインストールするだけで、AIエージェントがすべての面倒な作業を自動で行います。
 
 ---
 
@@ -40,62 +40,45 @@
 
 | 機能 | 説明 |
 |------|------|
-| 📊 **マルチソース抽出** | `.xlsx`、`.csv`、`.docx`、`.md`、`.markdown`、および `.txt` ファイルを自動的に解析し、指標、テーブル、散文、および進捗リストを抽出します。 |
-| 🛡️ **厳格なスキーマ検証** | データ型、時系列ルール、割合、およびステータスラベルを検証する強力な JSON スキーマ (`report.schema.json`) を強制します。 |
-| 🎨 **高品質デザインシステム** | 3つのビルトイン高品質テーマ（`Executive`、`Editorial`、`Product Operations`）と、レスポンシブなレイアウトを提供します（ネットワーク接続不要）。 |
-| 🔗 **ソース追跡可能性** | 安定したハッシュ ID を使用して、すべての KPI、進捗バー、グラフ、およびリスト項目を元のファイルと行に自動的にリンクします。 |
-| ✏️ **インタラクティブ編集** | レンダリングされた HTML は完全にインタラクティブです。テキストや数値をインライン編集し、テーマ色を調整し、Print/PDF 用に書き出せます。 |
-| 📈 **Apache ECharts 統合** | ローカルの ECharts ランタイム (`echarts.min.js`) を同梱し、オフラインで折れ線、棒、ドーナツ、漏斗、ヒートマップ、滝グラフを描画します。 |
-| 🔍 **体系的な QA チェック** | HTML の構造とアクセシビリティを検証するスクリプト (`validate_html.mjs`) を含み、キーボード操作やオフラインの信頼性を検査します。 |
+| 📊 **マルチソース抽出** | `.xlsx`、`.csv`、`.docx`、`.md`、`.txt` ファイルを自動的に解析し、指標データや進捗状況を抽出します。 |
+| 🎨 **高品質デザインシステム** | 3つのビルトイン高品質テーマ（`Executive`、`Editorial`、`Product Operations`）を搭載し、オフライン環境で動作します。 |
+| 🔗 **ソース追跡可能性** | ハッシュ ID を使用して、すべての指標やリスト項目を元のファイル名と行に自動でマッピングし、追跡可能です。 |
+| ✏️ **インライン編集** | 出力された HTML は完全にインタラクティブです。テキストや数値をインライン編集し、テーマ色を調整し、PDF/印刷に書き出せます。 |
+| 📈 **ECharts 統合** | ローカルの ECharts ランタイム (`echarts.min.js`) を同梱し、オフライン環境で折れ線、棒、ドーナツなどのグラフを描画します。 |
 
 ---
 
-## 🚀 クイックスタート
+## 🚀 使い方（とても簡単）
 
 ### 1. スキルのインストール
+エージェントのスキルフォルダに WeeklyViz を追加します：
 
-<details>
-<summary><b>Claude Code</b></summary>
+*   **Claude Code**：プロジェクトルートの `.claude/skills/weeklyviz` にこのリポジトリをクローンします。
+*   **Cursor**：プロジェクトルートの `.cursor/skills/weeklyviz` にこのリポジトリをクローンします。
+*   **その他のエージェント**：カスタム指示ファイルのパスにこのリポジトリを配置します。
 
-プロジェクトルートの `.claude/skills/` 以下に `weeklyviz/` フォルダを配置します：
+### 2. エージェントに依頼するだけ！
+Pythonコマンドの実行や構成ファイルの作成は**不要**です。生のファイル（スプレッドシート、メモ、テキスト貼付など）をAIエージェントに渡し、以下のように指示してください：
+
+> *「WeeklyVizを使用して、私のメモから週報を生成してください。」*
+
+エージェントが自動的にファイルを読み込み、指標を抽出し、検証を行って、精美なオフラインHTML週報（`weekly-report.html`）をワンショットで生成します。
+
+---
+
+## 🛠️ 開発者向け（オプション）
+
+コマンドラインから手動で WeeklyViz を実行する場合：
 
 ```bash
-git clone https://github.com/woodfantasy/WeeklyViz.git .claude/skills/weeklyviz
-```
-</details>
+# 生データをソースバンドルに抽出
+python3 scripts/weeklyviz.py extract --input notes.md data.xlsx --output source-bundle.json
 
-<details>
-<summary><b>Cursor</b></summary>
-
-プロジェクトルートの `.cursor/skills/` 以下に `weeklyviz/` フォルダを配置します：
-
-```bash
-git clone https://github.com/woodfantasy/WeeklyViz.git .cursor/skills/weeklyviz
-```
-</details>
-
-### 2. 基本ワークフロー
-
-#### ステップ 1: データの抽出
-```bash
-python3 scripts/weeklyviz.py extract \
-  --input path/to/metrics.xlsx path/to/updates.md \
-  --output source-bundle.json
-```
-
-#### ステップ 2: 報告モデルの作成
-[report.schema.json](references/report.schema.json) に従って `report-model.json` を構築します。
-
-#### ステップ 3: 検証とHTMLレンダリング
-```bash
-# スキーマと図表ルールの検証
+# 報告モデルのスキーマ検証
 python3 scripts/weeklyviz.py validate --report report-model.json
 
-# HTMLレンダリング
+# 自己完結型 HTML にコンパイル
 python3 scripts/weeklyviz.py render --report report-model.json --output weekly-report.html
-
-# アクセシビリティ検証
-node scripts/validate_html.mjs weekly-report.html
 ```
 
 ---
@@ -105,9 +88,6 @@ node scripts/validate_html.mjs weekly-report.html
 *   **v0.1.1** (2026-06-09)
     - エージェントの標準的な読み込みとインストールのために、ディレクトリ階層をルートフォルダにフラット化。
     - `Editorial` テンプレートのプレミアムアップグレード（ドット背景、macOSスタイルのウィンドウバー、ハードシャドウ、ドット付き指標リスト、ダブルサイドバー装飾の追加）。
-    - 公開リポジトリへのコミットを防ぐため、内部機密データ（Shiji週報など）を Git 追跡から完全に除外する安全ポリシーの策定。
+    - 公開リポジトリへのコミットを防ぐため、内部機密データを Git 追跡から完全に除外する安全ポリシーの策定。
 *   **v0.1.0** (2026-06-09)
     - 初回リリース。
-    - CSV, XLSX, DOCX, MD, プレーンテキスト抽出器。
-    - JSON Schema 検証および ECharts 規約バリデーター。
-    - オンプレミス/オフライン対応のインタラクティブ HTML 出力。

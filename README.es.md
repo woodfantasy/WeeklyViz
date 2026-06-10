@@ -17,10 +17,10 @@
 </p>
 
 <p align="center">
-  Convierta actualizaciones de texto, hojas de cálculo y documentos en <strong>informes semanales HTML offline profesionales, adaptables, editables y con trazabilidad de origen</strong>.
+  Convierta actualizaciones de texto, hojas de cálculo y documentos en <strong>informes semanales HTML offline profesionales, adaptables, editables y con trazabilidad de origen</strong>, generados automáticamente por su Agente de IA.
 </p>
 
-Es un Claude Skill y herramienta independiente construida bajo la especificación [Agent Skills](https://agentskills.io). Combina la extracción estructurada de datos con un sistema de diseño de nivel editorial para transformar texto de trabajo, KPIs y gráficos en informes ejecutivos pulidos. Diseñado para ayudar a desarrolladores, managers de producto y operaciones a eliminar los informes semanales desordenados de copiar y pegar y entregar reportes visuales de alto impacto.
+Es un Claude Skill y herramienta independiente construida bajo la especificación [Agent Skills](https://agentskills.io). Está diseñado para funcionar perfectamente con Agentes de IA (como Claude Code, Cursor o Codex). En lugar de ejecutar scripts de python o codificar usted mismo, simplemente instale el skill y deje que su Agente de IA haga todo el trabajo.
 
 ---
 
@@ -40,62 +40,45 @@ Es un Claude Skill y herramienta independiente construida bajo la especificació
 
 | Capacidad | Descripción |
 |------------|-------------|
-| 📊 **Extracción Multifuente** | Procesa automáticamente archivos `.xlsx`, `.csv`, `.docx`, `.md`, `.markdown` y `.txt` para extraer métricas, tablas, texto y listas de progreso. |
-| 🛡️ **Validación Estricta** | Garantiza la integridad mediante un esquema JSON (`report.schema.json`) que valida tipos de datos, series temporales, proporciones y etiquetas antes de renderizar. |
-| 🎨 **Sistema de Diseño Editorial** | Ofrece tres temas integrados (`Executive`, `Editorial`, `Product Operations`) con diseños adaptables y sin dependencias de red externas (100% offline). |
+| 📊 **Extracción Multifuente** | Procesa automáticamente archivos `.xlsx`, `.csv`, `.docx`, `.md` y `.txt` para extraer métricas y listas de progreso. |
+| 🎨 **Diseño Editorial Adaptativo** | Ofrece tres temas integrados (`Executive`, `Editorial`, `Product Operations`) con diseños adaptables y sin dependencias de red externas. |
 | 🔗 **Trazabilidad de Origen** | Vincula automáticamente cada KPI, barra de progreso, gráfico y lista con su archivo y línea de origen mediante IDs hash estables. |
 | ✏️ **Edición Interactiva** | El HTML generado permite editar textos y números en línea, cambiar colores de temas y exportar directamente a formato impreso o PDF. |
-| 📈 **Integración de Apache ECharts** | Incluye un motor de ECharts local (`echarts.min.js`) para renderizar gráficos de línea, barra, rosca, embudo y cascada sin conexión. |
-| 🔍 **Verificación de Calidad** | Incluye un script de validación de accesibilidad y estructura HTML (`validate_html.mjs`) para garantizar el correcto comportamiento offline. |
+| 📈 **Integración de ECharts** | Incluye un motor de ECharts local (`echarts.min.js`) para renderizar gráficos de línea, barra, rosca y embudo sin conexión. |
 
 ---
 
-## 🚀 Inicio Rápido
+## 🚀 Cómo Usar (Muy Simple)
 
 ### 1. Instalar la Skill
+Agregue WeeklyViz a la carpeta de habilidades de su Agente de IA:
 
-<details>
-<summary><b>Claude Code</b></summary>
+*   **Claude Code**: Clone este repositorio dentro de `.claude/skills/weeklyviz` en la raíz de su proyecto.
+*   **Cursor**: Clone este repositorio dentro de `.cursor/skills/weeklyviz` en la raíz de su proyecto.
+*   **Otros Agentes**: Coloque el repositorio bajo la ruta de instrucciones personalizadas de su agente.
 
-Coloque la carpeta `weeklyviz/` dentro de `.claude/skills/` en la raíz de su proyecto:
+### 2. ¡Solo Pídaselo a su Agente!
+Usted **no** necesita ejecutar comandos de Python ni escribir archivos de configuración. Simplemente proporcione sus archivos (hojas de cálculo, notas, textos pegados) a su Agente de IA y pídale:
+
+> *"Oye Claude, usa WeeklyViz para generar un informe semanal a partir de mi notas."*
+
+El agente leerá automáticamente sus archivos, extraerá los datos, validará las restricciones y compilará el informe HTML final fuera de línea (`weekly-report.html`) en un solo paso.
+
+---
+
+## 🛠️ Detalles del Desarrollador (Opcional)
+
+Si desea ejecutar WeeklyViz manualmente a través de la línea de comandos:
 
 ```bash
-git clone https://github.com/woodfantasy/WeeklyViz.git .claude/skills/weeklyviz
-```
-</details>
+# Extraer datos sin procesar en un bundle
+python3 scripts/weeklyviz.py extract --input notes.md data.xlsx --output source-bundle.json
 
-<details>
-<summary><b>Cursor</b></summary>
-
-Coloque la carpeta `weeklyviz/` dentro de `.cursor/skills/` en la raíz de su proyecto:
-
-```bash
-git clone https://github.com/woodfantasy/WeeklyViz.git .cursor/skills/weeklyviz
-```
-</details>
-
-### 2. Flujo de Trabajo Básico
-
-#### Paso 1: Extraer Datos
-```bash
-python3 scripts/weeklyviz.py extract \
-  --input path/to/metrics.xlsx path/to/updates.md \
-  --output source-bundle.json
-```
-
-#### Paso 2: Crear el Modelo del Informe
-Defina el archivo `report-model.json` siguiendo el esquema [report.schema.json](references/report.schema.json).
-
-#### Paso 3: Validar y Renderizar
-```bash
-# Validar estructura y restricciones de gráficos
+# Validar el esquema del modelo de reporte
 python3 scripts/weeklyviz.py validate --report report-model.json
 
-# Generar HTML
+# Compilar en un archivo HTML autónomo
 python3 scripts/weeklyviz.py render --report report-model.json --output weekly-report.html
-
-# Validar accesibilidad
-node scripts/validate_html.mjs weekly-report.html
 ```
 
 ---
@@ -108,6 +91,3 @@ node scripts/validate_html.mjs weekly-report.html
     - Política de seguridad para excluir datos locales sensibles de Shiji en el repositorio público.
 *   **v0.1.0** (2026-06-09)
     - Versión inicial.
-    - Extractor de datos para CSV, XLSX, DOCX, MD y texto plano.
-    - Validador de esquemas y comprobador estricto para ECharts.
-    - Generación de informes HTML interactivos autocontenidos offline.

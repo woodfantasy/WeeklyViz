@@ -17,10 +17,10 @@
 </p>
 
 <p align="center">
-  Convertissez les mises à jour textuelles, feuilles de calcul et documents en <strong>rapports hebdomadaires HTML hors-ligne professionnels, adaptatifs, modifiables et traçables jusqu'à la source</strong>.
+  Convertissez les mises à jour textuelles, feuilles de calcul et documents en <strong>rapports hebdomadaires HTML hors-ligne professionnels, adaptatifs, modifiables et traçables jusqu'à la source</strong>, générés automatiquement par votre Agent IA.
 </p>
 
-C'est une Claude Skill et un outil indépendant construit sous la spécification [Agent Skills](https://agentskills.io). Il associe l'extraction de données structurées avec un système de conception de niveau éditorial pour transformer les textes de travail, KPIs et graphiques en bulletins exécutifs raffinés. Conçu pour aider les développeurs, managers de produit et équipes opérationnelles à éliminer les copier-coller désordonnés et à livrer des rapports visuels de haute qualité.
+C'est une Claude Skill et un outil indépendant construit sous la spécification [Agent Skills](https://agentskills.io). Il est conçu pour fonctionner de manière fluide avec des Agents IA (comme Claude Code, Cursor ou Codex). Plutôt que d'exécuter des scripts Python ou de coder vous-même, il vous suffit d'installer ce skill et de laisser votre Agent IA faire tout le travail.
 
 ---
 
@@ -40,62 +40,45 @@ C'est une Claude Skill et un outil indépendant construit sous la spécification
 
 | Fonctionnalité | Description |
 |----------------|-------------|
-| 📊 **Extraction Multi-sources** | Analyse et extrait automatiquement les fichiers `.xlsx`, `.csv`, `.docx`, `.md`, `.markdown` et `.txt` pour en extraire les métriques, tableaux et textes. |
-| 🛡️ **Validation Stricte** | Assure l'intégrité via un schéma JSON (`report.schema.json`) qui valide les types de données, chronologies, proportions et statuts avant génération. |
+| 📊 **Extraction Multi-sources** | Analyse et traite automatiquement les fichiers `.xlsx`, `.csv`, `.docx`, `.md` et `.txt` pour en extraire les métriques et les listes. |
 | 🎨 **Conception Éditoriale Adaptative** | Propose trois thèmes prédéfinis (`Executive`, `Editorial`, `Product Operations`) sans dépendances réseau externes (100% hors-ligne). |
-| 🔗 **Traçabilité de la Source** | Lie automatiquement chaque KPI, barre de progression, graphique et élément à son fichier et ligne d'origine via des identifiants de hachage stables. |
-| ✏️ **Édition Inline Interactive** | Le rapport HTML final permet de modifier les textes et les nombres en ligne, d'ajuster les couleurs de thème et d'exporter directement en PDF/impression. |
-| 📈 **Apache ECharts Embarqué** | Utilise un moteur ECharts local (`echarts.min.js`) pour tracer des graphiques en lignes, barres, beignets, entonnoirs et cascades hors-ligne. |
-| 🔍 **Contrôle Qualité** | Intègre un script de validation d'accessibilité et de structure HTML (`validate_html.mjs`) pour tester la navigation clavier et le chargement. |
+| 🔗 **Traçabilité de la Source** | Lie automatiquement chaque KPI, barre de progression, graphique et élément à son fichier et sa ligne d'origine via des identifiants stables. |
+| ✏️ **Édition Inline Interactive** | Le rapport HTML final permet de modifier les textes et les nombres en ligne, d'ajuster les couleurs de thème et d'exporter en PDF. |
+| 📈 **Apache ECharts Embarqué** | Utilise un moteur ECharts local (`echarts.min.js`) pour tracer des graphiques en lignes, barres et beignets hors-ligne. |
 
 ---
 
-## 🚀 Démarrage Rapide
+## 🚀 Comment l'utiliser (Super Simple)
 
 ### 1. Installer la Skill
+Ajoutez WeeklyViz au dossier de skills de votre Agent IA :
 
-<details>
-<summary><b>Claude Code</b></summary>
+*   **Claude Code** : Placez ce dépôt dans `.claude/skills/weeklyviz` à la racine de votre projet.
+*   **Cursor** : Placez ce dépôt dans `.cursor/skills/weeklyviz` à la racine de votre projet.
+*   **Autres Agents** : Placez ce dépôt sous le chemin d'instructions personnalisées de votre agent.
 
-Placez le dossier `weeklyviz/` dans `.claude/skills/` à la racine de votre projet :
+### 2. Demandez simplement à votre Agent !
+Vous **n'avez pas** besoin d'exécuter de commandes Python ni d'écrire de fichiers de configuration. Donnez simplement vos fichiers (tableaux, notes, textes copiés) à votre Agent IA et demandez :
+
+> *"Hé Claude, utilise WeeklyViz pour générer un rapport hebdomadaire à partir de mes notes."*
+
+L'agent lira automatiquement vos fichiers, en extraira les données, effectuera les validations et compilera le rapport HTML final hors ligne (`weekly-report.html`) en une seule fois.
+
+---
+
+## 🛠️ Détails du Développeur (Optionnel)
+
+Si vous souhaitez exécuter WeeklyViz manuellement en ligne de commande :
 
 ```bash
-git clone https://github.com/woodfantasy/WeeklyViz.git .claude/skills/weeklyviz
-```
-</details>
+# Extraer les données brutes dans un bundle
+python3 scripts/weeklyviz.py extract --input notes.md data.xlsx --output source-bundle.json
 
-<details>
-<summary><b>Cursor</b></summary>
-
-Placez le dossier `weeklyviz/` dans `.cursor/skills/` à la racine de votre projet :
-
-```bash
-git clone https://github.com/woodfantasy/WeeklyViz.git .cursor/skills/weeklyviz
-```
-</details>
-
-### 2. Flux de Travail
-
-#### Étape 1: Extraire les Données
-```bash
-python3 scripts/weeklyviz.py extract \
-  --input path/to/metrics.xlsx path/to/updates.md \
-  --output source-bundle.json
-```
-
-#### Étape 2: Rédiger le Modèle de Rapport
-Définissez le fichier `report-model.json` conformément au schéma [report.schema.json](references/report.schema.json).
-
-#### Étape 3: Valider et Générer le HTML
-```bash
-# Valider les données et les règles des graphiques
+# Valider le schéma du modèle de rapport
 python3 scripts/weeklyviz.py validate --report report-model.json
 
-# Compiler en HTML
+# Compiler en rapport HTML autonome hors-ligne
 python3 scripts/weeklyviz.py render --report report-model.json --output weekly-report.html
-
-# Valider l'accessibilité
-node scripts/validate_html.mjs weekly-report.html
 ```
 
 ---
@@ -108,6 +91,3 @@ node scripts/validate_html.mjs weekly-report.html
     - Politique de sécurité pour exclure les données locales sensibles de Shiji dans le référentiel public.
 *   **v0.1.0** (2026-06-09)
     - Version initiale.
-    - Outil d'extraction pour CSV, XLSX, DOCX, MD et texte brut.
-    - Validateur JSON Schema et règles de tracé strictes pour ECharts.
-    - Compilation en rapport HTML interactif autonome hors-ligne.

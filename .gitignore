@@ -28,3 +28,5 @@ yarn-error.log*
 *-report-model.json
 /red-shiji-weekly-report.html
 *weekly-report.html
+/social-card-weeklyviz/
+
