@@ -49,7 +49,7 @@
       "type": "object",
       "properties": {
         "density": {"enum": ["compact", "balanced", "spacious"]},
-        "layout": {"enum": ["dashboard", "newsletter", "kanban"]},
+        "layout": {"enum": ["dashboard", "newsletter", "kanban", "operating-review"]},
         "layout_order": {
           "type": "array",
           "items": {"type": "string"}
@@ -100,6 +100,14 @@
     "sources": {
       "type": "array",
       "items": {"$ref": "#/$defs/source"}
+    },
+    "metrics": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/metric"}
+    },
+    "okrs": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/okr"}
     }
   },
   "additionalProperties": true,
@@ -309,6 +317,81 @@
         "note": {"type": "string"}
       },
       "additionalProperties": true
+    },
+    "metric": {
+      "allOf": [
+        {"$ref": "#/$defs/traceable"},
+        {
+          "type": "object",
+          "required": ["id", "name", "value", "unit", "scope", "time_grain", "aggregation"],
+          "properties": {
+            "id": {"type": "string"},
+            "name": {"type": "string"},
+            "value": {"type": ["number", "string"]},
+            "unit": {"enum": ["percent", "currency", "integer", "number", "ratio"]},
+            "scope": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "time_grain": {"enum": ["day", "week", "month", "quarter", "year"]},
+            "aggregation": {"enum": ["sum", "average", "ratio", "count", "distinct_count", "none"]},
+            "numerator": {"type": "string"},
+            "denominator": {"type": "string"},
+            "comparison": {
+              "type": "object",
+              "properties": {
+                "previous": {"type": ["number", "string"]}
+              },
+              "additionalProperties": true
+            },
+            "target": {
+              "type": "object",
+              "properties": {
+                "value": {"type": ["number", "string"]},
+                "period": {"type": "string"},
+                "direction": {"enum": ["higher-is-better", "lower-is-better", "range"]},
+                "range_min": {"type": "number"},
+                "range_max": {"type": "number"},
+                "source": {"type": "string"},
+                "confidence": {"enum": ["high", "medium", "low"]}
+              },
+              "additionalProperties": true
+            }
+          },
+          "additionalProperties": true
+        }
+      ]
+    },
+    "okr": {
+      "allOf": [
+        {"$ref": "#/$defs/traceable"},
+        {
+          "type": "object",
+          "required": ["id", "type", "label"],
+          "properties": {
+            "id": {"type": "string"},
+            "type": {"enum": ["objective", "key-result", "plan", "requirement"]},
+            "parent_id": {"type": "string"},
+            "label": {"type": "string"},
+            "owner": {"type": "string"},
+            "stage": {"enum": ["待启动", "设计", "开发", "验收", "上线", "暂缓", "planned", "design", "dev", "qa", "release", "deferred"]},
+            "health": {"enum": ["正常", "关注", "风险", "阻塞", "on-track", "watch", "risk", "blocked"]},
+            "priority": {"type": ["string", "number"]},
+            "due": {"type": "string"},
+            "blocked_by": {"type": "string"},
+            "dependencies": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "evidence": {"type": "string"},
+            "next_milestone": {"type": "string"},
+            "current": {"type": "number"},
+            "target": {"type": "number"},
+            "unit": {"type": "string"}
+          },
+          "additionalProperties": true
+        }
+      ]
     }
   }
 }

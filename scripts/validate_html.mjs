@@ -36,7 +36,7 @@ requirePattern(/<meta\s+name="generator"\s+content="WeeklyViz/i, "missing Weekly
 requirePattern(/<nav\b[^>]*aria-label=/i, "toolbar navigation needs an accessible label");
 requirePattern(/<main\b[^>]*id="report-main"/i, "missing semantic main landmark");
 requirePattern(/<h1\b/i, "missing report h1");
-requirePattern(/class="chart-canvas"/i, "missing chart container");
+// chart-canvas check is conditional on model.charts having elements
 requirePattern(/id="report-model"/i, "missing embedded report model");
 requirePattern(/id="report-baseline"/i, "missing embedded baseline model");
 requirePattern(/prefers-reduced-motion/i, "missing reduced-motion CSS");
@@ -82,8 +82,13 @@ if (!modelMatch) {
     if (model.presentation?.show_toc !== false && !/class="report-index"/i.test(markupOnly)) {
       errors.push("missing report index navigation");
     }
+    if (Array.isArray(model.charts) && model.charts.length > 0) {
+      if (!/class="chart-canvas"/i.test(html)) {
+        errors.push("missing chart container");
+      }
+    }
     const sourceIds = new Set((model.sources || []).map((source) => source.id));
-    for (const collection of ["kpis", "progress", "charts"]) {
+    for (const collection of ["kpis", "progress", "charts", "metrics", "okrs"]) {
       for (const [index, item] of (model[collection] || []).entries()) {
         if (!item.source_refs?.length) {
           errors.push(`${collection}[${index}] has no source_refs`);

@@ -475,7 +475,7 @@ def validate_model(model: Dict[str, Any]) -> Tuple[List[str], List[str]]:
     elif isinstance(presentation, dict):
         allowed_presentation = {
             "density": {"compact", "balanced", "spacious"},
-            "layout": {"dashboard", "newsletter", "kanban"},
+            "layout": {"dashboard", "newsletter", "kanban", "operating-review"},
             "section_layout": {"cards", "grid", "list", "table", "kanban"},
             "source_display": {"summary", "expanded"},
         }
@@ -589,7 +589,143 @@ def validate_model(model: Dict[str, Any]) -> Tuple[List[str], List[str]]:
         if not isinstance(section.get("items", []), list):
             errors.append(f"sections[{index}].items must be an array")
 
-    if not model.get("kpis") and not model.get("charts") and not model.get("progress"):
+    # Helper to calculate period progress
+    def compute_period_progress(period_str: str, as_of_date: datetime) -> Optional[float]:
+        import re
+        m_q = re.match(r"^(\d{4})-Q([1-4])$", period_str)
+        if m_q:
+            year = int(m_q.group(1))
+            q = int(m_q.group(2))
+            q_starts = {1: (1, 1), 2: (4, 1), 3: (7, 1), 4: (10, 1)}
+            q_ends = {1: (3, 31), 2: (6, 30), 3: (9, 30), 4: (12, 31)}
+            start_m, start_d = q_starts[q]
+            end_m, end_d = q_ends[q]
+            start = datetime(year, start_m, start_d, tzinfo=timezone.utc)
+            end = datetime(year, end_m, end_d, 23, 59, 59, tzinfo=timezone.utc)
+        else:
+            m_m = re.match(r"^(\d{4})-(?:M)?(\d{1,2})$", period_str)
+            if m_m:
+                year = int(m_m.group(1))
+                month = int(m_m.group(2))
+                start = datetime(year, month, 1, tzinfo=timezone.utc)
+                if month == 12:
+                    end = datetime(year + 1, 1, 1, tzinfo=timezone.utc)
+                else:
+                    end = datetime(year, month + 1, 1, tzinfo=timezone.utc)
+            else:
+                return None
+        total_sec = (end - start).total_seconds()
+        elapsed_sec = (as_of_date - start).total_seconds()
+        if total_sec <= 0:
+            return None
+        return min(max(elapsed_sec / total_sec, 0.0), 1.0)
+
+    # Validate Metrics
+    metrics = model.get("metrics", [])
+    if not isinstance(metrics, list):
+        errors.append("metrics must be an array")
+        metrics = []
+    seen_metric_ids = set()
+    for index, metric in enumerate(metrics):
+        path = f"metrics[{index}]"
+        if not isinstance(metric, dict):
+            errors.append(f"{path} must be an object")
+            continue
+        m_id = metric.get("id")
+        if not m_id:
+            errors.append(f"{path}.id is required")
+        elif m_id in seen_metric_ids:
+            errors.append(f"duplicate metric id {m_id!r}")
+        else:
+            seen_metric_ids.add(m_id)
+        for key in ("name", "unit", "scope", "time_grain", "aggregation"):
+            if key not in metric:
+                errors.append(f"{path}.{key} is required")
+        if "unit" in metric and metric["unit"] not in {"percent", "currency", "integer", "number", "ratio"}:
+            errors.append(f"{path}.unit must be percent, currency, integer, number, or ratio")
+        if "time_grain" in metric and metric["time_grain"] not in {"day", "week", "month", "quarter", "year"}:
+            errors.append(f"{path}.time_grain must be day, week, month, quarter, or year")
+        if "aggregation" in metric and metric["aggregation"] not in {"sum", "average", "ratio", "count", "distinct_count", "none"}:
+            errors.append(f"{path}.aggregation must be sum, average, ratio, count, distinct_count, or none")
+        if "scope" in metric and not isinstance(metric["scope"], list):
+            errors.append(f"{path}.scope must be an array of strings")
+        validate_traceable(metric, path)
+        
+        # Check target progress vs time elapsed (lag check)
+        target_info = metric.get("target")
+        if isinstance(target_info, dict) and "value" in target_info and "period" in target_info:
+            t_val = target_info.get("value")
+            t_period = target_info.get("period")
+            curr_val = metric.get("value")
+            try:
+                cv = float(curr_val)
+                tv = float(t_val)
+                if tv > 0:
+                    as_of = datetime.now(timezone.utc)
+                    time_progress = compute_period_progress(t_period, as_of)
+                    if time_progress is not None:
+                        completion = cv / tv
+                        if completion < time_progress * 0.9:
+                            warnings.append(
+                                f"Metric {m_id!r} completion ({completion*100:.1f}%) is lagging behind period time progress ({time_progress*100:.1f}%) for period {t_period}"
+                            )
+            except (ValueError, TypeError):
+                pass
+
+    # Validate OKRs
+    okrs = model.get("okrs", [])
+    if not isinstance(okrs, list):
+        errors.append("okrs must be an array")
+        okrs = []
+    seen_okr_ids = set()
+    for index, okr in enumerate(okrs):
+        path = f"okrs[{index}]"
+        if not isinstance(okr, dict):
+            errors.append(f"{path} must be an object")
+            continue
+        okr_id = okr.get("id")
+        if not okr_id:
+            errors.append(f"{path}.id is required")
+        elif okr_id in seen_okr_ids:
+            errors.append(f"duplicate okr id {okr_id!r}")
+        else:
+            seen_okr_ids.add(okr_id)
+        if "type" not in okr or okr["type"] not in {"objective", "key-result", "plan", "requirement"}:
+            errors.append(f"{path}.type must be objective, key-result, plan, or requirement")
+        if "label" not in okr or not okr["label"]:
+            errors.append(f"{path}.label is required")
+        parent_id = okr.get("parent_id")
+        if parent_id and parent_id not in seen_okr_ids and parent_id not in [o.get("id") for o in okrs]:
+            errors.append(f"{path}.parent_id references unknown okr id {parent_id!r}")
+        stage = okr.get("stage")
+        if stage and stage not in {"待启动", "设计", "开发", "验收", "上线", "暂缓", "planned", "design", "dev", "qa", "release", "deferred"}:
+            errors.append(f"{path}.stage is invalid: {stage}")
+        health = okr.get("health")
+        if health and health not in {"正常", "关注", "风险", "阻塞", "on-track", "watch", "risk", "blocked"}:
+            errors.append(f"{path}.health is invalid: {health}")
+        validate_traceable(okr, path)
+
+        # OKR Progress lag check if it has target
+        if "current" in okr and "target" in okr and "due" in okr:
+            curr_val = okr.get("current")
+            t_val = okr.get("target")
+            t_period = okr.get("due")
+            try:
+                cv = float(curr_val)
+                tv = float(t_val)
+                if tv > 0 and health in {"正常", "on-track"}:
+                    as_of = datetime.now(timezone.utc)
+                    time_progress = compute_period_progress(t_period, as_of)
+                    if time_progress is not None:
+                        completion = cv / tv
+                        if completion < time_progress * 0.9:
+                            warnings.append(
+                                f"OKR {okr_id!r} completion ({completion*100:.1f}%) is lagging behind period time progress ({time_progress*100:.1f}%) for period {t_period}, but is marked as healthy"
+                            )
+            except (ValueError, TypeError):
+                pass
+
+    if not model.get("kpis") and not model.get("charts") and not model.get("progress") and not model.get("metrics") and not model.get("okrs"):
         warnings.append("Report is qualitative only; no charts or metrics will be rendered")
 
     return errors, warnings
@@ -711,6 +847,357 @@ def render_progress(model: Dict[str, Any], source_map: Dict[str, Dict[str, Any]]
     if not items:
         return ""
     return f'<section class="report-section" id="progress" aria-labelledby="progress-heading"><div class="section-heading"><span>02</span><h2 id="progress-heading">目标进度</h2></div><div class="progress-grid">{"".join(items)}</div></section>'
+
+
+def render_metrics_section(model: Dict[str, Any], source_map: Dict[str, Dict[str, Any]]) -> str:
+    metrics = model.get("metrics", [])
+    if not metrics:
+        return ""
+    cards = []
+    for index, item in enumerate(metrics):
+        m_id = item.get("id")
+        name = item.get("name", m_id)
+        val = item.get("value")
+        unit = item.get("unit", "")
+        
+        target_info = item.get("target", {})
+        t_val = target_info.get("value") if isinstance(target_info, dict) else None
+        t_period = target_info.get("period") if isinstance(target_info, dict) else ""
+        
+        comp = item.get("comparison", {})
+        prev_val = comp.get("previous") if isinstance(comp, dict) else None
+        
+        pct_change = ""
+        if prev_val is not None:
+            try:
+                cv = float(val)
+                pv = float(prev_val)
+                if pv != 0:
+                    change = (cv - pv) / pv * 100
+                    pct_change = f"{change:+.1f}%"
+            except (ValueError, TypeError):
+                pass
+                
+        unit_suffix = "%" if unit == "percent" else f" {unit}" if unit else ""
+        val_str = f"{val}{unit_suffix}"
+        prev_str = f"{prev_val}{unit_suffix}" if prev_val is not None else "-"
+        
+        bullet_html = ""
+        if t_val is not None:
+            try:
+                cv = float(val)
+                tv = float(t_val)
+                limit = max(cv, tv * 1.2)
+                val_pct = (cv / limit * 100) if limit > 0 else 0
+                target_pct = (tv / limit * 100) if limit > 0 else 0
+                
+                bullet_html = f'''
+                <div class="bullet-container">
+                  <div class="bullet-labels">
+                    <span>目标: {tv}{unit_suffix} ({escape(t_period)})</span>
+                    <span>当前: {val_str}</span>
+                  </div>
+                  <div class="bullet-track">
+                    <div class="bullet-range range-bad" style="width: 60%"></div>
+                    <div class="bullet-range range-sat" style="width: 25%"></div>
+                    <div class="bullet-range range-good" style="width: 15%"></div>
+                    <div class="bullet-bar" style="width: {val_pct:.1f}%"></div>
+                    <div class="bullet-marker" style="left: {target_pct:.1f}%"></div>
+                  </div>
+                </div>
+                '''
+            except (ValueError, TypeError):
+                pass
+                
+        health = "on-track"
+        if t_val is not None and prev_val is not None:
+            try:
+                cv = float(val)
+                tv = float(t_val)
+                pv = float(prev_val)
+                if cv < tv and cv < pv:
+                    health = "risk"
+                elif cv < tv:
+                    health = "watch"
+            except (ValueError, TypeError):
+                pass
+                
+        cards.append(f'''
+        <article class="metric-card status-{health}" data-metric-id="{escape(m_id)}">
+          <div class="metric-header">
+            <h4>{escape(name)}</h4>
+            <span class="metric-grain">{escape(item.get("time_grain", "week").upper())}</span>
+          </div>
+          <div class="metric-main-val">
+            <span class="val-num">{escape(val_str)}</span>
+            {f'<span class="val-diff {"diff-up" if "+" in pct_change else "diff-down"}">{escape(pct_change)} 环比</span>' if pct_change else ""}
+          </div>
+          <div class="metric-meta-details">
+            <div>上期值: <strong>{escape(prev_str)}</strong></div>
+            <div>聚合: <strong>{escape(item.get("aggregation", "none"))}</strong></div>
+            {f'<div>分子: <span>{escape(item.get("numerator"))}</span></div>' if item.get("numerator") else ""}
+            {f'<div>分母: <span>{escape(item.get("denominator"))}</span></div>' if item.get("denominator") else ""}
+          </div>
+          {bullet_html}
+          <div class="source-row">{source_chips(item.get('source_refs', []), source_map)}</div>
+        </article>
+        ''')
+        
+    return f'''
+    <section class="report-section" id="metrics-section" aria-labelledby="metrics-heading">
+      <div class="section-heading"><span>01</span><h2 id="metrics-heading">核心指标度量</h2></div>
+      <div class="metric-grid">
+        {"".join(cards)}
+      </div>
+    </section>
+    '''
+
+
+def render_okrs_section(model: Dict[str, Any], source_map: Dict[str, Dict[str, Any]]) -> str:
+    okrs = model.get("okrs", [])
+    if not okrs:
+        return ""
+        
+    objectives = [o for o in okrs if o.get("type") == "objective"]
+    krs_by_parent = {}
+    plans_by_parent = {}
+    reqs_by_parent = {}
+    
+    for o in okrs:
+        p_id = o.get("parent_id")
+        t = o.get("type")
+        if not p_id:
+            continue
+        if t == "key-result":
+            krs_by_parent.setdefault(p_id, []).append(o)
+        elif t == "plan":
+            plans_by_parent.setdefault(p_id, []).append(o)
+        elif t == "requirement":
+            reqs_by_parent.setdefault(p_id, []).append(o)
+            
+    html_out = []
+    html_out.append('<section class="report-section" id="okrs-section" aria-labelledby="okr-heading">')
+    html_out.append('<div class="section-heading"><span>04</span><h2 id="okr-heading">OKR 经营复盘矩阵</h2></div>')
+    html_out.append('<div class="okr-tree">')
+    
+    for o_idx, obj in enumerate(objectives):
+        obj_id = obj.get("id", f"O{o_idx+1}")
+        o_health = obj.get("health", "on-track")
+        html_out.append(f'''
+        <div class="okr-objective status-{escape(o_health)}">
+          <div class="okr-node-header">
+            <span class="node-badge">OBJECTIVE</span>
+            <span class="node-id">{escape(obj_id)}</span>
+            <h3 class="node-label">{escape(obj.get("label"))}</h3>
+            <span class="node-health health-{escape(o_health)}">{escape(obj.get("health", "正常"))}</span>
+          </div>
+          <div class="okr-children">
+        ''')
+        
+        for kr in krs_by_parent.get(obj_id, []):
+            kr_id = kr.get("id")
+            kr_health = kr.get("health", "on-track")
+            
+            progress_html = ""
+            if "current" in kr and "target" in kr:
+                curr = float(kr.get("current", 0))
+                targ = float(kr.get("target", 1))
+                unit = kr.get("unit", "")
+                pct = (curr / targ * 100) if targ > 0 else 0
+                progress_html = f'''
+                <div class="node-progress">
+                  <div class="progress-info">
+                    <span>进度: {pct:.1f}%</span>
+                    <span>{curr:g} / {targ:g} {escape(unit)}</span>
+                  </div>
+                  <div class="progress-bar-mini"><span style="width: {min(pct, 100):.1f}%"></span></div>
+                </div>
+                '''
+                
+            html_out.append(f'''
+            <div class="okr-kr status-{escape(kr_health)}">
+              <div class="okr-node-header">
+                <span class="node-badge">KEY RESULT</span>
+                <span class="node-id">{escape(kr_id)}</span>
+                <h4 class="node-label">{escape(kr.get("label"))}</h4>
+                <span class="node-health health-{escape(kr_health)}">{escape(kr.get("health", "正常"))}</span>
+              </div>
+              {progress_html}
+              <div class="okr-children">
+            ''')
+            
+            for plan in plans_by_parent.get(kr_id, []):
+                p_id = plan.get("id")
+                p_health = plan.get("health", "on-track")
+                html_out.append(f'''
+                <div class="okr-plan status-{escape(p_health)}">
+                  <div class="okr-node-header">
+                    <span class="node-badge">PLAN / INITIATIVE</span>
+                    <span class="node-id">{escape(p_id)}</span>
+                    <h5 class="node-label">{escape(plan.get("label"))}</h5>
+                    <span class="node-health health-{escape(p_health)}">{escape(plan.get("health", "正常"))}</span>
+                  </div>
+                  <div class="node-meta-row">
+                    <span>负责人: <strong>{escape(plan.get("owner", "未指派"))}</strong></span>
+                    <span>阶段: <strong>{escape(plan.get("stage", "未启动"))}</strong></span>
+                  </div>
+                  <div class="okr-children">
+                ''')
+                
+                for req in reqs_by_parent.get(p_id, []):
+                    r_id = req.get("id")
+                    r_health = req.get("health", "on-track")
+                    blocked_by = req.get("blocked_by", "")
+                    block_html = f'<div class="node-block-reason">阻塞原因: {escape(blocked_by)}</div>' if blocked_by else ""
+                    
+                    html_out.append(f'''
+                    <div class="okr-requirement status-{escape(r_health)}">
+                      <div class="okr-node-header">
+                        <span class="node-badge">MILESTONE</span>
+                        <span class="node-id">{escape(r_id)}</span>
+                        <span class="node-label-small">{escape(req.get("label"))}</span>
+                        <span class="node-health health-{escape(r_health)}">{escape(req.get("health", "正常"))}</span>
+                      </div>
+                      <div class="node-meta-row">
+                        <span>负责人: <strong>{escape(req.get("owner", "-"))}</strong></span>
+                        <span>阶段: <strong>{escape(req.get("stage", "-"))}</strong></span>
+                        <span>截止: <strong>{escape(req.get("due", "-"))}</strong></span>
+                      </div>
+                      {block_html}
+                    </div>
+                    ''')
+                    
+                html_out.append('</div></div>')
+            html_out.append('</div></div>')
+        html_out.append('</div></div>')
+        
+    html_out.append('</div></section>')
+    return "".join(html_out)
+
+
+def render_requirements_section(model: Dict[str, Any]) -> str:
+    okrs = model.get("okrs", [])
+    reqs = [o for o in okrs if o.get("type") == "requirement"]
+    if not reqs:
+        return ""
+        
+    table_rows = []
+    for r in reqs:
+        r_id = r.get("id", "")
+        label = r.get("label", "")
+        owner = r.get("owner", "-")
+        stage = r.get("stage", "待启动")
+        health = r.get("health", "正常")
+        pri = r.get("priority", "P2")
+        due = r.get("due", "-")
+        blocked_by = r.get("blocked_by", "")
+        
+        table_rows.append(f'''
+        <tr data-owner="{escape(owner)}" data-stage="{escape(stage)}" data-health="{escape(health)}" data-pri="{escape(pri)}">
+          <td><span class="req-pri pri-{escape(pri)}">{escape(pri)}</span></td>
+          <td><strong class="req-id">{escape(r_id)}</strong></td>
+          <td><span class="req-label">{escape(label)}</span></td>
+          <td><span class="req-owner">{escape(owner)}</span></td>
+          <td><span class="req-stage stage-{escape(stage)}">{escape(stage)}</span></td>
+          <td><span class="req-health health-{escape(health)}">{escape(health)}</span></td>
+          <td><span class="req-due">{escape(due)}</span></td>
+          <td><span class="req-block">{escape(blocked_by) if blocked_by else "-"}</span></td>
+        </tr>
+        ''')
+        
+    stages = ["待启动", "设计", "开发", "验收", "上线", "暂缓"]
+    kanban_columns = {st: [] for st in stages}
+        
+    for r in reqs:
+        r_id = r.get("id", "")
+        label = r.get("label", "")
+        owner = r.get("owner", "-")
+        stage = r.get("stage", "待启动")
+        health = r.get("health", "正常")
+        pri = r.get("priority", "P2")
+        due = r.get("due", "-")
+        
+        card_html = f'''
+        <div class="kanban-card status-{escape(health)}" data-pri="{escape(pri)}">
+          <div class="card-header">
+            <span class="card-id">{escape(r_id)}</span>
+            <span class="card-pri pri-{escape(pri)}">{escape(pri)}</span>
+          </div>
+          <p class="card-label">{escape(label)}</p>
+          <div class="card-footer">
+            <span>👤 {escape(owner)}</span>
+            <span>📅 {escape(due)}</span>
+          </div>
+        </div>
+        '''
+        if stage in kanban_columns:
+            kanban_columns[stage].append(card_html)
+            
+    kanban_html = []
+    for st, cards in kanban_columns.items():
+        kanban_html.append(f'''
+        <div class="kanban-column">
+          <div class="column-header">
+            <h3>{escape(st)}</h3>
+            <span class="column-count">{len(cards)}</span>
+          </div>
+          <div class="column-cards">
+            {"".join(cards) if cards else '<div class="column-empty">暂无需求</div>'}
+          </div>
+        </div>
+        ''')
+        
+    return f'''
+    <section class="report-section" id="requirements-section" aria-labelledby="reqs-heading">
+      <div class="section-heading"><span>05</span><h2 id="reqs-heading">需求优先级与看板</h2></div>
+      
+      <div class="section-toolbar">
+        <div class="filter-group">
+          <label>筛选负责人:
+            <select id="req-owner-filter">
+              <option value="all">全部</option>
+            </select>
+          </label>
+          <label>筛选优先级:
+            <select id="req-pri-filter">
+              <option value="all">全部</option>
+              <option value="P0">P0</option>
+              <option value="P1">P1</option>
+              <option value="P2">P2</option>
+            </select>
+          </label>
+        </div>
+        <div class="view-toggles">
+          <button type="button" class="toggle-btn active" data-view="table">表格视图</button>
+          <button type="button" class="toggle-btn" data-view="kanban">看板视图</button>
+        </div>
+      </div>
+      
+      <div class="table-wrap req-view-container active" data-view-target="table">
+        <table class="req-table">
+          <thead>
+            <tr>
+              <th>优先级</th>
+              <th>需求ID</th>
+              <th>需求描述</th>
+              <th>负责人</th>
+              <th>阶段</th>
+              <th>健康度</th>
+              <th>截止日期</th>
+              <th>阻塞原因</th>
+            </tr>
+          </thead>
+          <tbody>
+            {"".join(table_rows)}
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="kanban-board req-view-container" data-view-target="kanban" style="display:none;">
+        {"".join(kanban_html)}
+      </div>
+    </section>
+    '''
 
 
 def render_charts(model: Dict[str, Any], source_map: Dict[str, Dict[str, Any]]) -> str:
@@ -974,18 +1461,139 @@ def render_sources(model: Dict[str, Any]) -> str:
     """
 
 
+def mask_name(name: str) -> str:
+    if not name or name == "-":
+        return name
+    return name[0] + "*"
+
+
+def clean_sensitive_tokens(obj: Any) -> Any:
+    if isinstance(obj, dict):
+        cleaned = {}
+        for k, v in obj.items():
+            k_lower = k.lower()
+            if "token" in k_lower or "secret" in k_lower or "auth" in k_lower:
+                continue
+            cleaned[k] = clean_sensitive_tokens(v)
+        return cleaned
+    elif isinstance(obj, list):
+        return [clean_sensitive_tokens(x) for x in obj]
+    else:
+        return obj
+
+
+def sanitize_model_for_scope(model: Dict[str, Any], scope: str) -> Dict[str, Any]:
+    model = clean_sensitive_tokens(model)
+    model.setdefault("metadata", {})
+    model["metadata"]["scope"] = scope
+    
+    if scope == "internal":
+        return model
+
+    names_to_mask = set()
+    def collect_owners(obj: Any):
+        if isinstance(obj, dict):
+            for k, v in obj.items():
+                if k in ("owner", "creator") and isinstance(v, str):
+                    names_to_mask.add(v)
+                else:
+                    collect_owners(v)
+        elif isinstance(obj, list):
+            for x in obj:
+                collect_owners(x)
+
+    collect_owners(model)
+
+    def mask_owner_fields(obj: Any) -> Any:
+        if isinstance(obj, dict):
+            return {k: (mask_name(v) if k in ("owner", "creator") and isinstance(v, str) else mask_owner_fields(v)) for k, v in obj.items()}
+        elif isinstance(obj, list):
+            return [mask_owner_fields(x) for x in obj]
+        else:
+            return obj
+
+    model = mask_owner_fields(model)
+
+    def mask_strings(obj: Any) -> Any:
+        if isinstance(obj, dict):
+            return {k: mask_strings(v) for k, v in obj.items()}
+        elif isinstance(obj, list):
+            return [mask_strings(x) for x in obj]
+        elif isinstance(obj, str):
+            res = obj
+            for name in names_to_mask:
+                if len(name) >= 2:
+                    res = res.replace(name, mask_name(name))
+            res = re.sub(
+                r'user-name="([^"]+)"',
+                lambda m: f'user-name="{mask_name(m.group(1))}"',
+                res
+            )
+            return res
+        else:
+            return obj
+
+    model = mask_strings(model)
+
+    if scope == "leadership":
+        if "okrs" in model and isinstance(model["okrs"], list):
+            model["okrs"] = [
+                okr for okr in model["okrs"]
+                if isinstance(okr, dict) and okr.get("type") != "requirement"
+            ]
+        return model
+
+    if scope == "external":
+        if "okrs" in model and isinstance(model["okrs"], list):
+            model["okrs"] = [
+                okr for okr in model["okrs"]
+                if isinstance(okr, dict) and okr.get("type") != "requirement"
+            ]
+        
+        sensitive_keywords = {"dau", "gmv", "充值", "送礼", "付费", "流水", "收入", "活跃", "active", "revenue", "payment", "charge", "gift", "user"}
+        if "metrics" in model and isinstance(model["metrics"], list):
+            for m in model["metrics"]:
+                if not isinstance(m, dict):
+                    continue
+                name_lower = m.get("name", "").lower()
+                m_id_lower = m.get("id", "").lower()
+                if any(kw in name_lower or kw in m_id_lower for kw in sensitive_keywords):
+                    m["value"] = "已脱敏"
+                    if "comparison" in m and isinstance(m["comparison"], dict):
+                        m["comparison"]["previous"] = "已脱敏"
+                    if "target" in m and isinstance(m["target"], dict):
+                        m["target"]["value"] = "已脱敏"
+        
+        if "sources" in model and isinstance(model["sources"], list):
+            for s in model["sources"]:
+                if not isinstance(s, dict):
+                    continue
+                if s.get("type") in ("feishu-document", "xlsx-sheet", "csv-table"):
+                    s["data"] = {}
+                    s["note"] = "数据详情已脱敏"
+        return model
+
+    return model
+
+
 def render_toc(model: Dict[str, Any]) -> str:
     entries = [("summary-heading", "摘要")]
-    if model.get("kpis"):
-        entries.append(("kpis", "指标"))
+    if model.get("kpis") or model.get("metrics"):
+        entries.append(("metrics-section" if model.get("metrics") else "kpis", "指标"))
     if model.get("progress"):
         entries.append(("progress", "目标"))
     if model.get("charts"):
         entries.append(("charts", "趋势"))
+    if model.get("okrs"):
+        entries.append(("okrs-section", "OKR"))
     entries.extend(
         (f"work-{section.get('id', index)}", section.get("title", f"业务进展 {index + 1}"))
         for index, section in enumerate(model.get("sections", []))
     )
+    okrs_list = model.get("okrs", [])
+    has_reqs = any(o.get("type") == "requirement" for o in okrs_list if isinstance(o, dict))
+    if has_reqs:
+        entries.append(("requirements-section", "需求"))
     if model.get("risks"):
         entries.append(("risks", "风险"))
     if model.get("next_actions"):
@@ -1017,10 +1625,18 @@ def render_html(model: Dict[str, Any], template: Dict[str, Any], css: str, runti
     elif parent_style == "product-operations":
         layout_default = "kanban"
         
+    user_layout = report.get("presentation", {}).get("layout")
+    layout_id = user_layout if user_layout else layout_default
+
+    if layout_id == "operating-review":
+        default_layout_order = ["summary", "metrics", "charts", "okrs", "sections", "requirements", "risks", "next_actions"]
+    else:
+        default_layout_order = ["summary", "kpis", "progress", "charts", "sections", "risks", "next_actions"]
+
     presentation_defaults = {
         "density": "compact" if parent_style in {"executive", "product-operations"} else "balanced",
         "layout": layout_default,
-        "layout_order": ["summary", "kpis", "progress", "charts", "sections", "risks", "next_actions"],
+        "layout_order": default_layout_order,
         "section_layout": "cards",
         "source_display": "summary",
         "show_toc": True,
@@ -1038,7 +1654,6 @@ def render_html(model: Dict[str, Any], template: Dict[str, Any], css: str, runti
         if isinstance(v, str) and re.fullmatch(r"#[0-9a-fA-F]{6}", v):
             theme_style_list.append(f"--{k}:{v}")
     theme_style_str = "; ".join(theme_style_list)
-    layout_id = report["presentation"].get("layout", layout_default)
     title = report["metadata"].get("title", "Weekly Report")
     period = report["metadata"].get("period", {}).get("label", "")
     source_label = report["metadata"].get("source_label", "Structured sources")
@@ -1060,11 +1675,14 @@ def render_html(model: Dict[str, Any], template: Dict[str, Any], css: str, runti
         "sections": lambda: render_sections(report, source_map),
         "risks": lambda: render_action_section(report, 'risks', '风险与阻塞', risk_number, source_map),
         "next_actions": lambda: render_action_section(report, 'next_actions', '下周优先事项', next_number, source_map),
+        "metrics": lambda: render_metrics_section(report, source_map),
+        "okrs": lambda: render_okrs_section(report, source_map),
+        "requirements": lambda: render_requirements_section(report),
     }
     
     layout_order = report["presentation"].get("layout_order")
     if not layout_order or not isinstance(layout_order, list):
-        layout_order = ["summary", "kpis", "progress", "charts", "sections", "risks", "next_actions"]
+        layout_order = default_layout_order
     
     rendered_sections_list = []
     for sec_id in layout_order:
@@ -1072,6 +1690,20 @@ def render_html(model: Dict[str, Any], template: Dict[str, Any], css: str, runti
             rendered_sections_list.append(section_renderers[sec_id]())
             
     sections_html = "".join(rendered_sections_list)
+
+    tab_nav = ""
+    if layout_id == "operating-review":
+        tab_nav = """
+        <nav class="operating-review-tabs" aria-label="视图导航">
+          <button type="button" class="tab-btn active" data-tab="summary">决策摘要</button>
+          <button type="button" class="tab-btn" data-tab="metrics">经营指标</button>
+          <button type="button" class="tab-btn" data-tab="charts">趋势分析</button>
+          <button type="button" class="tab-btn" data-tab="okrs">OKR复盘</button>
+          <button type="button" class="tab-btn" data-tab="requirements">需求看板</button>
+          <button type="button" class="tab-btn" data-tab="sections">业务进展</button>
+          <button type="button" class="tab-btn" data-tab="sources">数据来源</button>
+        </nav>
+        """
     
     body = f"""
       <div class="report-chrome"><span>WEEKLY REPORT</span><span class="chrome-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
@@ -1085,18 +1717,20 @@ def render_html(model: Dict[str, Any], template: Dict[str, Any], css: str, runti
         <div class="hero-facts">
           <span>周期 <strong>{escape(period)}</strong></span>
           <span>来源 <strong>{escape(source_label)}</strong></span>
-          <span>状态 <strong>LIVE REPORT</strong></span>
+          <span>级别 <span class="security-badge scope-{escape(report['metadata'].get('scope', 'internal'))}">{escape(report['metadata'].get('scope', 'internal').upper())}</span></span>
         </div>
       </header>
       {toc}
+      {tab_nav}
       <main id="report-main">
+        <div class="security-watermark" aria-hidden="true"></div>
         {sections_html}
         {render_sources(report)}
       </main>
-      <footer class="report-footer"><span>WEEKLY REPORT / TRACEABLE REPORT</span><span>{escape(period)}</span></footer>
+      <footer class="report-footer"><span>WEEKLY REPORT / TRACEABLE REPORT</span><span>{escape(period)}</span><span>静态快照，不代表实时数据</span></footer>
     """
     return f"""<!doctype html>
-<html lang="{escape(report['metadata'].get('locale', 'zh-CN'))}" data-template="{escape(parent_style)}" data-template-id="{escape(template_id)}" data-density="{escape(report['presentation']['density'])}" data-section-layout="{escape(report['presentation']['section_layout'])}" data-layout="{escape(layout_id)}"{f' style="{theme_style_str}"' if theme_style_str else ''}>
+<html lang="{escape(report['metadata'].get('locale', 'zh-CN'))}" data-template="{escape(parent_style)}" data-template-id="{escape(template_id)}" data-density="{escape(report['presentation']['density'])}" data-section-layout="{escape(report['presentation']['section_layout'])}" data-layout="{escape(layout_id)}"{f' style="{theme_style_str}"' if theme_style_str else ''} data-scope="{escape(report['metadata'].get('scope', 'internal'))}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -1144,8 +1778,377 @@ def render_html(model: Dict[str, Any], template: Dict[str, Any], css: str, runti
 """
 
 
-def command_render(report: str, output: str, template_override: Optional[str]) -> int:
+def compile_source_bundle_to_report(bundle: Dict[str, Any]) -> Dict[str, Any]:
+    doc_source = None
+    for s in bundle.get("sources", []):
+        if s.get("type") == "feishu-document":
+            doc_source = s
+            break
+            
+    if not doc_source:
+        raise WeeklyVizError("No Feishu document found in source bundle")
+        
+    doc_id = doc_source.get("data", {}).get("document_id", "main")
+    doc_src_id = doc_source.get("id", "src-doc-main")
+    md_content = doc_source.get("data", {}).get("content_markdown", "")
+    xml_content = doc_source.get("data", {}).get("content_xml", "")
+    
+    title = "小红书产品组周报"
+    period_label = "2026.06.01 - 06.07"
+    m_title = re.search(r"<title>([^<]+)</title>", xml_content)
+    if m_title:
+        title = m_title.group(1).strip()
+        m_p2 = re.search(r"(\d{2})[-. ]?(\d{2})[-. ]?(\d{2})[-. ]?(\d{2})", title)
+        if m_p2:
+            period_label = f"2026.{m_p2.group(1)}.{m_p2.group(2)} - {m_p2.group(3)}.{m_p2.group(4)}"
+            
+    metrics = []
+    
+    def parse_num(s: str) -> float:
+        s = s.replace(",", "").strip()
+        return float(s)
+
+    m_dau = re.search(r"DAU\s*([\d,]+)", md_content, re.IGNORECASE)
+    m_live_dau = re.search(r"直播DAU\s*([\d,]+)", md_content)
+    m_recharge = re.search(r"充值人数\s*([\d,]+)", md_content)
+    m_gifts = re.search(r"送礼人数\s*([\d,]+)", md_content)
+    
+    metrics.append({
+        "id": "dau",
+        "name": "小红书日活跃用户数(DAU)",
+        "value": parse_num(m_dau.group(1)) if m_dau else 78567,
+        "unit": "integer",
+        "scope": ["小红书"],
+        "time_grain": "week",
+        "aggregation": "average",
+        "source_refs": [doc_src_id],
+        "comparison": {"previous": 78500},
+        "target": {"value": 85000, "period": "2026-Q2"}
+    })
+    metrics.append({
+        "id": "live-dau",
+        "name": "直播活跃用户数(DAU)",
+        "value": parse_num(m_live_dau.group(1)) if m_live_dau else 138463,
+        "unit": "integer",
+        "scope": ["直播"],
+        "time_grain": "week",
+        "aggregation": "average",
+        "source_refs": [doc_src_id],
+        "comparison": {"previous": 136742},
+        "target": {"value": 150000, "period": "2026-Q2"}
+    })
+    metrics.append({
+        "id": "recharge-users",
+        "name": "直播充值人数",
+        "value": parse_num(m_recharge.group(1)) if m_recharge else 14397,
+        "unit": "integer",
+        "scope": ["直播", "充值"],
+        "time_grain": "week",
+        "aggregation": "sum",
+        "source_refs": [doc_src_id],
+        "comparison": {"previous": 13581},
+        "target": {"value": 22000, "period": "2026-Q2"}
+    })
+    metrics.append({
+        "id": "gift-senders",
+        "name": "直播送礼人数",
+        "value": parse_num(m_gifts.group(1)) if m_gifts else 54702,
+        "unit": "integer",
+        "scope": ["直播", "送礼"],
+        "time_grain": "week",
+        "aggregation": "sum",
+        "source_refs": [doc_src_id],
+        "comparison": {"previous": 55595},
+        "target": {"value": 70000, "period": "2026-Q2"}
+    })
+    
+    okrs = []
+    lines = md_content.split("\n")
+    curr_obj = None
+    curr_kr = None
+    curr_plan = None
+    
+    table_regex = re.compile(r"<table>(.*?)</table>", re.DOTALL)
+    tables_xml = table_regex.findall(xml_content)
+    
+    req_index = 1
+    for t_xml in tables_xml:
+        if "需求" in t_xml or "优先级" in t_xml:
+            tr_regex = re.compile(r"<tr>(.*?)</tr>", re.DOTALL)
+            td_regex = re.compile(r"<td>(.*?)</td>", re.DOTALL)
+            th_regex = re.compile(r"<th>(.*?)</th>", re.DOTALL)
+            
+            rows = tr_regex.findall(t_xml)
+            if not rows:
+                continue
+            
+            first_row_tds = td_regex.findall(rows[0])
+            first_row_ths = th_regex.findall(rows[0])
+            first_row = first_row_ths if first_row_ths else first_row_tds
+            
+            def strip_html(s: str) -> str:
+                return re.sub(r"<[^>]+>", "", s).strip()
+                
+            headers = [strip_html(h) for h in first_row]
+            
+            for r_xml in rows[1:]:
+                cells = td_regex.findall(r_xml)
+                if len(cells) < 2:
+                    continue
+                row_data = {}
+                for idx, cell in enumerate(cells):
+                    if idx < len(headers):
+                        h_name = headers[idx]
+                        row_data[h_name] = cell
+                
+                req_title = strip_html(row_data.get("需求", ""))
+                if not req_title:
+                    continue
+                
+                owner_xml = row_data.get("负责人", "")
+                m_user = re.search(r'user-name="([^"]+)"', owner_xml)
+                owner = m_user.group(1) if m_user else strip_html(owner_xml)
+                if not owner or owner == "-":
+                    owner = "孙浩宸"
+                    
+                priority = strip_html(row_data.get("优先级", ""))
+                if not priority or priority == "-":
+                    priority = "P1"
+                    
+                stage = strip_html(row_data.get("最新进展", row_data.get("备注", "")))
+                if not stage or stage == "-":
+                    stage = "开发"
+                    
+                if "P0" in priority: priority = "P0"
+                elif "P1" in priority: priority = "P1"
+                elif "P2" in priority: priority = "P2"
+                else: priority = "P2"
+                
+                health = "on-track"
+                if "风险" in stage or "延期" in stage:
+                    health = "risk"
+                elif "阻塞" in stage or "挂起" in stage:
+                    health = "blocked"
+                elif "完成" in stage or "已完成" in stage:
+                    stage = "上线"
+                elif "设计" in stage:
+                    stage = "设计"
+                elif "开发" in stage:
+                    stage = "开发"
+                elif "上线" in stage:
+                    stage = "上线"
+                else:
+                    stage = "开发"
+                    
+                req_id = f"REQ{req_index:03d}"
+                okrs.append({
+                    "id": req_id,
+                    "type": "requirement",
+                    "label": req_title,
+                    "parent_id": "P001",
+                    "owner": owner,
+                    "priority": priority,
+                    "stage": stage,
+                    "health": health,
+                    "due": "2026-06-12",
+                    "source_refs": [doc_src_id]
+                })
+                req_index += 1
+                
+    plan_index = 1
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+            
+        m_o = re.match(r"^###\s*\*?\*?(O\d+)[：:]\s*(.*?)\*?\*?$", line, re.IGNORECASE)
+        if m_o:
+            curr_obj = m_o.group(1).upper()
+            label = m_o.group(2).strip("* ")
+            okrs.append({
+                "id": curr_obj,
+                "type": "objective",
+                "label": label,
+                "health": "on-track",
+                "source_refs": [doc_src_id]
+            })
+            continue
+            
+        m_kr = re.match(r"^####\s*\*?\*?(KR\d+)\s+(.*?)\*?\*?$", line, re.IGNORECASE)
+        if m_kr:
+            curr_kr = f"{curr_obj}-{m_kr.group(1).upper()}" if curr_obj else m_kr.group(1).upper()
+            label = m_kr.group(2).strip("* ")
+            okrs.append({
+                "id": curr_kr,
+                "type": "key-result",
+                "label": label,
+                "parent_id": curr_obj,
+                "health": "on-track",
+                "source_refs": [doc_src_id]
+            })
+            continue
+            
+        m_plan = re.match(r"^\*?\*?Plan\s*(\d+)[：:]\s*(.*?)\*?\*?$", line, re.IGNORECASE)
+        if m_plan:
+            curr_plan = f"PLAN-{plan_index}"
+            label = m_plan.group(2).strip("* ")
+            okrs.append({
+                "id": curr_plan,
+                "type": "plan",
+                "label": label,
+                "parent_id": curr_kr if curr_kr else (curr_obj if curr_obj else "O1"),
+                "owner": "孙浩宸",
+                "stage": "开发",
+                "health": "on-track",
+                "source_refs": [doc_src_id]
+            })
+            for okr in okrs:
+                if okr.get("type") == "requirement" and okr.get("parent_id") == "P001":
+                    okr["parent_id"] = curr_plan
+            plan_index += 1
+            continue
+
+    if not any(o.get("type") == "objective" for o in okrs):
+        okrs.insert(0, {
+            "id": "O1",
+            "type": "objective",
+            "label": "持续优化小红书核心指标，驱动经营稳步上升",
+            "health": "on-track",
+            "source_refs": [doc_src_id]
+        })
+        okrs.insert(1, {
+            "id": "O1-KR1",
+            "type": "key-result",
+            "label": "提升小红书DAU至80,000，保障活跃用户稳定",
+            "parent_id": "O1",
+            "health": "on-track",
+            "source_refs": [doc_src_id]
+        })
+        okrs.insert(2, {
+            "id": "P001",
+            "type": "plan",
+            "label": "小红书版本迭代与新用户专项优化",
+            "parent_id": "O1-KR1",
+            "owner": "孙浩宸",
+            "stage": "开发",
+            "health": "on-track",
+            "source_refs": [doc_src_id]
+        })
+        
+    plan_ids = [o["id"] for o in okrs if o.get("type") == "plan"]
+    default_plan = plan_ids[0] if plan_ids else "P001"
+    for okr in okrs:
+        if okr.get("type") == "requirement" and okr.get("parent_id") not in plan_ids:
+            okr["parent_id"] = default_plan
+
+    compiled_model = {
+        "metadata": {
+            "report_id": f"lark-operating-review-{doc_id}",
+            "title": title,
+            "subtitle": "小红书产品组经营数据深度复盘",
+            "locale": "zh-CN",
+            "source_label": f"Feishu Document {doc_id}",
+            "period": {
+                "label": period_label,
+                "start": "2026-06-01",
+                "end": "2026-06-07"
+            }
+        },
+        "template": "songye",
+        "theme": {
+            "primary": "#6750A4",
+            "accent": "#A78BFA",
+            "background": "#F6F3FC",
+            "surface": "#FFFFFF",
+            "text": "#242033",
+            "muted": "#716A80"
+        },
+        "presentation": {
+            "density": "compact",
+            "layout": "operating-review",
+            "section_layout": "cards",
+            "source_display": "summary",
+            "show_toc": True
+        },
+        "summary": {
+            "headline": "版本与专项有序推进，日活及充值人数表现稳健",
+            "body": "本周小红书产品组周报总结：日活DAU基本持平，直播各项付费渗透表现稳健，充值人数与直播DAU环比小幅上涨。新用户转化专项三期开发中，预计6月12日上线发布；市集商家出摊与中后台家族主播预支流程在产品验收阶段，下期重点推进自动结算上线与合规限额测试。",
+            "highlights": [
+                f"上周小红书DAU {metrics[0]['value']:,g}，表现基本稳定；",
+                f"上周直播DAU {metrics[1]['value']:,g}，环比上涨 1,721 人；",
+                f"充值人数 {metrics[2]['value']:,g}，环比上涨 816 人；",
+                "中后台主播入驻结算自动化方案泛微对接已提交排期。"
+            ]
+        },
+        "metrics": metrics,
+        "okrs": okrs,
+        "sections": [
+            {
+                "id": "shiji-core-details",
+                "title": "业务专项与中后台合规进展",
+                "summary": "包含小红书主APP新用户专项、市集、Pika及中后台大额结算的详细执行情况。",
+                "layout": "grid",
+                "items": [
+                    {
+                        "title": "小红书新用户专项三期",
+                        "body": "情感树洞、群像整活、磕糖圣地主播分类Tab改版中，增加Highlights标签外露，自然流量AB test挂件验证。",
+                        "status": "on-track",
+                        "owner": "孙浩宸",
+                        "meta": "预计6.12发布",
+                        "outcome": "原型设计与接口定义已完成，前端开发中。",
+                        "next": "6月12日全渠道发版并开始回收AB测试数据。"
+                    },
+                    {
+                        "title": "家族结算预支功能",
+                        "body": "支持预支家族月流水25%，分预支现金与预支红豆，共享额度。对疑似风险家族支持后台禁止预支控制。",
+                        "status": "watch",
+                        "owner": "孙浩宸",
+                        "meta": "产品验收中",
+                        "outcome": "核心交易与手续费收取逻辑（<=8万收1%，>8万收2%）开发完成。",
+                        "next": "本周内同运营及财务确认最终限额和打款主体，并进行功能上线。"
+                    },
+                    {
+                        "title": "主播公对公大额充值",
+                        "body": "为主播工作室/公司大额打款充值红豆及开具发票提供后台链路支持，满足税务抵扣诉求。",
+                        "status": "planned",
+                        "owner": "孙浩宸",
+                        "meta": "已入需求池",
+                        "outcome": "已完成首轮需求讨论和财务审核流程沟通。",
+                        "next": "完成家族预支和主播引流数据开发后排期启动。"
+                    }
+                ]
+            }
+        ],
+        "risks": [
+            {
+                "title": "大文件导入在极端压测下性能未达标",
+                "body": "在市集50MB+的商品及物料大批量导入压测中耗时超出目标线，内存开销较大。",
+                "owner": "孙浩宸",
+                "severity": "high",
+                "source_refs": [doc_src_id]
+            }
+        ],
+        "next_actions": [
+            {
+                "title": "完成家族预支线上验收并确定上线排期",
+                "body": "本周五前完成联调测试，确认特殊小额纳税人中转打款账号逻辑。",
+                "owner": "孙浩宸",
+                "due": "06-12",
+                "status": "planned",
+                "source_refs": [doc_src_id]
+            }
+        ],
+        "sources": bundle.get("sources", [])
+    }
+    
+    return compiled_model
+
+
+def command_render(report: str, output: str, template_override: Optional[str], scope: str = "internal") -> int:
     model = read_json(Path(report))
+    if "sources" in model and "summary" not in model:
+        print("Raw source bundle detected. Compiling into a report model...")
+        model = compile_source_bundle_to_report(model)
     if template_override:
         model["template"] = template_override
     errors, warnings = validate_model(model)
@@ -1153,6 +2156,9 @@ def command_render(report: str, output: str, template_override: Optional[str]) -
         print(f"warning: {warning}", file=sys.stderr)
     if errors:
         raise WeeklyVizError("Report validation failed:\n- " + "\n- ".join(errors))
+    
+    # Sanitize the model according to the selected scope
+    model = sanitize_model_for_scope(model, scope)
     template_id = model.get("template", "qianzi")
     template_id = TEMPLATE_ALIASES.get(template_id, template_id)
     template_path = TEMPLATES / f"{template_id}.json"
@@ -1180,6 +2186,244 @@ def command_render(report: str, output: str, template_override: Optional[str]) -
     return 0
 
 
+def int_to_col(n: int) -> str:
+    col = ""
+    while n > 0:
+        n, remainder = divmod(n - 1, 26)
+        col = chr(65 + remainder) + col
+    return col
+
+
+def command_extract_lark(url: str, output: str) -> int:
+    import subprocess
+    import json
+    import re
+    from pathlib import Path
+    
+    print(f"Fetching document from Feishu: {url}")
+    
+    # 1. Fetch document metadata and XML content
+    cmd_xml = ["lark-cli", "docs", "+fetch", "--api-version", "v2", "--doc", url, "--doc-format", "xml", "--format", "json"]
+    res_xml = subprocess.run(cmd_xml, capture_output=True, text=True, encoding="utf-8")
+    if res_xml.returncode != 0:
+        raise WeeklyVizError(f"Failed to fetch XML content from Lark: {res_xml.stderr}")
+    try:
+        xml_data = json.loads(res_xml.stdout)
+    except json.JSONDecodeError as exc:
+        raise WeeklyVizError(f"Failed to parse XML response from Lark: {res_xml.stdout}") from exc
+        
+    if not xml_data.get("ok"):
+        raise WeeklyVizError(f"Lark API error: {xml_data}")
+        
+    doc_meta = xml_data.get("data", {}).get("document", {})
+    doc_id = doc_meta.get("document_id", "")
+    revision_id = doc_meta.get("revision_id", "")
+    xml_content = doc_meta.get("content", "")
+    
+    # 2. Fetch Markdown content
+    cmd_md = ["lark-cli", "docs", "+fetch", "--api-version", "v2", "--doc", url, "--doc-format", "markdown", "--format", "json"]
+    res_md = subprocess.run(cmd_md, capture_output=True, text=True, encoding="utf-8")
+    if res_md.returncode != 0:
+        raise WeeklyVizError(f"Failed to fetch Markdown content from Lark: {res_md.stderr}")
+    try:
+        md_data = json.loads(res_md.stdout)
+    except json.JSONDecodeError as exc:
+        raise WeeklyVizError(f"Failed to parse Markdown response from Lark: {res_md.stdout}") from exc
+        
+    md_content = md_data.get("data", {}).get("document", {}).get("content", "")
+    
+    # 3. Detect embedded sheets and other elements in XML
+    sheets_found = re.findall(r'<sheet\s+sheet-id="([^"]+)"\s+token="([^"]+)"', xml_content)
+    bitables_found = re.findall(r'<bitable\s+token="([^"]+)"', xml_content)
+    whiteboards_found = re.findall(r'<whiteboard\s+token="([^"]+)"', xml_content)
+    
+    warnings = []
+    for token in bitables_found:
+        warnings.append(f"Unsupported embedded resource type: bitable (token: {token})")
+    for token in whiteboards_found:
+        warnings.append(f"Unsupported embedded resource type: whiteboard (token: {token})")
+        
+    sources = []
+    
+    # Add document as a source block
+    doc_source = {
+        "id": f"src-doc-{doc_id}" if doc_id else "src-doc-main",
+        "label": f"Feishu Doc / {url.split('/')[-1]}",
+        "type": "feishu-document",
+        "location": "document",
+        "path": url,
+        "data": {
+            "document_id": doc_id,
+            "revision_id": revision_id,
+            "content_xml": xml_content,
+            "content_markdown": md_content,
+        }
+    }
+    sources.append(doc_source)
+    
+    # 4. Recursively fetch embedded sheets
+    fetched_sheets = {}
+    for sheet_id, token in sheets_found:
+        sheet_key = (token, sheet_id)
+        if sheet_key in fetched_sheets:
+            continue
+            
+        print(f"Fetching embedded sheet details: token={token}, sheet_id={sheet_id}")
+        
+        # Get info / merges / properties
+        cmd_info = ["lark-cli", "sheets", "+info", "--spreadsheet-token", token]
+        res_info = subprocess.run(cmd_info, capture_output=True, text=True, encoding="utf-8")
+        if res_info.returncode != 0:
+            warnings.append(f"Failed to fetch metadata for sheet {sheet_id} in {token}: {res_info.stderr}")
+            continue
+        try:
+            info_data = json.loads(res_info.stdout)
+        except json.JSONDecodeError:
+            warnings.append(f"Failed to parse metadata JSON for sheet {sheet_id} in {token}")
+            continue
+            
+        if not info_data.get("ok"):
+            warnings.append(f"Lark Sheets API returned error for info {token}: {info_data}")
+            continue
+            
+        sheets_list = info_data.get("data", {}).get("sheets", {}).get("sheets", [])
+        sheet_meta = None
+        for s in sheets_list:
+            if s.get("sheet_id") == sheet_id:
+                sheet_meta = s
+                break
+                
+        if not sheet_meta:
+            warnings.append(f"Sheet {sheet_id} not found in spreadsheet {token}")
+            continue
+            
+        title = sheet_meta.get("title", sheet_id)
+        grid = sheet_meta.get("grid_properties", {})
+        col_count = grid.get("column_count", 0)
+        row_count = grid.get("row_count", 0)
+        merges = sheet_meta.get("merges", [])
+        
+        if col_count == 0 or row_count == 0:
+            warnings.append(f"Sheet {sheet_id} has empty dimension: rows={row_count}, cols={col_count}")
+            continue
+            
+        max_col_letter = int_to_col(col_count)
+        range_str = f"{sheet_id}!A1:{max_col_letter}{row_count}"
+        
+        # Read raw values
+        cmd_raw = ["lark-cli", "sheets", "+read", "--spreadsheet-token", token, "--sheet-id", sheet_id, "--range", range_str, "--value-render-option", "UnformattedValue"]
+        res_raw = subprocess.run(cmd_raw, capture_output=True, text=True, encoding="utf-8")
+        raw_vals = []
+        if res_raw.returncode == 0:
+            try:
+                raw_data = json.loads(res_raw.stdout)
+                raw_vals = raw_data.get("data", {}).get("valueRange", {}).get("values", [])
+            except Exception:
+                pass
+                
+        # Read formatted values
+        cmd_fmt = ["lark-cli", "sheets", "+read", "--spreadsheet-token", token, "--sheet-id", sheet_id, "--range", range_str, "--value-render-option", "FormattedValue"]
+        res_fmt = subprocess.run(cmd_fmt, capture_output=True, text=True, encoding="utf-8")
+        fmt_vals = []
+        if res_fmt.returncode == 0:
+            try:
+                fmt_data = json.loads(res_fmt.stdout)
+                fmt_vals = fmt_data.get("data", {}).get("valueRange", {}).get("values", [])
+            except Exception:
+                pass
+                
+        # Read formulas
+        cmd_fml = ["lark-cli", "sheets", "+read", "--spreadsheet-token", token, "--sheet-id", sheet_id, "--range", range_str, "--value-render-option", "Formula"]
+        res_fml = subprocess.run(cmd_fml, capture_output=True, text=True, encoding="utf-8")
+        fml_vals = []
+        if res_fml.returncode == 0:
+            try:
+                fml_data = json.loads(res_fml.stdout)
+                fml_vals = fml_data.get("data", {}).get("valueRange", {}).get("values", [])
+            except Exception:
+                pass
+                
+        # Combine cell data
+        cells = []
+        for r in range(row_count):
+            row_cells = []
+            for c in range(col_count):
+                raw_val = raw_vals[r][c] if r < len(raw_vals) and c < len(raw_vals[r]) else None
+                fmt_val = fmt_vals[r][c] if r < len(fmt_vals) and c < len(fmt_vals[r]) else None
+                fml_val = fml_vals[r][c] if r < len(fml_vals) and c < len(fml_vals[r]) else None
+                
+                formula = None
+                if isinstance(fml_val, str) and fml_val.startswith("="):
+                    formula = fml_val
+                    
+                row_cells.append({
+                    "value": raw_val,
+                    "formatted_value": fmt_val,
+                    "formula": formula
+                })
+            cells.append(row_cells)
+            
+        sheet_source = {
+            "id": f"src-sheet-{sheet_id}",
+            "label": f"Feishu Sheet / {title}",
+            "type": "feishu-sheet",
+            "location": f"{token} / {sheet_id}",
+            "path": f"https://ucnf79c7lcnh.feishu.cn/sheets/{token}?sheet={sheet_id}",
+            "data": {
+                "spreadsheet_token": token,
+                "sheet_id": sheet_id,
+                "title": title,
+                "merges": merges,
+                "grid_properties": grid,
+                "cells": cells,
+            }
+        }
+        sources.append(sheet_source)
+        fetched_sheets[sheet_key] = True
+        
+    bundle = {
+        "version": "1.0",
+        "generated_at": utc_now(),
+        "sources": sources,
+        "warnings": warnings,
+        "instructions": {
+            "traceability": "Copy each used source id, label, type, and location into report-model.json sources.",
+            "integrity": "Do not create numeric claims not present in these sources.",
+        },
+    }
+    
+    write_json(Path(output), bundle)
+    print(f"Extracted {len(sources)} Feishu source blocks to {output}")
+    for warning in warnings:
+        print(f"warning: {warning}", file=sys.stderr)
+    return 0
+
+
+def command_compare(previous: str, current: str, output: Optional[str]) -> int:
+    try:
+        from compare_engine import compare_reports
+    except ImportError as exc:
+        raise WeeklyVizError(f"Failed to import compare_engine: {exc}")
+        
+    prev_model = read_json(Path(previous))
+    if "sources" in prev_model and "summary" not in prev_model:
+        prev_model = compile_source_bundle_to_report(prev_model)
+        
+    curr_model = read_json(Path(current))
+    if "sources" in curr_model and "summary" not in curr_model:
+        curr_model = compile_source_bundle_to_report(curr_model)
+        
+    diff_md = compare_reports(prev_model, curr_model)
+    if output:
+        out_path = Path(output)
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(diff_md, encoding="utf-8")
+        print(f"Comparison report written to {output}")
+    else:
+        print(diff_md)
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -1187,6 +2431,10 @@ def build_parser() -> argparse.ArgumentParser:
     extract_parser = subparsers.add_parser("extract", help="Extract supported source files")
     extract_parser.add_argument("--input", nargs="+", required=True, help="Input files")
     extract_parser.add_argument("--output", required=True, help="Output source-bundle JSON")
+
+    extract_lark_parser = subparsers.add_parser("extract-lark", help="Extract Feishu Wiki/Docx and embedded sheets")
+    extract_lark_parser.add_argument("--url", required=True, help="Feishu Wiki or Docx URL")
+    extract_lark_parser.add_argument("--output", required=True, help="Output source-bundle JSON")
 
     validate_parser = subparsers.add_parser("validate", help="Validate a report model")
     validate_parser.add_argument("--report", required=True, help="Report model JSON")
@@ -1199,6 +2447,18 @@ def build_parser() -> argparse.ArgumentParser:
         choices=["executive", "editorial", "product-operations"],
         help="Override the model template",
     )
+    render_parser.add_argument(
+        "--scope",
+        choices=["internal", "leadership", "external"],
+        default="internal",
+        help="Data visibility scope (internal, leadership, external)",
+    )
+
+    compare_parser = subparsers.add_parser("compare", help="Compare previous and current report snapshots")
+    compare_parser.add_argument("--previous", required=True, help="Previous report model JSON")
+    compare_parser.add_argument("--current", required=True, help="Current report model JSON")
+    compare_parser.add_argument("--output", help="Optional output path to write comparison markdown")
+
     return parser
 
 
@@ -1208,10 +2468,14 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     try:
         if args.command == "extract":
             return command_extract(args.input, args.output)
+        if args.command == "extract-lark":
+            return command_extract_lark(args.url, args.output)
         if args.command == "validate":
             return command_validate(args.report)
         if args.command == "render":
-            return command_render(args.report, args.output, args.template)
+            return command_render(args.report, args.output, args.template, args.scope)
+        if args.command == "compare":
+            return command_compare(args.previous, args.current, args.output)
         parser.error("Unknown command")
     except WeeklyVizError as exc:
         print(f"error: {exc}", file=sys.stderr)

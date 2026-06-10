@@ -176,6 +176,92 @@ class WeeklyVizTests(unittest.TestCase):
         output = weeklyviz.render_html(model, template, css, runtime, echarts)
         self.assertIn("work-kanban-board", output)
 
+    def test_operating_review_and_scopes(self):
+        # 1. Test lag warnings
+        model = {
+            "metadata": {
+                "report_id": "test-report",
+                "title": "Test Report",
+                "period": {"label": "2026.06.01 - 06.07", "start": "2026-06-01", "end": "2026-06-07"}
+            },
+            "template": "qianzi",
+            "summary": {
+                "headline": "Test Headline",
+                "body": "Test Body"
+            },
+            "sources": [
+                {
+                    "id": "src-1",
+                    "label": "Source 1",
+                    "type": "xlsx-sheet",
+                    "location": "sheet1.xlsx",
+                    "wiki_token": "highly_sensitive_secret_token_123"
+                }
+            ],
+            "metrics": [
+                {
+                    "id": "dau",
+                    "name": "小红书DAU",
+                    "value": 15,
+                    "unit": "integer",
+                    "scope": ["小红书"],
+                    "time_grain": "week",
+                    "aggregation": "none",
+                    "source_refs": ["src-1"],
+                    "target": {
+                        "value": 100,
+                        "period": "2026-Q2"
+                    }
+                }
+            ],
+            "okrs": [
+                {
+                    "id": "o1",
+                    "type": "objective",
+                    "label": "Test Obj",
+                    "health": "正常",
+                    "current": 10,
+                    "target": 100,
+                    "due": "2026-Q2",
+                    "source_refs": ["src-1"],
+                    "owner": "孙浩宸"
+                },
+                {
+                    "id": "r1",
+                    "type": "requirement",
+                    "label": "Test Req",
+                    "health": "正常",
+                    "source_refs": ["src-1"],
+                    "owner": "孙浩宸"
+                }
+            ]
+        }
+        errors, warnings = weeklyviz.validate_model(model)
+        self.assertEqual([], errors)
+        # Lag warnings should fire because Q2 is 90%+ elapsed in June and current progress is only 10%-15%
+        self.assertTrue(any("lagging" in w for w in warnings))
+
+        # 2. Test sanitization
+        # Internal scope
+        int_model = weeklyviz.sanitize_model_for_scope(model, "internal")
+        self.assertNotIn("wiki_token", int_model["sources"][0]) # Token should be scrubbed unconditionally
+        self.assertEqual("孙浩宸", int_model["okrs"][0]["owner"])
+
+        # Leadership scope
+        lead_model = weeklyviz.sanitize_model_for_scope(model, "leadership")
+        self.assertEqual("孙*", lead_model["okrs"][0]["owner"]) # Name masked
+        # Requirement okr items should be stripped in leadership scope
+        self.assertFalse(any(o["type"] == "requirement" for o in lead_model["okrs"]))
+
+        # External scope
+        ext_model = weeklyviz.sanitize_model_for_scope(model, "external")
+        self.assertEqual("孙*", ext_model["okrs"][0]["owner"]) # Name masked
+        self.assertFalse(any(o["type"] == "requirement" for o in ext_model["okrs"])) # Requirement items stripped
+        # Sensitive metrics should be masked
+        self.assertEqual("已脱敏", ext_model["metrics"][0]["value"])
+        # Source details should be stripped
+        self.assertEqual({}, ext_model["sources"][0]["data"])
+
 
 if __name__ == "__main__":
     unittest.main()

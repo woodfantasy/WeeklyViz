@@ -415,7 +415,209 @@
     const density = model.presentation.density || "balanced";
     root.setAttribute("data-layout", layout);
     root.setAttribute("data-density", density);
+    if (model.metadata?.scope) {
+      root.setAttribute("data-scope", model.metadata.scope);
+    } else {
+      root.removeAttribute("data-scope");
+    }
+    initOperatingReview();
     window.setTimeout(resizeCharts, 50);
+  }
+
+  function initOperatingReview() {
+    const layout = model.presentation?.layout || "newsletter";
+    if (layout !== "operating-review") {
+      document.querySelectorAll(".toggle-chart-data-btn").forEach(b => b.remove());
+      document.querySelectorAll(".chart-raw-table-wrap").forEach(t => t.remove());
+      return;
+    }
+
+    // 1. Setup Tab Switching Click Listeners
+    const tabBtns = document.querySelectorAll(".operating-review-tabs .tab-btn");
+    tabBtns.forEach(btn => {
+      btn.onclick = () => {
+        const tab = btn.dataset.tab;
+        document.documentElement.setAttribute("data-active-tab", tab);
+        tabBtns.forEach(b => b.classList.toggle("active", b === btn));
+        window.setTimeout(resizeCharts, 50);
+      };
+    });
+
+    // Set default active tab if not present
+    if (!document.documentElement.hasAttribute("data-active-tab")) {
+      document.documentElement.setAttribute("data-active-tab", "summary");
+      const summaryBtn = document.querySelector('.operating-review-tabs .tab-btn[data-tab="summary"]');
+      if (summaryBtn) summaryBtn.classList.add("active");
+    }
+
+    // 2. OKR collapse/expand toggles
+    const okrHeaders = document.querySelectorAll(".okr-tree .okr-node-header");
+    okrHeaders.forEach(header => {
+      header.onclick = (e) => {
+        if (e.target.closest('[contenteditable="true"]')) return;
+        const parent = header.parentElement;
+        if (parent.classList.contains("okr-objective") || parent.classList.contains("okr-kr") || parent.classList.contains("okr-plan")) {
+          parent.classList.toggle("collapsed");
+        }
+      };
+    });
+
+    // 3. Requirements View Toggles (Table vs Kanban)
+    const viewToggles = document.querySelectorAll(".view-toggles .toggle-btn");
+    const viewContainers = document.querySelectorAll(".req-view-container");
+    viewToggles.forEach(btn => {
+      btn.onclick = () => {
+        const targetView = btn.dataset.view;
+        viewToggles.forEach(b => b.classList.toggle("active", b === btn));
+        viewContainers.forEach(container => {
+          if (container.dataset.viewTarget === targetView) {
+            container.style.display = targetView === "table" ? "block" : "grid";
+            container.classList.add("active");
+          } else {
+            container.style.display = "none";
+            container.classList.remove("active");
+          }
+        });
+      };
+    });
+
+    // 4. Populate Requirements Owner filter
+    const ownerFilter = document.getElementById("req-owner-filter");
+    const priFilter = document.getElementById("req-pri-filter");
+    if (ownerFilter) {
+      const rows = document.querySelectorAll(".req-table tbody tr");
+      const owners = new Set();
+      rows.forEach(row => {
+        const owner = row.dataset.owner;
+        if (owner && owner !== "-") owners.add(owner);
+      });
+      ownerFilter.innerHTML = '<option value="all">全部</option>';
+      Array.from(owners).sort().forEach(owner => {
+        const opt = document.createElement("option");
+        opt.value = owner;
+        opt.textContent = owner;
+        ownerFilter.appendChild(opt);
+      });
+
+      const applyFilters = () => {
+        const selOwner = ownerFilter.value;
+        const selPri = priFilter.value;
+
+        rows.forEach(row => {
+          const matchOwner = (selOwner === "all" || row.dataset.owner === selOwner);
+          const matchPri = (selPri === "all" || row.dataset.pri === selPri);
+          row.style.display = (matchOwner && matchPri) ? "" : "none";
+        });
+
+        const columns = document.querySelectorAll(".kanban-column");
+        columns.forEach(col => {
+          const cards = col.querySelectorAll(".kanban-card");
+          let visibleCount = 0;
+          cards.forEach(card => {
+            const cardFooterText = card.querySelector(".card-footer")?.textContent || "";
+            const matchOwner = (selOwner === "all" || cardFooterText.includes(selOwner));
+            const matchPri = (selPri === "all" || card.dataset.pri === selPri);
+            if (matchOwner && matchPri) {
+              card.style.display = "";
+              visibleCount++;
+            } else {
+              card.style.display = "none";
+            }
+          });
+          const countBadge = col.querySelector(".column-count");
+          if (countBadge) countBadge.textContent = visibleCount;
+          const emptyState = col.querySelector(".column-empty");
+          if (emptyState) emptyState.style.display = visibleCount === 0 ? "block" : "none";
+        });
+      };
+
+      ownerFilter.onchange = applyFilters;
+      priFilter.onchange = applyFilters;
+    }
+
+    // 5. Metric card click down-drill
+    const metricCards = document.querySelectorAll(".metric-card");
+    metricCards.forEach(card => {
+      card.style.cursor = "pointer";
+      card.onclick = (e) => {
+        if (e.target.closest('[contenteditable="true"]') || e.target.closest('a') || e.target.closest('button')) return;
+        const mId = card.dataset.metricId;
+        const chartsTab = document.querySelector('.operating-review-tabs .tab-btn[data-tab="charts"]');
+        if (chartsTab) {
+          chartsTab.click();
+          const targetChart = document.querySelector(`[data-chart-card="${mId}"]`) || document.querySelector(`#charts`);
+          if (targetChart) {
+            window.setTimeout(() => {
+              targetChart.scrollIntoView({ behavior: "smooth", block: "center" });
+            }, 100);
+          }
+        }
+      };
+    });
+
+    // 6. Chart to Raw Data Table toggle button
+    const chartCards = document.querySelectorAll(".chart-card");
+    chartCards.forEach(card => {
+      const header = card.querySelector(".chart-header");
+      if (!header || card.querySelector(".toggle-chart-data-btn")) return;
+      
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "toggle-chart-data-btn";
+      btn.textContent = "显示数据";
+      header.appendChild(btn);
+
+      const canvas = card.querySelector(".chart-canvas");
+      const chartId = canvas ? canvas.dataset.chartId : null;
+      let rawTableWrap = null;
+
+      btn.onclick = () => {
+        const isDataVisible = card.classList.toggle("show-raw-data");
+        btn.textContent = isDataVisible ? "显示图表" : "显示数据";
+        if (isDataVisible) {
+          if (canvas) canvas.style.display = "none";
+          if (!rawTableWrap && chartId && model.charts) {
+            const chartData = model.charts.find(c => c.id === chartId);
+            if (chartData) {
+              rawTableWrap = document.createElement("div");
+              rawTableWrap.className = "chart-raw-table-wrap";
+              rawTableWrap.innerHTML = buildRawDataTable(chartData);
+              canvas.parentNode.insertBefore(rawTableWrap, canvas.nextSibling);
+            }
+          }
+          if (rawTableWrap) rawTableWrap.style.display = "block";
+        } else {
+          if (canvas) {
+            canvas.style.display = "block";
+            resizeCharts();
+          }
+          if (rawTableWrap) rawTableWrap.style.display = "none";
+        }
+      };
+    });
+  }
+
+  function buildRawDataTable(chartData) {
+    const labels = chartData.labels || [];
+    const series = chartData.series || [];
+    if (!labels.length || !series.length) return '<div class="column-empty">无原始数据</div>';
+
+    let html = '<table class="chart-raw-table"><thead><tr><th>日期 / 类别</th>';
+    series.forEach(s => {
+      html += `<th>${escapeHtml(s.name)}</th>`;
+    });
+    html += '</tr></thead><tbody>';
+
+    labels.forEach((label, i) => {
+      html += `<tr><td><strong>${escapeHtml(label)}</strong></td>`;
+      series.forEach(s => {
+        const val = s.values[i] !== undefined ? s.values[i] : "-";
+        html += `<td>${val}</td>`;
+      });
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+    return html;
   }
 
   function refreshProgress() {
@@ -788,6 +990,7 @@
   updateUndoState();
   syncSourceToggle();
   bindReportIndex();
+  initOperatingReview();
   modelNode.textContent = JSON.stringify(model);
   window.WeeklyVizRuntime = Object.freeze({
     serialize: serializeReportDocument,
