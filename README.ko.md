@@ -1,4 +1,4 @@
-[English](README.md) | [中文](README.zh-CN.md) | [日本語](README.ja.md) | 한국어 | [Español](README.es.md) | [Português](README.pt.md) | [Français](README.fr.md)
+[中文](README.zh-CN.md) | [English](README.md) | [日本語](README.ja.md) | 한국어 | [Español](README.es.md) | [Português](README.pt.md) | [Français](README.fr.md)
 
 <p align="center">
   <img src="assets/logo.svg" width="128" height="128" alt="WeeklyViz Logo">
@@ -21,6 +21,18 @@
 </p>
 
 [Agent Skills](https://agentskills.io) 사양에 따라 구축된 Claude Skill 및 단독 실행 도구입니다. 구조화된 데이터 추출과 편집 수준의 디자인 시스템을 결합하여 업무 요약, 핵심 지표(KPI) 및 차트를 정교한 주간 요약 보고서로 생성합니다. 개발자, 제품 매니저, 운영 팀이 매주 수동으로 정리하는 번거로움을 덜고 시각적이고 직관적인 보고서를 작성할 수 있도록 설계되었습니다.
+
+---
+
+## 🖼️ 결과물 예시
+
+<p align="center">
+  <a href="assets/red-shiji-weekly-report.jpg">
+    <img src="assets/red-shiji-weekly-report.jpg" width="860" alt="WeeklyViz 에디토리얼 주간 보고서 결과물 예시">
+  </a>
+</p>
+
+<p align="center"><sub>경영진 요약, KPI 카드, 목표 진행률, 데이터 시각화, 프로젝트 업데이트, 리스크 및 다음 작업을 한 페이지에 구성한 WeeklyViz 결과물입니다. 이미지를 클릭하면 원본 해상도로 볼 수 있습니다.</sub></p>
 
 ---
 

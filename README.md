@@ -1,4 +1,4 @@
-English | [中文](README.zh-CN.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Español](README.es.md) | [Português](README.pt.md) | [Français](README.fr.md)
+[中文](README.zh-CN.md) | English | [日本語](README.ja.md) | [한국어](README.ko.md) | [Español](README.es.md) | [Português](README.pt.md) | [Français](README.fr.md)
 
 <p align="center">
   <img src="assets/logo.svg" width="128" height="128" alt="WeeklyViz Logo">
@@ -21,6 +21,18 @@ English | [中文](README.zh-CN.md) | [日本語](README.ja.md) | [한국어](RE
 </p>
 
 A Claude Skill and standalone tool built on the [Agent Skills](https://agentskills.io) specification. It combines structural data extraction with an editorial-grade design system to turn work prose, KPIs, and charts into a polished weekly executive briefing. Designed to help developers, product managers, and operations teams eliminate the "messy copy-paste" weekly update and deliver high-impact, visual reports.
+
+---
+
+## 🖼️ Example Output
+
+<p align="center">
+  <a href="assets/red-shiji-weekly-report.jpg">
+    <img src="assets/red-shiji-weekly-report.jpg" width="860" alt="WeeklyViz editorial weekly report example">
+  </a>
+</p>
+
+<p align="center"><sub>A complete editorial report generated with WeeklyViz: executive summary, KPI cards, goal progress, data visualization, project updates, risks, and next actions. Click the image to view it at full resolution.</sub></p>
 
 ---
 

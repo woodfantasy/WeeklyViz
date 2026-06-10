@@ -1,4 +1,4 @@
-[[English](README.md) | [中文](README.zh-CN.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Español](README.es.md) | [Português](README.pt.md) | Français
+[中文](README.zh-CN.md) | [English](README.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Español](README.es.md) | [Português](README.pt.md) | Français
 
 <p align="center">
   <img src="assets/logo.svg" width="128" height="128" alt="WeeklyViz Logo">
@@ -21,6 +21,18 @@
 </p>
 
 C'est une Claude Skill et un outil indépendant construit sous la spécification [Agent Skills](https://agentskills.io). Il associe l'extraction de données structurées avec un système de conception de niveau éditorial pour transformer les textes de travail, KPIs et graphiques en bulletins exécutifs raffinés. Conçu pour aider les développeurs, managers de produit et équipes opérationnelles à éliminer les copier-coller désordonnés et à livrer des rapports visuels de haute qualité.
+
+---
+
+## 🖼️ Exemple de Résultat
+
+<p align="center">
+  <a href="assets/red-shiji-weekly-report.jpg">
+    <img src="assets/red-shiji-weekly-report.jpg" width="860" alt="Exemple de rapport hebdomadaire éditorial généré par WeeklyViz">
+  </a>
+</p>
+
+<p align="center"><sub>Un rapport éditorial complet généré avec WeeklyViz : synthèse exécutive, cartes KPI, progression des objectifs, visualisations, suivi des projets, risques et prochaines actions. Cliquez sur l'image pour l'afficher en pleine résolution.</sub></p>
 
 ---
 

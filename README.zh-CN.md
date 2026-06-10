@@ -1,4 +1,4 @@
-[English](README.md) | 中文 | [日本語](README.ja.md) | [한국어](README.ko.md) | [Español](README.es.md) | [Português](README.pt.md) | [Français](README.fr.md)
+中文 | [English](README.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Español](README.es.md) | [Português](README.pt.md) | [Français](README.fr.md)
 
 <p align="center">
   <img src="assets/logo.svg" width="128" height="128" alt="WeeklyViz Logo">
@@ -21,6 +21,18 @@
 </p>
 
 一个基于 [Agent Skills](https://agentskills.io) 规范构建的 Claude Skill 与独立命令行工具。它将结构化数据提取与杂志级设计系统深度融合，把零散的工作更新、KPI 键值和图表编排为管理层精装简报。旨在帮助开发者、产品经理和运营团队消灭“混乱复制粘贴”的周报模式，交付极具视觉表现力和说服力的工作汇报。
+
+---
+
+## 🖼️ 产出示例
+
+<p align="center">
+  <a href="assets/red-shiji-weekly-report.jpg">
+    <img src="assets/red-shiji-weekly-report.jpg" width="860" alt="WeeklyViz 社论风格周报产出示例">
+  </a>
+</p>
+
+<p align="center"><sub>WeeklyViz 生成的完整社论风格周报，集中展示管理摘要、核心指标、目标进度、数据图表、项目进展、风险与下周行动。点击图片可查看原始分辨率。</sub></p>
 
 ---
 

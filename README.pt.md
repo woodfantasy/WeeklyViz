@@ -1,4 +1,4 @@
-[[English](README.md) | [中文](README.zh-CN.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Español](README.es.md) | Português | [Français](README.fr.md)
+[中文](README.zh-CN.md) | [English](README.md) | [日本語](README.ja.md) | [한국어](README.ko.md) | [Español](README.es.md) | Português | [Français](README.fr.md)
 
 <p align="center">
   <img src="assets/logo.svg" width="128" height="128" alt="WeeklyViz Logo">
@@ -21,6 +21,18 @@
 </p>
 
 É uma Claude Skill e ferramenta independente construída sob a especificação [Agent Skills](https://agentskills.io). Combina a extração estruturada de dados com um sistema de design de nível editorial para transformar textos de trabalho, KPIs e gráficos em boletins executivos refinados. Projetado para ajudar desenvolvedores, gerentes de produto e operações a eliminar relatórios manuais bagunçados de copiar/colar e entregar relatórios visuais de alto impacto.
+
+---
+
+## 🖼️ Exemplo de Resultado
+
+<p align="center">
+  <a href="assets/red-shiji-weekly-report.jpg">
+    <img src="assets/red-shiji-weekly-report.jpg" width="860" alt="Exemplo de relatório semanal editorial gerado pelo WeeklyViz">
+  </a>
+</p>
+
+<p align="center"><sub>Um relatório editorial completo gerado com o WeeklyViz: resumo executivo, cartões de KPI, progresso de metas, visualizações, atualizações de projetos, riscos e próximas ações. Clique na imagem para vê-la na resolução original.</sub></p>
 
 ---
 
