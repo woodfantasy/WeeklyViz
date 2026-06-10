@@ -16,7 +16,10 @@
 - Confirm the opening claim, proof objects, section rhythm, risks, and next actions are visually distinct.
 - Check for orphan cards, unexplained blank columns, repeated section layouts, and excessive page height.
 - Check section rhythm, type hierarchy, chart labels, table overflow, and long Chinese text.
-- Confirm all three templates render without clipping.
+- Render every bundled theme discovered from `assets/templates/*.json`; do not limit coverage to the three legacy aliases.
+- The expected theme set is `cangshan`, `dailan`, `hupo`, `luoli`, `moyi`, `mushanzi`, `qianzi`, `qiuli`, `songye`, `wanying`, `yanzhi`, `yuanshan`, and `zhuqing`.
+- Test each theme with its canonical parent layout, then test `dashboard`, `newsletter`, and `kanban` with at least one representative theme from each style family.
+- Confirm theme and layout are independent: overriding `presentation.layout` must not discard the selected theme tokens or break section rendering.
 - Keep the HTML below 5 MB unless user-provided images explain the excess.
 
 ## Interaction
