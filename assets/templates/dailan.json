@@ -1,0 +1,14 @@
+{
+  "id": "dailan",
+  "label": "黛蓝 (Dailan)",
+  "description": "深邃宁静的经典商务黛蓝配色",
+  "parent_style": "executive",
+  "theme": {
+    "primary": "#0F172A",
+    "accent": "#1E40AF",
+    "background": "#F8FAFC",
+    "surface": "#FFFFFF",
+    "text": "#0F172A",
+    "muted": "#64748B"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "wanying",
+  "label": "晚樱 (Wanying)",
+  "description": "烂漫温柔的创意设计晚樱配色",
+  "parent_style": "editorial",
+  "theme": {
+    "primary": "#4C1D95",
+    "accent": "#EC4899",
+    "background": "#FDF2F8",
+    "surface": "#FFFFFF",
+    "text": "#4C1D95",
+    "muted": "#6D28D9"
+  }
+}

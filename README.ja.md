@@ -27,12 +27,12 @@
 ## 🖼️ 出力例
 
 <p align="center">
-  <a href="assets/red-shiji-weekly-report.jpg">
-    <img src="assets/red-shiji-weekly-report.jpg" width="860" alt="WeeklyVizのエディトリアル週報の出力例">
+  <a href="assets/weeklyviz-multi-layout-showcase.jpg">
+    <img src="assets/weeklyviz-multi-layout-showcase.jpg" width="860" alt="WeeklyVizのマルチレイアウト週報ショーケース">
   </a>
 </p>
 
-<p align="center"><sub>エグゼクティブサマリー、KPIカード、目標進捗、データ可視化、プロジェクト更新、リスク、次のアクションをまとめたWeeklyVizの出力例です。画像をクリックすると元の解像度で表示できます。</sub></p>
+<p align="center"><sub>同じ業務データから、エディトリアルレポート、経営ダッシュボード、Kanban形式の進捗、データテーブルなど、複数のプロフェッショナルなレイアウトを生成できます。すべてレスポンシブ、編集可能、追跡可能、オフライン対応です。</sub></p>
 
 ---
 
@@ -41,7 +41,7 @@
 | 機能 | 説明 |
 |------|------|
 | 📊 **マルチソース抽出** | `.xlsx`、`.csv`、`.docx`、`.md`、`.txt` ファイルを自動的に解析し、指標データや進捗状況を抽出します。 |
-| 🎨 **高品質デザインシステム** | 3つのビルトイン高品質テーマ（`Executive`、`Editorial`、`Product Operations`）を搭載し、オフライン環境で動作します。 |
+| 🎨 **マルチレイアウトデザインシステム** | 13種類のプロフェッショナルテーマと、エディトリアル、経営ダッシュボード、Kanban、データ重視の複数レイアウトを搭載し、オフラインで動作します。 |
 | 🔗 **ソース追跡可能性** | ハッシュ ID を使用して、すべての指標やリスト項目を元のファイル名と行に自動でマッピングし、追跡可能です。 |
 | ✏️ **インライン編集** | 出力された HTML は完全にインタラクティブです。テキストや数値をインライン編集し、テーマ色を調整し、PDF/印刷に書き出せます。 |
 | 📈 **ECharts 統合** | ローカルの ECharts ランタイム (`echarts.min.js`) を同梱し、オフライン環境で折れ線、棒、ドーナツなどのグラフを描画します。 |

@@ -129,13 +129,14 @@ class WeeklyVizTests(unittest.TestCase):
         css = (ROOT / "assets" / "runtime" / "report.css").read_text(encoding="utf-8")
         runtime = (ROOT / "assets" / "runtime" / "report.js").read_text(encoding="utf-8")
         echarts = (ROOT / "assets" / "vendor" / "echarts.min.js").read_text(encoding="utf-8")
-        for template_id in ("executive", "editorial", "product-operations"):
+        for template_id, parent_style in (("cangshan", "executive"), ("qianzi", "editorial"), ("songye", "product-operations")):
             with self.subTest(template=template_id):
                 template = weeklyviz.read_json(ROOT / "assets" / "templates" / f"{template_id}.json")
                 model["template"] = template_id
                 output = weeklyviz.render_html(model, template, css, runtime, echarts)
                 self.assertIn("<!doctype html>", output)
-                self.assertIn(f'data-template="{template_id}"', output)
+                self.assertIn(f'data-template="{parent_style}"', output)
+                self.assertIn(f'data-template-id="{template_id}"', output)
                 self.assertIn('id="report-model"', output)
                 self.assertIn("data-export-buffer", output)
                 self.assertIn('class="report-index"', output)
@@ -148,6 +149,32 @@ class WeeklyVizTests(unittest.TestCase):
                 self.assertNotIn('src="http', output)
                 embedded = output.split('id="report-model">', 1)[1].split("</script>", 1)[0]
                 self.assertEqual(template_id, json.loads(embedded)["template"])
+
+    def test_invalid_layout_is_rejected(self):
+        model = weeklyviz.read_json(ROOT / "evals" / "fixtures" / "report-model.json")
+        model["presentation"]["layout"] = "invalid-layout"
+        errors, _warnings = weeklyviz.validate_model(model)
+        self.assertTrue(any("presentation.layout" in error for error in errors))
+
+    def test_invalid_layout_order_is_rejected(self):
+        model = weeklyviz.read_json(ROOT / "evals" / "fixtures" / "report-model.json")
+        model["presentation"]["layout_order"] = "not-an-array"
+        errors, _warnings = weeklyviz.validate_model(model)
+        self.assertTrue(any("presentation.layout_order" in error for error in errors))
+
+    def test_render_table_and_kanban_section_layouts(self):
+        model = weeklyviz.read_json(ROOT / "evals" / "fixtures" / "report-model.json")
+        model["sections"][0]["layout"] = "table"
+        css = (ROOT / "assets" / "runtime" / "report.css").read_text(encoding="utf-8")
+        runtime = (ROOT / "assets" / "runtime" / "report.js").read_text(encoding="utf-8")
+        echarts = (ROOT / "assets" / "vendor" / "echarts.min.js").read_text(encoding="utf-8")
+        template = weeklyviz.read_json(ROOT / "assets" / "templates" / "qianzi.json")
+        output = weeklyviz.render_html(model, template, css, runtime, echarts)
+        self.assertIn("work-table-wrap", output)
+
+        model["sections"][0]["layout"] = "kanban"
+        output = weeklyviz.render_html(model, template, css, runtime, echarts)
+        self.assertIn("work-kanban-board", output)
 
 
 if __name__ == "__main__":

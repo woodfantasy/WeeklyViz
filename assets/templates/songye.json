@@ -1,7 +1,8 @@
 {
-  "id": "product-operations",
-  "label": "Product Operations",
-  "description": "清晰、精确的产品研发与运营周报",
+  "id": "songye",
+  "label": "松野 (Songye)",
+  "description": "清晰精确的研发与运营墨绿配色",
+  "parent_style": "product-operations",
   "theme": {
     "primary": "#0F5B78",
     "accent": "#14B8A6",

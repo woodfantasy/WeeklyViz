@@ -1,0 +1,14 @@
+{
+  "id": "moyi",
+  "label": "墨意 (Moyi)",
+  "description": "极简纯粹的高对比极简黑白灰配色",
+  "parent_style": "executive",
+  "theme": {
+    "primary": "#000000",
+    "accent": "#EA580C",
+    "background": "#F5F5F5",
+    "surface": "#FFFFFF",
+    "text": "#171717",
+    "muted": "#737373"
+  }
+}

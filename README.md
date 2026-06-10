@@ -27,12 +27,12 @@ A Claude Skill and standalone tool built on the [Agent Skills](https://agentskil
 ## 🖼️ Example Output
 
 <p align="center">
-  <a href="assets/red-shiji-weekly-report.jpg">
-    <img src="assets/red-shiji-weekly-report.jpg" width="860" alt="WeeklyViz editorial weekly report example">
+  <a href="assets/weeklyviz-multi-layout-showcase.jpg">
+    <img src="assets/weeklyviz-multi-layout-showcase.jpg" width="860" alt="WeeklyViz multi-layout weekly report showcase">
   </a>
 </p>
 
-<p align="center"><sub>A complete editorial report generated with WeeklyViz: executive summary, KPI cards, goal progress, data visualization, project updates, risks, and next actions. Click the image to view it at full resolution.</sub></p>
+<p align="center"><sub>The same source data, rendered as editorial reports, executive dashboards, Kanban updates, and data tables. Every output is responsive, editable, traceable, and offline-ready. Click the image to view it at full resolution.</sub></p>
 
 ---
 
@@ -41,7 +41,7 @@ A Claude Skill and standalone tool built on the [Agent Skills](https://agentskil
 | Capability | Description |
 |------------|-------------|
 | 📊 **Multi-Source Extraction** | Automatically parses and processes `.xlsx`, `.csv`, `.docx`, `.md`, and `.txt` files to extract raw metrics and update lists. |
-| 🎨 **Editorial Design System** | Features three built-in high-quality themes (`Executive`, `Editorial`, `Product Operations`) with responsive layouts and zero external network dependencies. |
+| 🎨 **Multi-Layout Design System** | Includes 13 professional themes and multiple report layouts for editorial storytelling, executive dashboards, Kanban progress, and dense data views, all responsive and offline-ready. |
 | 🔗 **Source Traceability** | Links every KPI, progress bar, chart, and list item back to its origin file and line location, ensuring complete data integrity. |
 | ✏️ **Interactive Editing** | The output HTML is fully interactive: edit text and numbers inline, modify chart data, adjust theme colors, and save/print directly. |
 | 📈 **ECharts Integration** | Pinned Apache ECharts runtime for rendering interactive lines, bars, donuts, and funnels offline. |

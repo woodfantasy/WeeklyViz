@@ -27,12 +27,12 @@ C'est une Claude Skill et un outil indépendant construit sous la spécification
 ## 🖼️ Exemple de Résultat
 
 <p align="center">
-  <a href="assets/red-shiji-weekly-report.jpg">
-    <img src="assets/red-shiji-weekly-report.jpg" width="860" alt="Exemple de rapport hebdomadaire éditorial généré par WeeklyViz">
+  <a href="assets/weeklyviz-multi-layout-showcase.jpg">
+    <img src="assets/weeklyviz-multi-layout-showcase.jpg" width="860" alt="Présentation des rapports hebdomadaires multi-mises en page de WeeklyViz">
   </a>
 </p>
 
-<p align="center"><sub>Un rapport éditorial complet généré avec WeeklyViz : synthèse exécutive, cartes KPI, progression des objectifs, visualisations, suivi des projets, risques et prochaines actions. Cliquez sur l'image pour l'afficher en pleine résolution.</sub></p>
+<p align="center"><sub>Les mêmes données sources peuvent devenir un rapport éditorial, un tableau de bord exécutif, un suivi Kanban ou un tableau de données. Chaque résultat est responsive, modifiable, traçable et disponible hors ligne.</sub></p>
 
 ---
 
@@ -41,7 +41,7 @@ C'est une Claude Skill et un outil indépendant construit sous la spécification
 | Fonctionnalité | Description |
 |----------------|-------------|
 | 📊 **Extraction Multi-sources** | Analyse et traite automatiquement les fichiers `.xlsx`, `.csv`, `.docx`, `.md` et `.txt` pour en extraire les métriques et les listes. |
-| 🎨 **Conception Éditoriale Adaptative** | Propose trois thèmes prédéfinis (`Executive`, `Editorial`, `Product Operations`) sans dépendances réseau externes (100% hors-ligne). |
+| 🎨 **Système de Conception Multi-Mise en Page** | Inclut 13 thèmes professionnels et plusieurs mises en page pour les récits éditoriaux, tableaux de bord, suivis Kanban et vues de données denses, le tout responsive et hors ligne. |
 | 🔗 **Traçabilité de la Source** | Lie automatiquement chaque KPI, barre de progression, graphique et élément à son fichier et sa ligne d'origine via des identifiants stables. |
 | ✏️ **Édition Inline Interactive** | Le rapport HTML final permet de modifier les textes et les nombres en ligne, d'ajuster les couleurs de thème et d'exporter en PDF. |
 | 📈 **Apache ECharts Embarqué** | Utilise un moteur ECharts local (`echarts.min.js`) pour tracer des graphiques en lignes, barres et beignets hors-ligne. |

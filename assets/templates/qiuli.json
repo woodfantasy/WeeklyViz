@@ -1,0 +1,14 @@
+{
+  "id": "qiuli",
+  "label": "秋栗 (Qiuli)",
+  "description": "温暖沉稳的文艺叙事秋栗配色",
+  "parent_style": "editorial",
+  "theme": {
+    "primary": "#451A03",
+    "accent": "#D97706",
+    "background": "#FEF3C7",
+    "surface": "#FFFFFF",
+    "text": "#451A03",
+    "muted": "#78350F"
+  }
+}

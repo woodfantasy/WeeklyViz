@@ -27,12 +27,12 @@
 ## 🖼️ 결과물 예시
 
 <p align="center">
-  <a href="assets/red-shiji-weekly-report.jpg">
-    <img src="assets/red-shiji-weekly-report.jpg" width="860" alt="WeeklyViz 에디토리얼 주간 보고서 결과물 예시">
+  <a href="assets/weeklyviz-multi-layout-showcase.jpg">
+    <img src="assets/weeklyviz-multi-layout-showcase.jpg" width="860" alt="WeeklyViz 다중 레이아웃 주간 보고서 쇼케이스">
   </a>
 </p>
 
-<p align="center"><sub>경영진 요약, KPI 카드, 목표 진행률, 데이터 시각화, 프로젝트 업데이트, 리스크 및 다음 작업을 한 페이지에 구성한 WeeklyViz 결과물입니다. 이미지를 클릭하면 원본 해상도로 볼 수 있습니다.</sub></p>
+<p align="center"><sub>동일한 원본 데이터로 에디토리얼 보고서, 경영 대시보드, Kanban 진행 현황, 데이터 테이블 등 다양한 전문 레이아웃을 생성합니다. 모든 결과물은 반응형이며 편집, 추적, 오프라인 사용을 지원합니다.</sub></p>
 
 ---
 
@@ -41,7 +41,7 @@
 | 기능 | 설명 |
 |------|------|
 | 📊 **다중 소스 추출** | `.xlsx`, `.csv`, `.docx`, `.md`, 및 `.txt` 파일을 자동으로 분석하여 핵심 지표와 작업 진행 상황을 추출합니다. |
-| 🎨 **독창적인 디자인 시스템** | 세 가지 테마(`Executive`, `Editorial`, `Product Operations`)를 내장하고 있으며, 오프라인(네트워크 무관)으로 작동합니다. |
+| 🎨 **다중 레이아웃 디자인 시스템** | 13가지 전문 테마와 에디토리얼, 경영 대시보드, Kanban, 데이터 중심의 다양한 레이아웃을 제공하며 오프라인으로 작동합니다. |
 | 🔗 **소스 추적성** | 고유한 해시 ID를 사용해 모든 KPI와 목록 항목을 원본 파일 이름 및 줄 위치에 자동으로 매핑하여 데이터 신뢰성을 보장합니다. |
 | ✏️ **대화형 인라인 편집** | 출력된 HTML 보고서는 인라인 편집을 지원합니다. 텍스트와 숫자를 바로 수정하고, 테마 색상을 변경하여 PDF/인쇄로 출력할 수 있습니다. |
 | 📈 **ECharts 내장** | 로컬 ECharts 런타임(`echarts.min.js`)을 탑재해 꺾은선, 막대, 도넛 차트 등을 오프라인 환경에서 렌더링합니다. |
@@ -92,4 +92,3 @@ python3 scripts/weeklyviz.py render --report report-model.json --output weekly-r
 *   **v0.1.0** (2026-06-09)
     - 최초 버전 배포.
 ```
-

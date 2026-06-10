@@ -27,12 +27,12 @@
 ## 🖼️ 产出示例
 
 <p align="center">
-  <a href="assets/red-shiji-weekly-report.jpg">
-    <img src="assets/red-shiji-weekly-report.jpg" width="860" alt="WeeklyViz 社论风格周报产出示例">
+  <a href="assets/weeklyviz-multi-layout-showcase.jpg">
+    <img src="assets/weeklyviz-multi-layout-showcase.jpg" width="860" alt="WeeklyViz 多版式周报产品展示">
   </a>
 </p>
 
-<p align="center"><sub>WeeklyViz 生成的完整社论风格周报，集中展示管理摘要、核心指标、目标进度、数据图表、项目进展、风险与下周行动。点击图片可查看原始分辨率。</sub></p>
+<p align="center"><sub>同一份业务数据，可生成社论报告、经营看板、Kanban 项目进展和数据表格等多种专业版式。所有报告均响应式、可编辑、可追溯并支持离线导出。点击图片可查看原始分辨率。</sub></p>
 
 ---
 
@@ -41,7 +41,7 @@
 | 能力 | 描述 |
 |------|------|
 | 📊 **多源数据提取** | 自动解析并提取 `.xlsx`, `.csv`, `.docx`, `.md`, 和 `.txt` 文件中的指标数据和工作进展。 |
-| 🎨 **社论级设计系统** | 内置三款高审美主题（`Executive` 经营看板, `Editorial` 社论字体, `Product Operations` 研发网格），零外部网络请求（纯离线可用）。 |
+| 🎨 **多版式设计系统** | 内置 13 套专业主题，并支持社论叙事、经营看板、Kanban 项目进展和高密度数据视图等多种版式，响应式且纯离线可用。 |
 | 🔗 **数据源可追溯性** | 自动将每个 KPI、进度条、图表 and 列表项映射到源文件名称与行数，实现对数据的穿透式追溯。 |
 | ✏️ **交互式行内编辑** | 最终 HTML 报告支持行内编辑文本和数字、直接修改图表、微调主题色，并支持 Print/PDF 导出。 |
 | 📈 **ECharts 本地渲染** | 内置本地 ECharts 运行时（`echarts.min.js`），支持折线图、柱状图、饼图等在离线环境下的交互式绘制。 |

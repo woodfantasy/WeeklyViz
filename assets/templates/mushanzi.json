@@ -1,0 +1,14 @@
+{
+  "id": "mushanzi",
+  "label": "暮山紫 (Mushanzi)",
+  "description": "神秘高雅的暮山紫高新技术配色",
+  "parent_style": "editorial",
+  "theme": {
+    "primary": "#3B0764",
+    "accent": "#A855F7",
+    "background": "#F3E8FF",
+    "surface": "#FFFFFF",
+    "text": "#3B0764",
+    "muted": "#7E22CE"
+  }
+}

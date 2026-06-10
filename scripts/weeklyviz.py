@@ -22,6 +22,12 @@ ROOT = Path(__file__).resolve().parent.parent
 TEMPLATES = ROOT / "assets" / "templates"
 RUNTIME = ROOT / "assets" / "runtime"
 VENDOR = ROOT / "assets" / "vendor"
+TEMPLATE_ALIASES = {
+    "executive": "cangshan",
+    "editorial": "qianzi",
+    "product-operations": "songye"
+}
+REVERSE_ALIASES = {v: k for k, v in TEMPLATE_ALIASES.items()}
 SUPPORTED = {".xlsx", ".csv", ".docx", ".md", ".markdown", ".txt"}
 UNSUPPORTED_HELP = {
     ".xls": "Legacy .xls is not supported. Convert it to .xlsx.",
@@ -421,8 +427,17 @@ def validate_model(model: Dict[str, Any]) -> Tuple[List[str], List[str]]:
         errors.append("metadata.period.label is required")
 
     template = model.get("template")
-    if template not in {"executive", "editorial", "product-operations"}:
-        errors.append("template must be executive, editorial, or product-operations")
+    template_mapped = TEMPLATE_ALIASES.get(template, template)
+    valid_templates = set()
+    if TEMPLATES.exists():
+        valid_templates = {p.stem for p in TEMPLATES.glob("*.json")}
+    if not valid_templates:
+        valid_templates = {"cangshan", "qianzi", "songye"}
+    
+    # Allow both mapped target name and the alias keys
+    all_allowed = valid_templates.union(TEMPLATE_ALIASES.keys())
+    if template not in all_allowed:
+        errors.append(f"template must be one of {', '.join(sorted(all_allowed))}")
 
     summary = require_object(model.get("summary"), "summary")
     for key in ("headline", "body"):
@@ -460,12 +475,16 @@ def validate_model(model: Dict[str, Any]) -> Tuple[List[str], List[str]]:
     elif isinstance(presentation, dict):
         allowed_presentation = {
             "density": {"compact", "balanced", "spacious"},
-            "section_layout": {"cards", "grid", "list"},
+            "layout": {"dashboard", "newsletter", "kanban"},
+            "section_layout": {"cards", "grid", "list", "table", "kanban"},
             "source_display": {"summary", "expanded"},
         }
         for key, allowed in allowed_presentation.items():
             if key in presentation and presentation[key] not in allowed:
                 errors.append(f"presentation.{key} must be one of {', '.join(sorted(allowed))}")
+        if "layout_order" in presentation:
+            if not isinstance(presentation["layout_order"], list):
+                errors.append("presentation.layout_order must be an array")
         if "show_toc" in presentation and not isinstance(presentation["show_toc"], bool):
             errors.append("presentation.show_toc must be boolean")
 
@@ -565,8 +584,8 @@ def validate_model(model: Dict[str, Any]) -> Tuple[List[str], List[str]]:
     for index, section in enumerate(model.get("sections", []) if isinstance(model.get("sections", []), list) else []):
         if not isinstance(section, dict):
             continue
-        if section.get("layout") not in {None, "cards", "grid", "list"}:
-            errors.append(f"sections[{index}].layout must be cards, grid, or list")
+        if section.get("layout") not in {None, "cards", "grid", "list", "table", "kanban"}:
+            errors.append(f"sections[{index}].layout must be cards, grid, list, table, or kanban")
         if not isinstance(section.get("items", []), list):
             errors.append(f"sections[{index}].items must be an array")
 
@@ -733,48 +752,174 @@ def render_sections(model: Dict[str, Any], source_map: Dict[str, Dict[str, Any]]
     rendered = []
     default_layout = model.get("presentation", {}).get("section_layout", "cards")
     for section_index, section in enumerate(model.get("sections", [])):
-        items = []
         layout = section.get("layout", default_layout)
-        for item_index, item in enumerate(section.get("items", [])):
-            status = item.get("status", "neutral")
-            refs = item.get("source_refs", section.get("source_refs", []))
-            meta = " · ".join(filter(None, [item.get("owner", ""), item.get("meta", "")]))
-            metrics = render_label_values(
-                item.get("metrics", []),
-                f"sections.{section_index}.items.{item_index}.metrics",
-                "work-metric",
-            )
-            outcome = (
-                f'<div class="work-outcome"><span>本周结果</span>'
-                f'{editable("strong", f"sections.{section_index}.items.{item_index}.outcome", item.get("outcome", ""))}</div>'
-                if item.get("outcome") else ""
-            )
-            next_step = (
-                f'<div class="work-next"><span>NEXT</span>'
-                f'{editable("p", f"sections.{section_index}.items.{item_index}.next", item.get("next", ""))}</div>'
-                if item.get("next") else ""
-            )
-            items.append(
-                f"""
-                <article class="work-item status-{escape(status)}">
-                  <div class="work-card-top"><div class="status-mark" aria-label="{escape(status)}"></div><span class="status-label">{escape(status.replace("-", " ").upper())}</span></div>
-                  <div class="work-copy">
-                    {editable('h3', f'sections.{section_index}.items.{item_index}.title', item.get('title', ''))}
-                    {editable('p', f'sections.{section_index}.items.{item_index}.body', item.get('body', ''))}
+        if layout == "kanban":
+            # Group items by status
+            columns = {
+                "planned": [],
+                "on-track": [],
+                "risk": [],
+                "complete": []
+            }
+            status_map = {
+                "planned": "planned",
+                "on-track": "on-track",
+                "neutral": "on-track",
+                "watch": "risk",
+                "risk": "risk",
+                "complete": "complete"
+            }
+            for item_index, item in enumerate(section.get("items", [])):
+                status = item.get("status", "neutral")
+                col = status_map.get(status, "on-track")
+                refs = item.get("source_refs", section.get("source_refs", []))
+                meta = " · ".join(filter(None, [item.get("owner", ""), item.get("meta", "")]))
+                metrics = render_label_values(
+                    item.get("metrics", []),
+                    f"sections.{section_index}.items.{item_index}.metrics",
+                    "work-metric",
+                )
+                outcome = f'<div class="work-outcome"><strong>结果: </strong>{editable("span", f"sections.{section_index}.items.{item_index}.outcome", item.get("outcome", ""))}</div>' if item.get("outcome") else ""
+                next_step = f'<div class="work-next"><strong>NEXT: </strong>{editable("span", f"sections.{section_index}.items.{item_index}.next", item.get("next", ""))}</div>' if item.get("next") else ""
+                
+                card_html = f"""
+                <div class="kanban-card status-{escape(status)}">
+                  <div class="kanban-card-header"><span class="status-badge status-{escape(status)}">{escape(status.replace("-", " ").upper())}</span></div>
+                  {editable('h4', f'sections.{section_index}.items.{item_index}.title', item.get('title', ''))}
+                  {editable('p', f'sections.{section_index}.items.{item_index}.body', item.get('body', ''), 'kanban-card-body')}
+                  {f'<div class="kanban-metrics">{metrics}</div>' if metrics else ''}
+                  {outcome}
+                  {next_step}
+                  <div class="kanban-card-footer">
+                    <span>{escape(meta)}</span>
+                    {source_chips(refs, source_map)}
+                  </div>
+                </div>
+                """
+                columns[col].append(card_html)
+            
+            kanban_cols_html = []
+            col_labels = {
+                "planned": ("待规划", "PLANNED"),
+                "on-track": ("进行中", "ON TRACK"),
+                "risk": ("有风险", "RISK / WATCH"),
+                "complete": ("已完成", "COMPLETE")
+            }
+            for col_key, (col_zh, col_en) in col_labels.items():
+                cards_html = "".join(columns[col_key])
+                count = len(columns[col_key])
+                kanban_cols_html.append(f"""
+                <div class="kanban-col col-{col_key}">
+                  <div class="kanban-col-header">
+                    <span>{col_zh}</span>
+                    <span class="kanban-col-count">{count}</span>
+                  </div>
+                  <div class="kanban-col-cards">
+                    {cards_html or '<div class="kanban-empty-state">暂无任务</div>'}
+                  </div>
+                </div>
+                """)
+            
+            section_content = f'<div class="work-kanban-board">{"".join(kanban_cols_html)}</div>'
+        elif layout == "table":
+            table_rows = []
+            for item_index, item in enumerate(section.get("items", [])):
+                status = item.get("status", "neutral")
+                refs = item.get("source_refs", section.get("source_refs", []))
+                meta = " · ".join(filter(None, [item.get("owner", ""), item.get("meta", "")]))
+                metrics = render_label_values(
+                    item.get("metrics", []),
+                    f"sections.{section_index}.items.{item_index}.metrics",
+                    "work-metric",
+                )
+                outcome = f'<div class="work-outcome"><span>结果:</span>{editable("strong", f"sections.{section_index}.items.{item_index}.outcome", item.get("outcome", ""))}</div>' if item.get("outcome") else ""
+                next_step = f'<div class="work-next"><span>NEXT:</span>{editable("p", f"sections.{section_index}.items.{item_index}.next", item.get("next", ""))}</div>' if item.get("next") else ""
+                
+                table_rows.append(f"""
+                <tr class="work-table-row status-{escape(status)}">
+                  <td class="col-title-body">
+                    {editable('strong', f'sections.{section_index}.items.{item_index}.title', item.get('title', ''), 'work-table-title')}
+                    {editable('p', f'sections.{section_index}.items.{item_index}.body', item.get('body', ''), 'work-table-body')}
+                  </td>
+                  <td class="col-status">
+                    <span class="status-badge status-{escape(status)}">{escape(status.replace("-", " ").upper())}</span>
+                  </td>
+                  <td class="col-meta">
+                    <span>{escape(meta)}</span>
+                  </td>
+                  <td class="col-metrics">
                     <div class="work-metrics">{metrics}</div>
+                  </td>
+                  <td class="col-outcome-next">
                     {outcome}
                     {next_step}
-                    <div class="work-meta"><span>{escape(meta)}</span>{source_chips(refs, source_map)}</div>
-                  </div>
-                </article>
-                """
-            )
+                    <div class="source-row">{source_chips(refs, source_map)}</div>
+                  </td>
+                </tr>
+                """)
+            
+            section_content = f"""
+            <div class="table-wrap work-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>工作项目与描述</th>
+                    <th>状态</th>
+                    <th>负责人/进度</th>
+                    <th>关键指标</th>
+                    <th>本周成果与下周计划</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {"".join(table_rows)}
+                </tbody>
+              </table>
+            </div>
+            """
+        else:
+            items = []
+            for item_index, item in enumerate(section.get("items", [])):
+                status = item.get("status", "neutral")
+                refs = item.get("source_refs", section.get("source_refs", []))
+                meta = " · ".join(filter(None, [item.get("owner", ""), item.get("meta", "")]))
+                metrics = render_label_values(
+                    item.get("metrics", []),
+                    f"sections.{section_index}.items.{item_index}.metrics",
+                    "work-metric",
+                )
+                outcome = (
+                    f'<div class="work-outcome"><span>本周结果</span>'
+                    f'{editable("strong", f"sections.{section_index}.items.{item_index}.outcome", item.get("outcome", ""))}</div>'
+                    if item.get("outcome") else ""
+                )
+                next_step = (
+                    f'<div class="work-next"><span>NEXT</span>'
+                    f'{editable("p", f"sections.{section_index}.items.{item_index}.next", item.get("next", ""))}</div>'
+                    if item.get("next") else ""
+                )
+                items.append(
+                    f"""
+                    <article class="work-item status-{escape(status)}">
+                      <div class="work-card-top"><div class="status-mark" aria-label="{escape(status)}"></div><span class="status-label">{escape(status.replace("-", " ").upper())}</span></div>
+                      <div class="work-copy">
+                        {editable('h3', f'sections.{section_index}.items.{item_index}.title', item.get('title', ''))}
+                        {editable('p', f'sections.{section_index}.items.{item_index}.body', item.get('body', ''))}
+                        <div class="work-metrics">{metrics}</div>
+                        {outcome}
+                        {next_step}
+                        <div class="work-meta"><span>{escape(meta)}</span>{source_chips(refs, source_map)}</div>
+                      </div>
+                    </article>
+                    """
+                )
+            section_content = f'<div class="work-list">{"".join(items)}</div>'
+            
         rendered.append(
             f"""
             <section class="report-section work-section layout-{escape(layout)}" id="work-{escape(section.get('id', section_index))}" aria-labelledby="section-{escape(section.get('id', section_index))}">
               <div class="section-heading"><span>{section_index + 4:02d}</span>{editable('h2', f'sections.{section_index}.title', section.get('title', ''), '', f'id="section-{escape(section.get("id", section_index))}"')}</div>
               {editable('p', f'sections.{section_index}.summary', section.get('summary', ''), 'section-summary')}
-              <div class="work-list">{"".join(items)}</div>
+              {section_content}
             </section>
             """
         )
@@ -858,8 +1003,24 @@ def render_html(model: Dict[str, Any], template: Dict[str, Any], css: str, runti
     report.setdefault("theme", {})
     theme = {**template["theme"], **report["theme"]}
     report["theme"] = theme
+    
+    template_id = report.get("template", template.get("id", "qianzi"))
+    template_id = TEMPLATE_ALIASES.get(template_id, template_id)
+    parent_style = template.get("parent_style", template_id)
+    parent_style = REVERSE_ALIASES.get(parent_style, parent_style)
+    if parent_style not in {"executive", "editorial", "product-operations"}:
+        parent_style = "editorial"
+
+    layout_default = "newsletter"
+    if parent_style == "executive":
+        layout_default = "dashboard"
+    elif parent_style == "product-operations":
+        layout_default = "kanban"
+        
     presentation_defaults = {
-        "density": "compact" if report.get("template") in {"executive", "product-operations"} else "balanced",
+        "density": "compact" if parent_style in {"executive", "product-operations"} else "balanced",
+        "layout": layout_default,
+        "layout_order": ["summary", "kpis", "progress", "charts", "sections", "risks", "next_actions"],
         "section_layout": "cards",
         "source_display": "summary",
         "show_toc": True,
@@ -872,7 +1033,12 @@ def render_html(model: Dict[str, Any], template: Dict[str, Any], css: str, runti
         for index, value in enumerate(summary.get("highlights", []))
     )
     report_json = json_for_script(report)
-    template_id = report.get("template", template["id"])
+    theme_style_list = []
+    for k, v in theme.items():
+        if isinstance(v, str) and re.fullmatch(r"#[0-9a-fA-F]{6}", v):
+            theme_style_list.append(f"--{k}:{v}")
+    theme_style_str = "; ".join(theme_style_list)
+    layout_id = report["presentation"].get("layout", layout_default)
     title = report["metadata"].get("title", "Weekly Report")
     period = report["metadata"].get("period", {}).get("label", "")
     source_label = report["metadata"].get("source_label", "Structured sources")
@@ -880,12 +1046,38 @@ def render_html(model: Dict[str, Any], template: Dict[str, Any], css: str, runti
     risk_number = f"{section_count + 4:02d}"
     next_number = f"{section_count + 5:02d}" if report.get("risks") else risk_number
     toc = render_toc(report) if report["presentation"].get("show_toc", True) else ""
+    
+    section_renderers = {
+        "summary": lambda: f"""
+        <section class="summary-band" id="summary-section" aria-labelledby="summary-heading">
+          <div><span class="section-kicker">EXECUTIVE SUMMARY</span>{editable('h2', 'summary.headline', summary.get('headline', ''), '', 'id="summary-heading"')}</div>
+          <div class="summary-copy">{editable('p', 'summary.body', summary.get('body', ''))}<ul>{highlights}</ul></div>
+        </section>
+        """,
+        "kpis": lambda: render_kpis(report, source_map),
+        "progress": lambda: render_progress(report, source_map),
+        "charts": lambda: render_charts(report, source_map),
+        "sections": lambda: render_sections(report, source_map),
+        "risks": lambda: render_action_section(report, 'risks', '风险与阻塞', risk_number, source_map),
+        "next_actions": lambda: render_action_section(report, 'next_actions', '下周优先事项', next_number, source_map),
+    }
+    
+    layout_order = report["presentation"].get("layout_order")
+    if not layout_order or not isinstance(layout_order, list):
+        layout_order = ["summary", "kpis", "progress", "charts", "sections", "risks", "next_actions"]
+    
+    rendered_sections_list = []
+    for sec_id in layout_order:
+        if sec_id in section_renderers:
+            rendered_sections_list.append(section_renderers[sec_id]())
+            
+    sections_html = "".join(rendered_sections_list)
+    
     body = f"""
-      <div class="report-chrome"><span>WEEKLYVIZ_REPORT / {escape(template_id).upper()}</span><span class="chrome-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
+      <div class="report-chrome"><span>WEEKLY REPORT</span><span class="chrome-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
       <header class="report-hero">
         <div class="hero-orbit" aria-hidden="true"></div>
         <div class="hero-meta">
-          <span>WEEKLYVIZ / {escape(template["label"]).upper()}</span>
           <span>{escape(period)}</span>
         </div>
         {editable('h1', 'metadata.title', title)}
@@ -898,22 +1090,13 @@ def render_html(model: Dict[str, Any], template: Dict[str, Any], css: str, runti
       </header>
       {toc}
       <main id="report-main">
-        <section class="summary-band" aria-labelledby="summary-heading">
-          <div><span class="section-kicker">EXECUTIVE SUMMARY</span>{editable('h2', 'summary.headline', summary.get('headline', ''), '', 'id="summary-heading"')}</div>
-          <div class="summary-copy">{editable('p', 'summary.body', summary.get('body', ''))}<ul>{highlights}</ul></div>
-        </section>
-        {render_kpis(report, source_map)}
-        {render_progress(report, source_map)}
-        {render_charts(report, source_map)}
-        {render_sections(report, source_map)}
-        {render_action_section(report, 'risks', '风险与阻塞', risk_number, source_map)}
-        {render_action_section(report, 'next_actions', '下周优先事项', next_number, source_map)}
+        {sections_html}
         {render_sources(report)}
       </main>
-      <footer class="report-footer"><span>WEEKLYVIZ / TRACEABLE REPORT</span><span>{escape(period)}</span></footer>
+      <footer class="report-footer"><span>WEEKLY REPORT / TRACEABLE REPORT</span><span>{escape(period)}</span></footer>
     """
     return f"""<!doctype html>
-<html lang="{escape(report['metadata'].get('locale', 'zh-CN'))}" data-template="{escape(template_id)}" data-density="{escape(report['presentation']['density'])}" data-section-layout="{escape(report['presentation']['section_layout'])}">
+<html lang="{escape(report['metadata'].get('locale', 'zh-CN'))}" data-template="{escape(parent_style)}" data-template-id="{escape(template_id)}" data-density="{escape(report['presentation']['density'])}" data-section-layout="{escape(report['presentation']['section_layout'])}" data-layout="{escape(layout_id)}"{f' style="{theme_style_str}"' if theme_style_str else ''}>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -925,16 +1108,8 @@ def render_html(model: Dict[str, Any], template: Dict[str, Any], css: str, runti
 <body class="{"sources-visible" if report['presentation']['source_display'] == 'expanded' else ""}">
   <a class="skip-link" href="#report-main">跳到主要内容</a>
   <div class="app-shell">
-    <div class="global-sidebar left-sidebar" aria-hidden="true">
-      <div class="sidebar-text">WEEKLY</div>
-      <div class="sidebar-text">ANALYTICS</div>
-    </div>
-    <div class="global-sidebar right-sidebar" aria-hidden="true">
-      <div class="sidebar-text">STUDIO</div>
-      <div class="sidebar-text">REPORT</div>
-    </div>
     <nav class="toolbar" aria-label="报告工具">
-      <div class="toolbar-brand"><span class="brand-mark">WV</span><span>WeeklyViz</span></div>
+      <div class="toolbar-brand"><span class="brand-mark">WV</span></div>
       <div class="toolbar-actions">
         <button type="button" data-action="toggle-edit" aria-pressed="false">编辑</button>
         <button type="button" data-action="open-data">数据</button>
@@ -978,7 +1153,8 @@ def command_render(report: str, output: str, template_override: Optional[str]) -
         print(f"warning: {warning}", file=sys.stderr)
     if errors:
         raise WeeklyVizError("Report validation failed:\n- " + "\n- ".join(errors))
-    template_id = model.get("template", "editorial")
+    template_id = model.get("template", "qianzi")
+    template_id = TEMPLATE_ALIASES.get(template_id, template_id)
     template_path = TEMPLATES / f"{template_id}.json"
     template = read_json(template_path)
     css_path = RUNTIME / "report.css"

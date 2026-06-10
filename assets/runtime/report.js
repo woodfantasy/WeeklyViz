@@ -290,7 +290,7 @@
       text: "正文",
       muted: "辅助文字",
     };
-    panel.innerHTML = Object.entries(labels).map(([key, label]) => `
+    const colorFields = Object.entries(labels).map(([key, label]) => `
       <div class="field">
         <label>${label}</label>
         <div class="color-field">
@@ -298,7 +298,31 @@
           <input type="text" value="${escapeHtml(model.theme[key])}" data-theme-text="${key}" aria-label="${label}颜色值" pattern="#[0-9A-Fa-f]{6}">
         </div>
       </div>
-    `).join("") + '<div class="contrast-result" data-contrast-result></div>';
+    `).join("");
+
+    const currentLayout = model.presentation?.layout || "newsletter";
+    const currentDensity = model.presentation?.density || "balanced";
+
+    const presentationFields = `
+      <div class="field">
+        <label>周报排版 (Layout)</label>
+        <select data-presentation-select="layout" aria-label="排版风格选择">
+          <option value="dashboard" ${currentLayout === "dashboard" ? "selected" : ""}>管理驾驶舱大屏 (Dashboard)</option>
+          <option value="newsletter" ${currentLayout === "newsletter" ? "selected" : ""}>叙事型周刊 (Newsletter)</option>
+          <option value="kanban" ${currentLayout === "kanban" ? "selected" : ""}>敏捷研发看板 (Kanban)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>信息密度 (Density)</label>
+        <select data-presentation-select="density" aria-label="信息密度选择">
+          <option value="compact" ${currentDensity === "compact" ? "selected" : ""}>紧凑 (Compact)</option>
+          <option value="balanced" ${currentDensity === "balanced" ? "selected" : ""}>适中 (Balanced)</option>
+          <option value="spacious" ${currentDensity === "spacious" ? "selected" : ""}>宽松 (Spacious)</option>
+        </select>
+      </div>
+    `;
+
+    panel.innerHTML = presentationFields + colorFields + '<div class="contrast-result" data-contrast-result></div>';
     updateContrastResult();
   }
 
@@ -353,6 +377,16 @@
       renderCharts();
       persistSoon();
     });
+    panel.addEventListener("change", (event) => {
+      const select = event.target.closest("[data-presentation-select]");
+      if (!select) return;
+      pushHistory();
+      model.presentation = model.presentation || {};
+      model.presentation[select.dataset.presentationSelect] = select.value;
+      applyPresentation();
+      persistSoon();
+      toast("排版配置已更新");
+    });
     panel.addEventListener("focusout", (event) => {
       const input = event.target.closest("[data-theme-color], [data-theme-text]");
       if (!input || !inputSnapshots.has(input)) return;
@@ -372,6 +406,16 @@
     Object.entries(model.theme || {}).forEach(([key, value]) => {
       if (/^#[0-9a-f]{6}$/i.test(value)) root.style.setProperty(`--${key}`, value);
     });
+  }
+
+  function applyPresentation() {
+    const root = document.documentElement;
+    model.presentation = model.presentation || {};
+    const layout = model.presentation.layout || "newsletter";
+    const density = model.presentation.density || "balanced";
+    root.setAttribute("data-layout", layout);
+    root.setAttribute("data-density", density);
+    window.setTimeout(resizeCharts, 50);
   }
 
   function refreshProgress() {
@@ -648,6 +692,8 @@
     exportBuffer.value = "";
     exportBuffer.textContent = "";
     cloneRoot.querySelector("#report-model").textContent = JSON.stringify(model).replaceAll("</", "<\\/");
+    cloneRoot.setAttribute("data-layout", model.presentation?.layout || "newsletter");
+    cloneRoot.setAttribute("data-density", model.presentation?.density || "balanced");
     return `<!doctype html>\n${cloneRoot.outerHTML}`;
   }
 
@@ -669,6 +715,7 @@
 
   function refreshAll() {
     applyTheme();
+    applyPresentation();
     syncContentBindings();
     refreshProgress();
     renderDataEditor();

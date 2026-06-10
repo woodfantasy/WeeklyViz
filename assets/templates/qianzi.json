@@ -1,0 +1,14 @@
+{
+  "id": "qianzi",
+  "label": "浅紫 (Qianzi)",
+  "description": "品牌感更强的优雅薰衣草叙事配色",
+  "parent_style": "editorial",
+  "theme": {
+    "primary": "#111116",
+    "accent": "#8B7CE8",
+    "background": "#F4F4F6",
+    "surface": "#FFFFFF",
+    "text": "#111116",
+    "muted": "#5F5F6E"
+  }
+}

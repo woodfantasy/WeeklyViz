@@ -31,7 +31,7 @@
       "additionalProperties": true
     },
     "template": {
-      "enum": ["executive", "editorial", "product-operations"]
+      "type": "string"
     },
     "theme": {
       "type": "object",
@@ -49,7 +49,12 @@
       "type": "object",
       "properties": {
         "density": {"enum": ["compact", "balanced", "spacious"]},
-        "section_layout": {"enum": ["cards", "grid", "list"]},
+        "layout": {"enum": ["dashboard", "newsletter", "kanban"]},
+        "layout_order": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "section_layout": {"enum": ["cards", "grid", "list", "table", "kanban"]},
         "source_display": {"enum": ["summary", "expanded"]},
         "show_toc": {"type": "boolean"}
       },
@@ -237,7 +242,7 @@
         "id": {"type": "string"},
         "title": {"type": "string"},
         "summary": {"type": "string"},
-        "layout": {"enum": ["cards", "grid", "list"]},
+        "layout": {"enum": ["cards", "grid", "list", "table", "kanban"]},
         "source_refs": {
           "type": "array",
           "items": {"type": "string"}

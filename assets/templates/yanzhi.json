@@ -1,0 +1,14 @@
+{
+  "id": "yanzhi",
+  "label": "胭脂 (Yanzhi)",
+  "description": "时尚活力的大众运营胭脂配色",
+  "parent_style": "product-operations",
+  "theme": {
+    "primary": "#831843",
+    "accent": "#F43F5E",
+    "background": "#FFF1F2",
+    "surface": "#FFFFFF",
+    "text": "#831843",
+    "muted": "#9D174D"
+  }
+}

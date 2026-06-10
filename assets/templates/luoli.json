@@ -1,0 +1,14 @@
+{
+  "id": "luoli",
+  "label": "落栗 (Luoli)",
+  "description": "奢华稳重的深色调商务落栗配色",
+  "parent_style": "executive",
+  "theme": {
+    "primary": "#1E1B4B",
+    "accent": "#F59E0B",
+    "background": "#FAF5FF",
+    "surface": "#FFFFFF",
+    "text": "#1E1B4B",
+    "muted": "#4F46E5"
+  }
+}

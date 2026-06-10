@@ -1,0 +1,14 @@
+{
+  "id": "hupo",
+  "label": "琥珀 (Hupo)",
+  "description": "温暖复古的暖金色琥珀配色",
+  "parent_style": "editorial",
+  "theme": {
+    "primary": "#7C2D12",
+    "accent": "#F97316",
+    "background": "#FFF7ED",
+    "surface": "#FFFFFF",
+    "text": "#7C2D12",
+    "muted": "#9A3412"
+  }
+}

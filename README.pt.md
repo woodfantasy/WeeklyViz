@@ -27,12 +27,12 @@
 ## 🖼️ Exemplo de Resultado
 
 <p align="center">
-  <a href="assets/red-shiji-weekly-report.jpg">
-    <img src="assets/red-shiji-weekly-report.jpg" width="860" alt="Exemplo de relatório semanal editorial gerado pelo WeeklyViz">
+  <a href="assets/weeklyviz-multi-layout-showcase.jpg">
+    <img src="assets/weeklyviz-multi-layout-showcase.jpg" width="860" alt="Demonstração de relatórios semanais com vários layouts do WeeklyViz">
   </a>
 </p>
 
-<p align="center"><sub>Um relatório editorial completo gerado com o WeeklyViz: resumo executivo, cartões de KPI, progresso de metas, visualizações, atualizações de projetos, riscos e próximas ações. Clique na imagem para vê-la na resolução original.</sub></p>
+<p align="center"><sub>Os mesmos dados de origem podem gerar relatórios editoriais, dashboards executivos, acompanhamento Kanban e tabelas de dados. Todos os resultados são responsivos, editáveis, rastreáveis e funcionam offline.</sub></p>
 
 ---
 
@@ -41,7 +41,7 @@
 | Recurso | Descrição |
 |---------|-----------|
 | 📊 **Extração de Várias Fontes** | Processa arquivos `.xlsx`, `.csv`, `.docx`, `.md` e `.txt` automaticamente para extrair métricas e listas de progresso. |
-| 🎨 **Design Editorial Responsivo** | Oferece três temas embutidos (`Executive`, `Editorial`, `Product Operations`) com layouts responsivos e sem requisições de rede externas. |
+| 🎨 **Sistema de Design Multilayout** | Inclui 13 temas profissionais e vários layouts para narrativa editorial, dashboards executivos, acompanhamento Kanban e visualizações densas de dados, todos responsivos e offline. |
 | 🔗 **Rastreabilidade de Origem** | Mapeia automaticamente cada KPI, barra de progresso, gráfico e item de volta ao arquivo e linha originais usando IDs hash estáveis. |
 | ✏️ **Edição Inline Interativa** | O relatório HTML final suporta edição de textos e números em tempo real, ajustes de tema e exportação simples para PDF/impressão. |
 | 📈 **Apache ECharts Integrado** | Inclui runtime local do ECharts (`echarts.min.js`) para criar gráficos de linhas, barras, roscas e funis sem acesso à internet. |
@@ -92,4 +92,3 @@ python3 scripts/weeklyviz.py render --report report-model.json --output weekly-r
 *   **v0.1.0** (2026-06-09)
     - Lançamento inicial.
 ```
-

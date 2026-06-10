@@ -27,12 +27,12 @@ Es un Claude Skill y herramienta independiente construida bajo la especificació
 ## 🖼️ Ejemplo de Resultado
 
 <p align="center">
-  <a href="assets/red-shiji-weekly-report.jpg">
-    <img src="assets/red-shiji-weekly-report.jpg" width="860" alt="Ejemplo de informe semanal editorial generado por WeeklyViz">
+  <a href="assets/weeklyviz-multi-layout-showcase.jpg">
+    <img src="assets/weeklyviz-multi-layout-showcase.jpg" width="860" alt="Muestra de informes semanales con múltiples diseños de WeeklyViz">
   </a>
 </p>
 
-<p align="center"><sub>Un informe editorial completo generado con WeeklyViz: resumen ejecutivo, tarjetas KPI, progreso de objetivos, visualizaciones, avances de proyectos, riesgos y próximas acciones. Haga clic en la imagen para verla en resolución completa.</sub></p>
+<p align="center"><sub>Los mismos datos de origen pueden convertirse en informes editoriales, paneles ejecutivos, avances Kanban y tablas de datos. Cada resultado es adaptable, editable, trazable y funciona sin conexión.</sub></p>
 
 ---
 
@@ -41,7 +41,7 @@ Es un Claude Skill y herramienta independiente construida bajo la especificació
 | Capacidad | Descripción |
 |------------|-------------|
 | 📊 **Extracción Multifuente** | Procesa automáticamente archivos `.xlsx`, `.csv`, `.docx`, `.md` y `.txt` para extraer métricas y listas de progreso. |
-| 🎨 **Diseño Editorial Adaptativo** | Ofrece tres temas integrados (`Executive`, `Editorial`, `Product Operations`) con diseños adaptables y sin dependencias de red externas. |
+| 🎨 **Sistema de Diseño Multiformato** | Incluye 13 temas profesionales y múltiples diseños para narrativa editorial, paneles ejecutivos, seguimiento Kanban y vistas de datos densas, todos adaptables y sin conexión. |
 | 🔗 **Trazabilidad de Origen** | Vincula automáticamente cada KPI, barra de progreso, gráfico y lista con su archivo y línea de origen mediante IDs hash estables. |
 | ✏️ **Edición Interactiva** | El HTML generado permite editar textos y números en línea, cambiar colores de temas y exportar directamente a formato impreso o PDF. |
 | 📈 **Integración de ECharts** | Incluye un motor de ECharts local (`echarts.min.js`) para renderizar gráficos de línea, barra, rosca y embudo sin conexión. |

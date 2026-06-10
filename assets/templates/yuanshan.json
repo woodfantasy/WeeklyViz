@@ -1,0 +1,14 @@
+{
+  "id": "yuanshan",
+  "label": "远山 (Yuanshan)",
+  "description": "空灵清新的科技清新远山配色",
+  "parent_style": "product-operations",
+  "theme": {
+    "primary": "#0F766E",
+    "accent": "#06B6D4",
+    "background": "#ECFEFF",
+    "surface": "#FFFFFF",
+    "text": "#0F766E",
+    "muted": "#0D9488"
+  }
+}
