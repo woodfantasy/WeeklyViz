@@ -55,9 +55,23 @@ Do not force every source paragraph into the visible report. Preserve detail in 
 
 ## Templates And Themes
 
-Choose `executive`, `editorial`, or `product-operations`. Use `editorial` for brand-led storytelling, `executive` for leadership reporting, and `product-operations` for product, engineering, or operations.
+Choose a concrete theme from `assets/templates/` based on audience, business context, and desired tone:
 
-Honor explicit brand colors. Otherwise choose the template defaults in `assets/templates/`. Keep semantic success, warning, and risk colors stable. Read [design-system.md](references/design-system.md) when adapting palettes or adding components.
+- Executive themes: `cangshan`, `dailan`, `luoli`, `moyi`.
+- Editorial themes: `hupo`, `mushanzi`, `qianzi`, `qiuli`, `wanying`.
+- Product and operations themes: `songye`, `yanzhi`, `yuanshan`, `zhuqing`.
+
+The legacy names `executive`, `editorial`, and `product-operations` remain compatibility aliases for `cangshan`, `qianzi`, and `songye`. Prefer a concrete theme ID for new reports so the full theme library is used deliberately.
+
+Choose the report layout independently through `presentation.layout`:
+
+- `dashboard`: dense KPI and operating reviews for leadership.
+- `newsletter`: narrative, brand-led, or editorial reporting.
+- `kanban`: delivery status, project execution, and operational workflows.
+
+A theme controls visual language; a layout controls page composition. Do not assume that an executive-colored theme must use the dashboard layout, or that an editorial theme must use the newsletter layout.
+
+Honor explicit brand colors. Otherwise use the selected theme defaults. Keep semantic success, warning, and risk colors stable. Read [design-system.md](references/design-system.md) when adapting palettes or adding components.
 
 Set `presentation.density` deliberately:
 
@@ -66,6 +80,20 @@ Set `presentation.density` deliberately:
 - `spacious`: short, narrative-led reports with few proof objects.
 
 Use card or grid sections only when items are independently scannable. Use list layout for sequential workstreams or long technical explanations.
+
+## File Naming Convention
+
+When creating report models or output HTML files (especially when generating multiple layouts or variations for comparison), use this standardized naming convention so the page layout, section layout, and style theme are immediately clear:
+
+*   **Format**: `<project>-<page_layout>-<section_layout>-<theme_template>-model.json`
+*   **Format**: `<project>-<page_layout>-<section_layout>-<theme_template>-report.html`
+
+Examples:
+*   `red-shiji-dashboard-cards-cangshan-model.json` / `red-shiji-dashboard-cards-cangshan-report.html`
+*   `red-shiji-dashboard-table-yanzhi-model.json` / `red-shiji-dashboard-table-yanzhi-report.html`
+*   `red-shiji-kanban-kanban-yuanshan-model.json` / `red-shiji-kanban-kanban-yuanshan-report.html`
+*   `red-shiji-newsletter-list-hupo-model.json` / `red-shiji-newsletter-list-hupo-report.html`
+*   `red-shiji-newsletter-cards-editorial-model.json` / `red-shiji-newsletter-cards-editorial-report.html`
 
 ## Input Notes
 
