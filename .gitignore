@@ -24,5 +24,7 @@ yarn-error.log*
 
 # Exclude sensitive/internal data and models
 /shiji-report-model.json
+/red-shiji-report-model.json
 *-report-model.json
+/red-shiji-weekly-report.html
 *weekly-report.html
