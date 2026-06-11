@@ -68,6 +68,59 @@ def write_minimal_docx(path: Path) -> None:
 
 
 class WeeklyVizTests(unittest.TestCase):
+    def test_template_design_contract_is_complete_and_distinct(self):
+        template_paths = sorted((ROOT / "assets" / "templates").glob("*.json"))
+        font_signatures = set()
+        geometry_signatures = set()
+        chart_signatures = set()
+
+        for template_path in template_paths:
+            with self.subTest(template=template_path.stem):
+                template = weeklyviz.read_json(template_path)
+                self.assertIn(template["canonical_layout"], {
+                    "dashboard", "newsletter", "kanban", "operating-review",
+                })
+                self.assertIn(template["canonical_section_layout"], {
+                    "cards", "list", "table", "kanban",
+                })
+
+                design = template["design"]
+                typography = design["typography"]
+                geometry = design["geometry"]
+                hero = design["hero"]
+                chart = design["chart"]
+
+                self.assertTrue(all(typography.get(key) for key in ("display", "body", "numeric", "label")))
+                self.assertTrue(all(geometry.get(key) for key in (
+                    "card_shape", "section_style", "radius_lg", "radius_md", "radius_sm",
+                    "border_width", "card_shadow", "page_shadow",
+                )))
+                self.assertTrue(hero.get("style"))
+                self.assertTrue(chart.get("style"))
+                self.assertIn(chart.get("grid"), {"none", "solid", "dashed", "dotted"})
+                self.assertIn(chart.get("symbol"), {
+                    "circle", "rect", "roundRect", "triangle", "diamond", "pin", "arrow", "none",
+                })
+                self.assertIn(chart.get("legend"), {"top", "bottom"})
+                self.assertGreaterEqual(len(chart.get("palette", [])), 4)
+                self.assertTrue(all(
+                    isinstance(color, str) and len(color) == 7 and color.startswith("#")
+                    for color in chart["palette"]
+                ))
+                self.assertEqual(2, len(chart.get("donut", [])))
+
+                font_signatures.add(tuple(typography[key] for key in ("display", "body", "numeric", "label")))
+                geometry_signatures.add((
+                    geometry["card_shape"], geometry["section_style"], hero["style"],
+                ))
+                chart_signatures.add((
+                    chart["style"], tuple(chart["palette"]), chart["grid"], chart["symbol"],
+                ))
+
+        self.assertEqual(len(template_paths), len(font_signatures))
+        self.assertEqual(len(template_paths), len(geometry_signatures))
+        self.assertEqual(len(template_paths), len(chart_signatures))
+
     def test_extract_supported_inputs(self):
         with tempfile.TemporaryDirectory() as directory:
             base = Path(directory)
@@ -125,30 +178,123 @@ class WeeklyVizTests(unittest.TestCase):
         self.assertTrue(any("presentation.density" in error for error in errors))
 
     def test_render_all_templates(self):
-        model = weeklyviz.read_json(ROOT / "evals" / "fixtures" / "report-model.json")
         css = (ROOT / "assets" / "runtime" / "report.css").read_text(encoding="utf-8")
         runtime = (ROOT / "assets" / "runtime" / "report.js").read_text(encoding="utf-8")
         echarts = (ROOT / "assets" / "vendor" / "echarts.min.js").read_text(encoding="utf-8")
-        for template_id, parent_style in (("cangshan", "executive"), ("qianzi", "editorial"), ("songye", "product-operations")):
+        template_paths = sorted((ROOT / "assets" / "templates").glob("*.json"))
+        expected = {
+            "canghai", "cangshan", "dailan", "hupo", "luoli", "moyi", "mushanzi",
+            "qianzi", "qiuli", "songye", "wanying", "yanzhi", "yuanshan", "zhuqing",
+        }
+        self.assertEqual(expected, {path.stem for path in template_paths})
+        for template_path in template_paths:
+            template_id = template_path.stem
             with self.subTest(template=template_id):
-                template = weeklyviz.read_json(ROOT / "assets" / "templates" / f"{template_id}.json")
+                model = weeklyviz.read_json(ROOT / "evals" / "fixtures" / "report-model.json")
+                template = weeklyviz.read_json(template_path)
+                parent_style = template["parent_style"]
                 model["template"] = template_id
                 output = weeklyviz.render_html(model, template, css, runtime, echarts)
                 self.assertIn("<!doctype html>", output)
                 self.assertIn(f'data-template="{parent_style}"', output)
                 self.assertIn(f'data-template-id="{template_id}"', output)
+                self.assertIn(
+                    f'data-card-shape="{template["design"]["geometry"]["card_shape"]}"',
+                    output,
+                )
+                self.assertIn(
+                    f'data-section-style="{template["design"]["geometry"]["section_style"]}"',
+                    output,
+                )
+                self.assertIn(
+                    f'data-hero-style="{template["design"]["hero"]["style"]}"',
+                    output,
+                )
+                self.assertIn(
+                    f'data-chart-style="{template["design"]["chart"]["style"]}"',
+                    output,
+                )
+                self.assertIn("--font-display:", output)
+                self.assertIn("--card-shadow:", output)
                 self.assertIn('id="report-model"', output)
                 self.assertIn("data-export-buffer", output)
                 self.assertIn('class="report-index"', output)
                 self.assertIn('data-action="toggle-sources"', output)
                 self.assertIn('data-action="print"', output)
+                self.assertIn('<link rel="icon" href="data:,">', output)
                 self.assertIn('data-density="compact"', output)
                 self.assertIn('class="source-marker"', output)
                 self.assertIn('class="work-next"', output)
                 self.assertIn('contenteditable="false"', output)
                 self.assertNotIn('src="http', output)
                 embedded = output.split('id="report-model">', 1)[1].split("</script>", 1)[0]
-                self.assertEqual(template_id, json.loads(embedded)["template"])
+                embedded_model = json.loads(embedded)
+                self.assertEqual(template_id, embedded_model["template"])
+                self.assertEqual(template["design"], embedded_model["template_design"])
+
+    def test_render_parser_accepts_named_themes_and_parent_aliases(self):
+        parser = weeklyviz.build_parser()
+        for template_id in ("canghai", "qianzi", "songye", "executive", "editorial", "product-operations"):
+            with self.subTest(template=template_id):
+                args = parser.parse_args([
+                    "render",
+                    "--report", "report.json",
+                    "--output", "report.html",
+                    "--template", template_id,
+                ])
+                self.assertEqual(template_id, args.template)
+
+    def test_metric_values_are_reader_friendly(self):
+        self.assertEqual("2450万", weeklyviz.format_metric_value(24_500_000, "integer"))
+        self.assertEqual("¥1.85亿", weeklyviz.format_metric_value(185_000_000, "currency"))
+        self.assertEqual("22.3%", weeklyviz.format_metric_value(22.3, "percent"))
+        self.assertEqual("已脱敏", weeklyviz.format_metric_value("已脱敏", "integer"))
+
+    def test_operating_review_defaults_preserve_kpis_metrics_and_progress(self):
+        model = weeklyviz.read_json(ROOT / "evals" / "fixtures" / "report-model.json")
+        source_ref = model["sources"][0]["id"]
+        model["presentation"]["layout"] = "operating-review"
+        model["presentation"].pop("layout_order", None)
+        model["metrics"] = [{
+            "id": "active-users",
+            "name": "活跃用户",
+            "value": 24_500_000,
+            "unit": "integer",
+            "scope": ["产品"],
+            "time_grain": "week",
+            "aggregation": "average",
+            "source_refs": [source_ref],
+        }]
+        css = (ROOT / "assets" / "runtime" / "report.css").read_text(encoding="utf-8")
+        runtime = (ROOT / "assets" / "runtime" / "report.js").read_text(encoding="utf-8")
+        echarts = (ROOT / "assets" / "vendor" / "echarts.min.js").read_text(encoding="utf-8")
+        template = weeklyviz.read_json(ROOT / "assets" / "templates" / "canghai.json")
+        output = weeklyviz.render_html(model, template, css, runtime, echarts)
+        self.assertIn('id="kpis"', output)
+        self.assertIn('id="metrics-section"', output)
+        self.assertIn('id="progress"', output)
+        self.assertIn("2450万", output)
+        self.assertNotIn(" integer", output)
+        self.assertIn('data-tab="kpis"', output)
+        self.assertIn('data-tab="progress"', output)
+
+    def test_kanban_omits_empty_status_columns(self):
+        model = weeklyviz.read_json(ROOT / "evals" / "fixtures" / "report-model.json")
+        model["template"] = "songye"
+        model["sections"][0]["layout"] = "kanban"
+        model["sections"][0]["items"] = [{
+            "title": "完成联调",
+            "body": "核心链路已通过验证。",
+            "status": "on-track",
+            "owner": "项目组",
+        }]
+        css = (ROOT / "assets" / "runtime" / "report.css").read_text(encoding="utf-8")
+        runtime = (ROOT / "assets" / "runtime" / "report.js").read_text(encoding="utf-8")
+        echarts = (ROOT / "assets" / "vendor" / "echarts.min.js").read_text(encoding="utf-8")
+        template = weeklyviz.read_json(ROOT / "assets" / "templates" / "songye.json")
+        output = weeklyviz.render_html(model, template, css, runtime, echarts)
+        self.assertEqual(1, output.count('class="kanban-col col-'))
+        self.assertNotIn('<div class="kanban-empty-state">', output)
 
     def test_invalid_layout_is_rejected(self):
         model = weeklyviz.read_json(ROOT / "evals" / "fixtures" / "report-model.json")

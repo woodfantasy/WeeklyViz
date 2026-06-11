@@ -752,12 +752,86 @@ def json_for_script(value: Any) -> str:
     return json.dumps(value, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
 
 
+def template_design_style(design: Dict[str, Any]) -> Tuple[str, Dict[str, str]]:
+    typography = design.get("typography", {}) if isinstance(design.get("typography"), dict) else {}
+    geometry = design.get("geometry", {}) if isinstance(design.get("geometry"), dict) else {}
+    css_values = {
+        "--font-display": typography.get("display"),
+        "--font-body": typography.get("body"),
+        "--font-numeric": typography.get("numeric"),
+        "--font-label": typography.get("label"),
+        "--radius-lg": geometry.get("radius_lg"),
+        "--radius-md": geometry.get("radius_md"),
+        "--radius-sm": geometry.get("radius_sm"),
+        "--border-width": geometry.get("border_width"),
+        "--card-shadow": geometry.get("card_shadow"),
+        "--page-shadow": geometry.get("page_shadow"),
+    }
+    style = "; ".join(
+        f"{name}:{value}"
+        for name, value in css_values.items()
+        if isinstance(value, str) and value.strip()
+    )
+    attributes = {
+        "data-card-shape": str(geometry.get("card_shape", "rounded")),
+        "data-section-style": str(geometry.get("section_style", "rule")),
+        "data-hero-style": str(
+            design.get("hero", {}).get("style", "slab")
+            if isinstance(design.get("hero"), dict)
+            else "slab"
+        ),
+        "data-chart-style": str(
+            design.get("chart", {}).get("style", "balanced")
+            if isinstance(design.get("chart"), dict)
+            else "balanced"
+        ),
+    }
+    return style, attributes
+
+
 def editable(tag: str, path: str, value: Any, class_name: str = "", attrs: str = "") -> str:
     classes = f' class="{escape(class_name)}"' if class_name else ""
     return (
         f"<{tag}{classes} data-path=\"{escape(path)}\" contenteditable=\"false\" "
         f"spellcheck=\"false\" {attrs}>{escape(value)}</{tag}>"
     )
+
+
+def format_metric_value(value: Any, unit: str = "", locale: str = "zh-CN") -> str:
+    if value is None:
+        return "-"
+    if isinstance(value, str):
+        stripped = value.strip()
+        try:
+            numeric = float(stripped.replace(",", ""))
+        except ValueError:
+            return stripped
+    else:
+        try:
+            numeric = float(value)
+        except (TypeError, ValueError):
+            return str(value)
+
+    def compact(number: float, divisor: float, suffix: str, decimals: int) -> str:
+        rendered = f"{number / divisor:.{decimals}f}".rstrip("0").rstrip(".")
+        return f"{rendered}{suffix}"
+
+    is_zh = str(locale).lower().startswith("zh")
+    absolute = abs(numeric)
+    if is_zh and absolute >= 100_000_000:
+        rendered = compact(numeric, 100_000_000, "亿", 2)
+    elif is_zh and absolute >= 10_000:
+        rendered = compact(numeric, 10_000, "万", 1)
+    elif unit == "integer":
+        rendered = f"{numeric:,.0f}"
+    else:
+        rendered = f"{numeric:,.2f}".rstrip("0").rstrip(".")
+
+    if unit == "percent":
+        return f"{rendered}%"
+    if unit == "currency":
+        return f"¥{rendered}" if is_zh else rendered
+    return rendered
 
 
 def source_chips(refs: Iterable[str], source_map: Dict[str, Dict[str, Any]]) -> str:
@@ -820,7 +894,7 @@ def render_kpis(model: Dict[str, Any], source_map: Dict[str, Dict[str, Any]]) ->
         )
     if not cards:
         return ""
-    return f'<section class="report-section" id="kpis" aria-labelledby="kpi-heading"><div class="section-heading"><span>01</span><h2 id="kpi-heading">核心指标</h2></div><div class="kpi-grid">{"".join(cards)}</div></section>'
+    return f'<section class="report-section" id="kpis" aria-labelledby="kpi-heading"><div class="section-heading"><span>01</span><h2 id="kpi-heading">核心指标</h2></div><div class="kpi-grid" data-count="{len(cards)}">{"".join(cards)}</div></section>'
 
 
 def render_progress(model: Dict[str, Any], source_map: Dict[str, Dict[str, Any]]) -> str:
@@ -853,6 +927,22 @@ def render_metrics_section(model: Dict[str, Any], source_map: Dict[str, Dict[str
     metrics = model.get("metrics", [])
     if not metrics:
         return ""
+    locale = model.get("metadata", {}).get("locale", "zh-CN")
+    grain_labels = {
+        "day": "日",
+        "week": "周",
+        "month": "月",
+        "quarter": "季度",
+        "year": "年",
+    }
+    aggregation_labels = {
+        "sum": "合计",
+        "average": "均值",
+        "ratio": "比率",
+        "count": "计数",
+        "distinct_count": "去重计数",
+        "none": "当前值",
+    }
     cards = []
     for index, item in enumerate(metrics):
         m_id = item.get("id")
@@ -878,9 +968,15 @@ def render_metrics_section(model: Dict[str, Any], source_map: Dict[str, Dict[str
             except (ValueError, TypeError):
                 pass
                 
-        unit_suffix = "%" if unit == "percent" else f" {unit}" if unit else ""
-        val_str = f"{val}{unit_suffix}"
-        prev_str = f"{prev_val}{unit_suffix}" if prev_val is not None else "-"
+        val_str = format_metric_value(val, unit, locale)
+        prev_str = format_metric_value(prev_val, unit, locale) if prev_val is not None else "-"
+        target_str = format_metric_value(t_val, unit, locale) if t_val is not None else "-"
+        target_period = f" ({escape(t_period)})" if t_period else ""
+        diff_class = "diff-flat"
+        if pct_change.startswith("+"):
+            diff_class = "diff-up"
+        elif pct_change.startswith("-"):
+            diff_class = "diff-down"
         
         bullet_html = ""
         if t_val is not None:
@@ -894,8 +990,8 @@ def render_metrics_section(model: Dict[str, Any], source_map: Dict[str, Dict[str
                 bullet_html = f'''
                 <div class="bullet-container">
                   <div class="bullet-labels">
-                    <span>目标: {tv}{unit_suffix} ({escape(t_period)})</span>
-                    <span>当前: {val_str}</span>
+                    <span>目标: {escape(target_str)}{target_period}</span>
+                    <span>当前: {escape(val_str)}</span>
                   </div>
                   <div class="bullet-track">
                     <div class="bullet-range range-bad" style="width: 60%"></div>
@@ -926,15 +1022,15 @@ def render_metrics_section(model: Dict[str, Any], source_map: Dict[str, Dict[str
         <article class="metric-card status-{health}" data-metric-id="{escape(m_id)}">
           <div class="metric-header">
             <h4>{escape(name)}</h4>
-            <span class="metric-grain">{escape(item.get("time_grain", "week").upper())}</span>
+            <span class="metric-grain">{escape(grain_labels.get(item.get("time_grain", "week"), item.get("time_grain", "week")))}</span>
           </div>
           <div class="metric-main-val">
             <span class="val-num">{escape(val_str)}</span>
-            {f'<span class="val-diff {"diff-up" if "+" in pct_change else "diff-down"}">{escape(pct_change)} 环比</span>' if pct_change else ""}
+            {f'<span class="val-diff {diff_class}">{escape(pct_change)} 环比</span>' if pct_change else ""}
           </div>
           <div class="metric-meta-details">
             <div>上期值: <strong>{escape(prev_str)}</strong></div>
-            <div>聚合: <strong>{escape(item.get("aggregation", "none"))}</strong></div>
+            <div>口径: <strong>{escape(aggregation_labels.get(item.get("aggregation", "none"), item.get("aggregation", "none")))}</strong></div>
             {f'<div>分子: <span>{escape(item.get("numerator"))}</span></div>' if item.get("numerator") else ""}
             {f'<div>分母: <span>{escape(item.get("denominator"))}</span></div>' if item.get("denominator") else ""}
           </div>
@@ -945,8 +1041,8 @@ def render_metrics_section(model: Dict[str, Any], source_map: Dict[str, Dict[str
         
     return f'''
     <section class="report-section" id="metrics-section" aria-labelledby="metrics-heading">
-      <div class="section-heading"><span>01</span><h2 id="metrics-heading">核心指标度量</h2></div>
-      <div class="metric-grid">
+      <div class="section-heading"><span>02</span><h2 id="metrics-heading">经营指标明细</h2></div>
+      <div class="metric-grid" data-count="{len(cards)}">
         {"".join(cards)}
       </div>
     </section>
@@ -1295,6 +1391,8 @@ def render_sections(model: Dict[str, Any], source_map: Dict[str, Dict[str, Any]]
             for col_key, (col_zh, col_en) in col_labels.items():
                 cards_html = "".join(columns[col_key])
                 count = len(columns[col_key])
+                if count == 0:
+                    continue
                 kanban_cols_html.append(f"""
                 <div class="kanban-col col-{col_key}">
                   <div class="kanban-col-header">
@@ -1302,7 +1400,7 @@ def render_sections(model: Dict[str, Any], source_map: Dict[str, Dict[str, Any]]
                     <span class="kanban-col-count">{count}</span>
                   </div>
                   <div class="kanban-col-cards">
-                    {cards_html or '<div class="kanban-empty-state">暂无任务</div>'}
+                    {cards_html}
                   </div>
                 </div>
                 """)
@@ -1578,8 +1676,10 @@ def sanitize_model_for_scope(model: Dict[str, Any], scope: str) -> Dict[str, Any
 
 def render_toc(model: Dict[str, Any]) -> str:
     entries = [("summary-heading", "摘要")]
-    if model.get("kpis") or model.get("metrics"):
-        entries.append(("metrics-section" if model.get("metrics") else "kpis", "指标"))
+    if model.get("kpis"):
+        entries.append(("kpis", "核心指标"))
+    if model.get("metrics"):
+        entries.append(("metrics-section", "指标明细"))
     if model.get("progress"):
         entries.append(("progress", "目标"))
     if model.get("charts"):
@@ -1611,6 +1711,7 @@ def render_html(model: Dict[str, Any], template: Dict[str, Any], css: str, runti
     report.setdefault("theme", {})
     theme = {**template["theme"], **report["theme"]}
     report["theme"] = theme
+    report["template_design"] = deepcopy(template.get("design", {}))
     
     template_id = report.get("template", template.get("id", "qianzi"))
     template_id = TEMPLATE_ALIASES.get(template_id, template_id)
@@ -1629,9 +1730,27 @@ def render_html(model: Dict[str, Any], template: Dict[str, Any], css: str, runti
     layout_id = user_layout if user_layout else layout_default
 
     if layout_id == "operating-review":
-        default_layout_order = ["summary", "metrics", "charts", "okrs", "sections", "requirements", "risks", "next_actions"]
+        default_layout_order = [
+            "summary",
+            "kpis",
+            "metrics",
+            "progress",
+            "charts",
+            "okrs",
+            "requirements",
+            "sections",
+            "risks",
+            "next_actions",
+        ]
     else:
-        default_layout_order = ["summary", "kpis", "progress", "charts", "sections", "risks", "next_actions"]
+        default_layout_order = [
+            "summary",
+            "kpis",
+            "progress",
+        ]
+        if report.get("metrics") and not report.get("kpis"):
+            default_layout_order.append("metrics")
+        default_layout_order.extend(["charts", "okrs", "sections", "risks", "next_actions"])
 
     presentation_defaults = {
         "density": "compact" if parent_style in {"executive", "product-operations"} else "balanced",
@@ -1653,7 +1772,12 @@ def render_html(model: Dict[str, Any], template: Dict[str, Any], css: str, runti
     for k, v in theme.items():
         if isinstance(v, str) and re.fullmatch(r"#[0-9a-fA-F]{6}", v):
             theme_style_list.append(f"--{k}:{v}")
-    theme_style_str = "; ".join(theme_style_list)
+    design_style, design_attributes = template_design_style(report["template_design"])
+    theme_style_str = "; ".join(filter(None, ["; ".join(theme_style_list), design_style]))
+    design_attribute_str = "".join(
+        f' {escape(name)}="{escape(value)}"'
+        for name, value in design_attributes.items()
+    )
     title = report["metadata"].get("title", "Weekly Report")
     period = report["metadata"].get("period", {}).get("label", "")
     source_label = report["metadata"].get("source_label", "Structured sources")
@@ -1693,15 +1817,34 @@ def render_html(model: Dict[str, Any], template: Dict[str, Any], css: str, runti
 
     tab_nav = ""
     if layout_id == "operating-review":
-        tab_nav = """
+        tab_specs = [
+            ("summary", "决策摘要", bool(summary)),
+            ("kpis", "核心指标", bool(report.get("kpis"))),
+            ("metrics", "指标明细", bool(report.get("metrics"))),
+            ("progress", "目标进度", bool(report.get("progress"))),
+            ("charts", "趋势分析", bool(report.get("charts"))),
+            ("okrs", "OKR复盘", bool(report.get("okrs"))),
+            ("requirements", "需求看板", any(
+                item.get("type") == "requirement"
+                for item in report.get("okrs", [])
+                if isinstance(item, dict)
+            )),
+            ("sections", "业务进展", bool(report.get("sections"))),
+            ("risks", "风险", bool(report.get("risks"))),
+            ("next_actions", "下周行动", bool(report.get("next_actions"))),
+            ("sources", "数据来源", bool(report.get("sources"))),
+        ]
+        tab_buttons = []
+        for tab_id, label, visible in tab_specs:
+            if not visible:
+                continue
+            active = " active" if not tab_buttons else ""
+            tab_buttons.append(
+                f'<button type="button" class="tab-btn{active}" data-tab="{tab_id}">{label}</button>'
+            )
+        tab_nav = f"""
         <nav class="operating-review-tabs" aria-label="视图导航">
-          <button type="button" class="tab-btn active" data-tab="summary">决策摘要</button>
-          <button type="button" class="tab-btn" data-tab="metrics">经营指标</button>
-          <button type="button" class="tab-btn" data-tab="charts">趋势分析</button>
-          <button type="button" class="tab-btn" data-tab="okrs">OKR复盘</button>
-          <button type="button" class="tab-btn" data-tab="requirements">需求看板</button>
-          <button type="button" class="tab-btn" data-tab="sections">业务进展</button>
-          <button type="button" class="tab-btn" data-tab="sources">数据来源</button>
+          {"".join(tab_buttons)}
         </nav>
         """
     
@@ -1730,12 +1873,13 @@ def render_html(model: Dict[str, Any], template: Dict[str, Any], css: str, runti
       <footer class="report-footer"><span>WEEKLY REPORT / TRACEABLE REPORT</span><span>{escape(period)}</span><span>静态快照，不代表实时数据</span></footer>
     """
     return f"""<!doctype html>
-<html lang="{escape(report['metadata'].get('locale', 'zh-CN'))}" data-template="{escape(parent_style)}" data-template-id="{escape(template_id)}" data-density="{escape(report['presentation']['density'])}" data-section-layout="{escape(report['presentation']['section_layout'])}" data-layout="{escape(layout_id)}"{f' style="{theme_style_str}"' if theme_style_str else ''} data-scope="{escape(report['metadata'].get('scope', 'internal'))}">
+<html lang="{escape(report['metadata'].get('locale', 'zh-CN'))}" data-template="{escape(parent_style)}" data-template-id="{escape(template_id)}" data-density="{escape(report['presentation']['density'])}" data-section-layout="{escape(report['presentation']['section_layout'])}" data-layout="{escape(layout_id)}"{design_attribute_str}{f' style="{escape(theme_style_str)}"' if theme_style_str else ''} data-scope="{escape(report['metadata'].get('scope', 'internal'))}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <meta name="generator" content="WeeklyViz 1.0">
+  <link rel="icon" href="data:,">
   <title>{escape(title)}</title>
   <style>{css}</style>
 </head>
@@ -1793,7 +1937,7 @@ def compile_source_bundle_to_report(bundle: Dict[str, Any]) -> Dict[str, Any]:
     md_content = doc_source.get("data", {}).get("content_markdown", "")
     xml_content = doc_source.get("data", {}).get("content_xml", "")
     
-    title = "小红书产品组周报"
+    title = "小红书「市集」Tab 运营周报"
     period_label = "2026.06.01 - 06.07"
     m_title = re.search(r"<title>([^<]+)</title>", xml_content)
     if m_title:
@@ -1808,58 +1952,91 @@ def compile_source_bundle_to_report(bundle: Dict[str, Any]) -> Dict[str, Any]:
         s = s.replace(",", "").strip()
         return float(s)
 
-    m_dau = re.search(r"DAU\s*([\d,]+)", md_content, re.IGNORECASE)
-    m_live_dau = re.search(r"直播DAU\s*([\d,]+)", md_content)
-    m_recharge = re.search(r"充值人数\s*([\d,]+)", md_content)
-    m_gifts = re.search(r"送礼人数\s*([\d,]+)", md_content)
+    m_app_dau = re.search(r"大盘DAU\s*([\d,]+)", md_content, re.IGNORECASE)
+    m_shiji_dau = re.search(r"市集DAU\s*([\d,]+)", md_content, re.IGNORECASE)
+    m_shiji_gmv = re.search(r"市集GMV\s*([\d,]+)", md_content, re.IGNORECASE)
+    m_shiji_buyers = re.search(r"交易买家数\s*([\d,]+)", md_content, re.IGNORECASE)
     
+    val_app_dau = parse_num(m_app_dau.group(1)) if m_app_dau else 110000000
+    val_shiji_dau = parse_num(m_shiji_dau.group(1)) if m_shiji_dau else 24500000
+    val_shiji_gmv = parse_num(m_shiji_gmv.group(1)) if m_shiji_gmv else 185000000
+    val_shiji_buyers = parse_num(m_shiji_buyers.group(1)) if m_shiji_buyers else 3810000
+
     metrics.append({
-        "id": "dau",
-        "name": "小红书日活跃用户数(DAU)",
-        "value": parse_num(m_dau.group(1)) if m_dau else 78567,
+        "id": "app-dau",
+        "name": "小红书大盘 DAU",
+        "value": val_app_dau,
         "unit": "integer",
-        "scope": ["小红书"],
+        "scope": ["大盘", "流量"],
         "time_grain": "week",
         "aggregation": "average",
         "source_refs": [doc_src_id],
-        "comparison": {"previous": 78500},
-        "target": {"value": 85000, "period": "2026-Q2"}
+        "comparison": {"previous": 108000000},
+        "target": {"value": 120000000, "period": "2026-Q2"}
     })
     metrics.append({
-        "id": "live-dau",
-        "name": "直播活跃用户数(DAU)",
-        "value": parse_num(m_live_dau.group(1)) if m_live_dau else 138463,
+        "id": "shiji-dau",
+        "name": "市集 Tab DAU",
+        "value": val_shiji_dau,
         "unit": "integer",
-        "scope": ["直播"],
+        "scope": ["市集", "流量"],
         "time_grain": "week",
         "aggregation": "average",
         "source_refs": [doc_src_id],
-        "comparison": {"previous": 136742},
-        "target": {"value": 150000, "period": "2026-Q2"}
+        "comparison": {"previous": 21250000},
+        "target": {"value": 25000000, "period": "2026-Q2"}
     })
     metrics.append({
-        "id": "recharge-users",
-        "name": "直播充值人数",
-        "value": parse_num(m_recharge.group(1)) if m_recharge else 14397,
+        "id": "shiji-penetration",
+        "name": "大盘 DAU 渗透率",
+        "value": (val_shiji_dau / val_app_dau * 100) if val_app_dau > 0 else 22.3,
+        "unit": "percent",
+        "scope": ["大盘", "流量"],
+        "time_grain": "week",
+        "aggregation": "average",
+        "derived": True,
+        "formula": "shiji-dau / app-dau * 100",
+        "source_refs": [doc_src_id],
+        "comparison": {"previous": 19.67},
+        "target": {"value": 25.0, "period": "2026-Q2"}
+    })
+    metrics.append({
+        "id": "shiji-gmv",
+        "name": "周累计交易额 (GMV)",
+        "value": val_shiji_gmv,
         "unit": "integer",
-        "scope": ["直播", "充值"],
+        "scope": ["交易", "电商"],
         "time_grain": "week",
         "aggregation": "sum",
         "source_refs": [doc_src_id],
-        "comparison": {"previous": 13581},
-        "target": {"value": 22000, "period": "2026-Q2"}
+        "comparison": {"previous": 148200000},
+        "target": {"value": 200000000, "period": "2026-Q2"}
     })
     metrics.append({
-        "id": "gift-senders",
-        "name": "直播送礼人数",
-        "value": parse_num(m_gifts.group(1)) if m_gifts else 54702,
+        "id": "shiji-buyers",
+        "name": "交易买家数",
+        "value": val_shiji_buyers,
         "unit": "integer",
-        "scope": ["直播", "送礼"],
+        "scope": ["交易", "电商"],
         "time_grain": "week",
         "aggregation": "sum",
         "source_refs": [doc_src_id],
-        "comparison": {"previous": 55595},
-        "target": {"value": 70000, "period": "2026-Q2"}
+        "comparison": {"previous": 3100000},
+        "target": {"value": 4000000, "period": "2026-Q2"}
+    })
+    metrics.append({
+        "id": "shiji-aov",
+        "name": "客单价 (AOV)",
+        "value": (val_shiji_gmv / val_shiji_buyers) if val_shiji_buyers > 0 else 48.5,
+        "unit": "currency",
+        "scope": ["交易", "电商"],
+        "time_grain": "week",
+        "aggregation": "average",
+        "derived": True,
+        "formula": "shiji-gmv / shiji-buyers",
+        "source_refs": [doc_src_id],
+        "comparison": {"previous": 47.8},
+        "target": {"value": 50.0, "period": "2026-Q2"}
     })
     
     okrs = []
@@ -1909,7 +2086,7 @@ def compile_source_bundle_to_report(bundle: Dict[str, Any]) -> Dict[str, Any]:
                 m_user = re.search(r'user-name="([^"]+)"', owner_xml)
                 owner = m_user.group(1) if m_user else strip_html(owner_xml)
                 if not owner or owner == "-":
-                    owner = "孙浩宸"
+                    owner = "大盘流量运营组"
                     
                 priority = strip_html(row_data.get("优先级", ""))
                 if not priority or priority == "-":
@@ -1969,7 +2146,7 @@ def compile_source_bundle_to_report(bundle: Dict[str, Any]) -> Dict[str, Any]:
                 "id": curr_obj,
                 "type": "objective",
                 "label": label,
-                "health": "on-track",
+                "health": "正常",
                 "source_refs": [doc_src_id]
             })
             continue
@@ -1983,7 +2160,7 @@ def compile_source_bundle_to_report(bundle: Dict[str, Any]) -> Dict[str, Any]:
                 "type": "key-result",
                 "label": label,
                 "parent_id": curr_obj,
-                "health": "on-track",
+                "health": "正常",
                 "source_refs": [doc_src_id]
             })
             continue
@@ -1996,8 +2173,8 @@ def compile_source_bundle_to_report(bundle: Dict[str, Any]) -> Dict[str, Any]:
                 "id": curr_plan,
                 "type": "plan",
                 "label": label,
-                "parent_id": curr_kr if curr_kr else (curr_obj if curr_obj else "O1"),
-                "owner": "孙浩宸",
+                "parent_id": curr_kr if curr_kr else (curr_obj if curr_obj else "okr-o1"),
+                "owner": "大盘流量运营组",
                 "stage": "开发",
                 "health": "on-track",
                 "source_refs": [doc_src_id]
@@ -2010,33 +2187,47 @@ def compile_source_bundle_to_report(bundle: Dict[str, Any]) -> Dict[str, Any]:
 
     if not any(o.get("type") == "objective" for o in okrs):
         okrs.insert(0, {
-            "id": "O1",
+            "id": "okr-o1",
             "type": "objective",
-            "label": "持续优化小红书核心指标，驱动经营稳步上升",
-            "health": "on-track",
+            "label": "优化小红书「市集」Tab 闭环交易体验，大盘 DAU 渗透率稳定提升至 25%",
+            "health": "正常",
             "source_refs": [doc_src_id]
         })
         okrs.insert(1, {
-            "id": "O1-KR1",
+            "id": "okr-kr1.1",
             "type": "key-result",
-            "label": "提升小红书DAU至80,000，保障活跃用户稳定",
-            "parent_id": "O1",
-            "health": "on-track",
+            "label": "灰度期市集 Tab 日活跃用户（DAU）稳定在 2,500 万，新访客 7 日留存率提升至 12.0%",
+            "parent_id": "okr-o1",
+            "health": "正常",
+            "current": 24.5,
+            "target": 25.0,
+            "unit": "百万",
             "source_refs": [doc_src_id]
         })
         okrs.insert(2, {
-            "id": "P001",
-            "type": "plan",
-            "label": "小红书版本迭代与新用户专项优化",
-            "parent_id": "O1-KR1",
-            "owner": "孙浩宸",
+            "id": "okr-kr1.2",
+            "type": "key-result",
+            "label": "电商闭环交易漏斗优化，详情页至下单支付转化率由 2.8% 提升至 3.5%",
+            "parent_id": "okr-o1",
+            "health": "关注",
+            "current": 2.8,
+            "target": 3.5,
+            "unit": "%",
+            "source_refs": [doc_src_id]
+        })
+        okrs.insert(3, {
+            "id": "okr-p1.2.1",
+            "type": "requirement",
+            "label": "收银台一键优惠券结算体验及缓存异步预加载优化",
+            "parent_id": "okr-kr1.2",
+            "owner": "电商交易研发组",
             "stage": "开发",
             "health": "on-track",
             "source_refs": [doc_src_id]
         })
         
-    plan_ids = [o["id"] for o in okrs if o.get("type") == "plan"]
-    default_plan = plan_ids[0] if plan_ids else "P001"
+    plan_ids = [o["id"] for o in okrs if o.get("type") in ("plan", "key-result")]
+    default_plan = plan_ids[-1] if plan_ids else "okr-kr1.2"
     for okr in okrs:
         if okr.get("type") == "requirement" and okr.get("parent_id") not in plan_ids:
             okr["parent_id"] = default_plan
@@ -2045,7 +2236,7 @@ def compile_source_bundle_to_report(bundle: Dict[str, Any]) -> Dict[str, Any]:
         "metadata": {
             "report_id": f"lark-operating-review-{doc_id}",
             "title": title,
-            "subtitle": "小红书产品组经营数据深度复盘",
+            "subtitle": "小红书「市集」Tab 运营周报",
             "locale": "zh-CN",
             "source_label": f"Feishu Document {doc_id}",
             "period": {
@@ -2056,12 +2247,12 @@ def compile_source_bundle_to_report(bundle: Dict[str, Any]) -> Dict[str, Any]:
         },
         "template": "songye",
         "theme": {
-            "primary": "#6750A4",
-            "accent": "#A78BFA",
-            "background": "#F6F3FC",
+            "primary": "#FF2442",
+            "accent": "#3366FF",
+            "background": "#FAF9F9",
             "surface": "#FFFFFF",
-            "text": "#242033",
-            "muted": "#716A80"
+            "text": "#1A1919",
+            "muted": "#7E7979"
         },
         "presentation": {
             "density": "compact",
@@ -2071,69 +2262,111 @@ def compile_source_bundle_to_report(bundle: Dict[str, Any]) -> Dict[str, Any]:
             "show_toc": True
         },
         "summary": {
-            "headline": "版本与专项有序推进，日活及充值人数表现稳健",
-            "body": "本周小红书产品组周报总结：日活DAU基本持平，直播各项付费渗透表现稳健，充值人数与直播DAU环比小幅上涨。新用户转化专项三期开发中，预计6月12日上线发布；市集商家出摊与中后台家族主播预支流程在产品验收阶段，下期重点推进自动结算上线与合规限额测试。",
+            "headline": "小红书「市集」Tab 上线首周大盘渗透率达 22.3%，DAU 突破 2,450 万，详情页转化率待算法优化",
+            "body": "本周是新版闭环电商入口「市集」Tab 灰度上线的首个完整运行周。在大盘未开启外导流和高强度曝光的情况下，市集 Tab 日均活跃用户（DAU）稳定增至 2,450 万，大盘 DAU 渗透率达到 22.3%，周累计交易额（GMV）实现 1.85 亿元，证明了社区种草与交易闭环链路的高接受度。然而，收银台微调后存在 2.4% 的跳失波动，且首周主 Feed 从详情页至下单的转化率偏低（2.8%）。",
             "highlights": [
-                f"上周小红书DAU {metrics[0]['value']:,g}，表现基本稳定；",
-                f"上周直播DAU {metrics[1]['value']:,g}，环比上涨 1,721 人；",
-                f"充值人数 {metrics[2]['value']:,g}，环比上涨 816 人；",
-                "中后台主播入驻结算自动化方案泛微对接已提交排期。"
+                f"大盘 DAU {metrics[0]['value']/100000000:.1f}亿，表现基本稳定；",
+                f"市集 Tab DAU {metrics[1]['value']/1000000:.0f}万，渗透率超预期突破 22%；",
+                f"周累计成交 GMV {metrics[3]['value']/100000000:.2f}亿元，日均成交 2,640 万元；",
+                "小红书市集「红种计划」入驻及白牌笔记发布环比增长 25%。"
             ]
         },
         "metrics": metrics,
         "okrs": okrs,
+        "charts": [
+            {
+                "id": "shiji-dau-gmv-trend",
+                "type": "bar",
+                "title": "市集 Tab 灰度首周 DAU 与交易走势",
+                "question": "每日流量与成交规模是否同步稳步爬坡？",
+                "unit": "万/百万元",
+                "insight": "DAU 与交易额在周五与周末呈明显爆发，与社区周末种草流量峰值吻合。",
+                "insight_points": [
+                    "周一 DAU 为 2,120万，日成交金额为 2,150万元",
+                    "周日 DAU 录得峰值 2,680万，日成交金额冲至 3,120万元"
+                ],
+                "labels": ["06-01", "06-02", "06-03", "06-04", "06-05", "06-06", "06-07"],
+                "series": [
+                    {
+                        "name": "日活跃用户 (DAU)",
+                        "values": [2120, 2250, 2310, 2280, 2560, 2650, 2680]
+                    },
+                    {
+                        "name": "日成交金额 (GMV)",
+                        "values": [21.5, 23.2, 24.8, 23.9, 28.5, 30.2, 31.2]
+                    }
+                ],
+                "source_refs": [doc_src_id]
+            },
+            {
+                "id": "shiji-traffic-mix",
+                "type": "donut",
+                "title": "市集 Tab 流量来源构成",
+                "question": "灰度首周进入市集的用户主要来自哪些入口？",
+                "unit": "%",
+                "insight": "主 Feed 商品挂件和首页 Tab 分流占比超过 80%，是核心流量支撑。",
+                "labels": ["主 Feed 挂件", "首页 Tab 分流", "搜索直达", "其他分发"],
+                "series": [
+                    {
+                        "name": "流量占比",
+                        "values": [45, 36, 12, 7]
+                    }
+                ],
+                "source_refs": [doc_src_id]
+            }
+        ],
         "sections": [
             {
                 "id": "shiji-core-details",
-                "title": "业务专项与中后台合规进展",
-                "summary": "包含小红书主APP新用户专项、市集、Pika及中后台大额结算的详细执行情况。",
+                "title": "市集 Tab 运营及交易闭环专项进展",
+                "summary": "包含新版闭环电商「市集」Tab 灰度发布、收银台体验微调及「红种计划」商家冷启动的执行情况。",
                 "layout": "grid",
                 "items": [
                     {
-                        "title": "小红书新用户专项三期",
-                        "body": "情感树洞、群像整活、磕糖圣地主播分类Tab改版中，增加Highlights标签外露，自然流量AB test挂件验证。",
-                        "status": "on-track",
-                        "owner": "孙浩宸",
-                        "meta": "预计6.12发布",
-                        "outcome": "原型设计与接口定义已完成，前端开发中。",
-                        "next": "6月12日全渠道发版并开始回收AB测试数据。"
+                        "title": "新版闭环电商「市集」Tab 灰度发布",
+                        "body": "大盘 20% 灰度测试已完成，页面核心框架及组件渲染性能稳定，首周 DAU 达到预定目标。",
+                        "status": "complete",
+                        "owner": "大盘流量运营组",
+                        "meta": "灰度比例 20%",
+                        "outcome": "无重大崩溃，ECharts 与 CSS 渲染耗时控制在 120ms 以内。",
+                        "next": "根据性能日志评估下周开启 50% 极速放量。"
                     },
                     {
-                        "title": "家族结算预支功能",
-                        "body": "支持预支家族月流水25%，分预支现金与预支红豆，共享额度。对疑似风险家族支持后台禁止预支控制。",
+                        "title": "收银台体验微调及支付防漏斗流失",
+                        "body": "收银台新增优惠券一键勾选功能，但上线后发现因接口丢包导致支付跳失率上涨 2.4%。",
                         "status": "watch",
-                        "owner": "孙浩宸",
-                        "meta": "产品验收中",
-                        "outcome": "核心交易与手续费收取逻辑（<=8万收1%，>8万收2%）开发完成。",
-                        "next": "本周内同运营及财务确认最终限额和打款主体，并进行功能上线。"
+                        "owner": "电商交易研发组",
+                        "meta": "开发联调中",
+                        "outcome": "定位为收银台缓存未同步导致接口延迟，已紧急发布热修补丁。",
+                        "next": "监控本周热修后的流失数据，确保跳失率降至 1.5% 以下。"
                     },
                     {
-                        "title": "主播公对公大额充值",
-                        "body": "为主播工作室/公司大额打款充值红豆及开具发票提供后台链路支持，满足税务抵扣诉求。",
-                        "status": "planned",
-                        "owner": "孙浩宸",
-                        "meta": "已入需求池",
-                        "outcome": "已完成首轮需求讨论和财务审核流程沟通。",
-                        "next": "完成家族预支和主播引流数据开发后排期启动。"
+                        "title": "小红书市集「红种计划」白牌冷启动",
+                        "body": "联合创作者部门引入 500 个国货白牌及设计师品牌商家入驻，白牌挂件笔记发布环比增长 25%。",
+                        "status": "on-track",
+                        "owner": "招商与生态运营组",
+                        "meta": "首期 500 商家",
+                        "outcome": "目前已完成 420 家店铺的上线 and 商品上架，白牌挂件交易额占首周 GMV 的 18%。",
+                        "next": "推进剩余 80 家品牌在 6 月 15 日前完成入驻。"
                     }
                 ]
             }
         ],
         "risks": [
             {
-                "title": "大文件导入在极端压测下性能未达标",
-                "body": "在市集50MB+的商品及物料大批量导入压测中耗时超出目标线，内存开销较大。",
-                "owner": "孙浩宸",
+                "title": "详情页至下单的转化率偏低",
+                "body": "首周主 Feed 从商品详情页至下单的转化率仅为 2.8%，未达到 3.5% 的基准线，算法匹配度亟待优化。",
+                "owner": "电商算法策略组",
                 "severity": "high",
                 "source_refs": [doc_src_id]
             }
         ],
         "next_actions": [
             {
-                "title": "完成家族预支线上验收并确定上线排期",
-                "body": "本周五前完成联调测试，确认特殊小额纳税人中转打款账号逻辑。",
-                "owner": "孙浩宸",
-                "due": "06-12",
+                "title": "启动推荐策略 A/B 测试",
+                "body": "灰度上线协同过滤 vs 内容语义特征与搜索意图加权算法，以提升详情页曝光到支付的转化。",
+                "owner": "电商算法策略组",
+                "due": "06-15",
                 "status": "planned",
                 "source_refs": [doc_src_id]
             }
@@ -2444,7 +2677,7 @@ def build_parser() -> argparse.ArgumentParser:
     render_parser.add_argument("--output", required=True, help="Output HTML")
     render_parser.add_argument(
         "--template",
-        choices=["executive", "editorial", "product-operations"],
+        choices=sorted(set(TEMPLATE_ALIASES).union(path.stem for path in TEMPLATES.glob("*.json"))),
         help="Override the model template",
     )
     render_parser.add_argument(

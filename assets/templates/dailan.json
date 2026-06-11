@@ -3,6 +3,8 @@
   "label": "黛蓝 (Dailan)",
   "description": "深邃宁静的经典商务黛蓝配色",
   "parent_style": "executive",
+  "canonical_layout": "dashboard",
+  "canonical_section_layout": "list",
   "theme": {
     "primary": "#0F172A",
     "accent": "#1E40AF",
@@ -10,5 +12,37 @@
     "surface": "#FFFFFF",
     "text": "#0F172A",
     "muted": "#64748B"
+  },
+  "design": {
+    "typography": {
+      "display": "\"Arial Narrow\", \"PingFang SC\", Arial, sans-serif",
+      "body": "Arial, \"PingFang SC\", \"Microsoft YaHei\", sans-serif",
+      "numeric": "\"SF Mono\", Menlo, monospace",
+      "label": "\"Arial Narrow\", \"SF Mono\", monospace"
+    },
+    "geometry": {
+      "card_shape": "square",
+      "section_style": "ledger",
+      "radius_lg": "5px",
+      "radius_md": "3px",
+      "radius_sm": "2px",
+      "border_width": "1px",
+      "card_shadow": "0 4px 0 rgba(15, 23, 42, 0.08)",
+      "page_shadow": "0 20px 58px rgba(15, 23, 42, 0.14)"
+    },
+    "hero": {"style": "bands"},
+    "chart": {
+      "style": "ledger",
+      "palette": ["#2563EB", "#0EA5E9", "#475569", "#94A3B8"],
+      "grid": "solid",
+      "smooth": false,
+      "symbol": "none",
+      "line_width": 2,
+      "symbol_size": 5,
+      "bar_radius": 0,
+      "area_opacity": 0.08,
+      "donut": ["58%", "75%"],
+      "legend": "bottom"
+    }
   }
 }

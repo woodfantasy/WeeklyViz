@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href=""><img src="https://img.shields.io/badge/version-0.1.1-blue.svg" alt="Version"></a>
+  <a href=""><img src="https://img.shields.io/badge/version-0.1.2-blue.svg" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"></a>
   <a href=""><img src="https://img.shields.io/badge/platform-Codex_/_Claude_Code-purple.svg" alt="Platform"></a>
 </p>
@@ -27,8 +27,8 @@ C'est une Claude Skill et un outil indépendant construit sous la spécification
 ## 🖼️ Exemple de Résultat
 
 <p align="center">
-  <a href="assets/weeklyviz-multi-layout-showcase.jpg">
-    <img src="assets/weeklyviz-multi-layout-showcase.jpg" width="860" alt="Présentation des rapports hebdomadaires multi-mises en page de WeeklyViz">
+  <a href="assets/weeklyviz-multi-layout-showcase.png">
+    <img src="assets/weeklyviz-multi-layout-showcase.png" width="860" alt="Présentation des rapports hebdomadaires multi-mises en page de WeeklyViz">
   </a>
 </p>
 
@@ -41,7 +41,7 @@ C'est une Claude Skill et un outil indépendant construit sous la spécification
 | Fonctionnalité | Description |
 |----------------|-------------|
 | 📊 **Extraction Multi-sources** | Analyse et traite automatiquement les fichiers `.xlsx`, `.csv`, `.docx`, `.md` et `.txt` pour en extraire les métriques et les listes. |
-| 🎨 **Système de Conception Multi-Mise en Page** | Inclut 13 thèmes professionnels et plusieurs mises en page pour les récits éditoriaux, tableaux de bord, suivis Kanban et vues de données denses, le tout responsive et hors ligne. |
+| 🎨 **Système de Conception Multi-Mise en Page** | Inclut 14 thèmes professionnels et plusieurs mises en page pour les récits éditoriaux, tableaux de bord, suivis Kanban et vues de données denses, le tout responsive et hors ligne. |
 | 🔗 **Traçabilité de la Source** | Lie automatiquement chaque KPI, barre de progression, graphique et élément à son fichier et sa ligne d'origine via des identifiants stables. |
 | ✏️ **Édition Inline Interactive** | Le rapport HTML final permet de modifier les textes et les nombres en ligne, d'ajuster les couleurs de thème et d'exporter en PDF. |
 | 📈 **Apache ECharts Embarqué** | Utilise un moteur ECharts local (`echarts.min.js`) pour tracer des graphiques en lignes, barres et beignets hors-ligne. |
@@ -85,9 +85,12 @@ python3 scripts/weeklyviz.py render --report report-model.json --output weekly-r
 
 ## 📋 Historique des Versions
 
+*   **v0.1.2** (2026-06-11)
+    - Correction de l'alignement vertical des puces de statut et des titres dans la mise en page en liste (`layout-list`) pour un rendu centré sur tous les modèles.
+    - Recréation et mise à jour de l'image de démonstration du produit présentant le rapport hebdomadaire de Xiaohongshu Shiji Tab.
 *   **v0.1.1** (2026-06-09)
     - Structure des dossiers aplatie à la racine pour l'installation et l'exécution standard des agents.
     - Conception et mise à niveau premium du modèle `Editorial` avec arrière-plan pointillé, barre de style macOS, ombres portées solides, listes à puces et barres latérales.
-    - Politique de sécurité pour exclure les données locales sensibles de Shiji dans le référentiel public.
+    - Politique de sécurité pour exclure les données locales sensibles de l'entreprise dans le référentiel public.
 *   **v0.1.0** (2026-06-09)
     - Version initiale.

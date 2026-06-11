@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href=""><img src="https://img.shields.io/badge/version-0.1.1-blue.svg" alt="Version"></a>
+  <a href=""><img src="https://img.shields.io/badge/version-0.1.2-blue.svg" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"></a>
   <a href=""><img src="https://img.shields.io/badge/platform-Codex_/_Claude_Code-purple.svg" alt="Platform"></a>
 </p>
@@ -27,8 +27,8 @@
 ## 🖼️ 결과물 예시
 
 <p align="center">
-  <a href="assets/weeklyviz-multi-layout-showcase.jpg">
-    <img src="assets/weeklyviz-multi-layout-showcase.jpg" width="860" alt="WeeklyViz 다중 레이아웃 주간 보고서 쇼케이스">
+  <a href="assets/weeklyviz-multi-layout-showcase.png">
+    <img src="assets/weeklyviz-multi-layout-showcase.png" width="860" alt="WeeklyViz 다중 레이아웃 주간 보고서 쇼케이스">
   </a>
 </p>
 
@@ -41,7 +41,7 @@
 | 기능 | 설명 |
 |------|------|
 | 📊 **다중 소스 추출** | `.xlsx`, `.csv`, `.docx`, `.md`, 및 `.txt` 파일을 자동으로 분석하여 핵심 지표와 작업 진행 상황을 추출합니다. |
-| 🎨 **다중 레이아웃 디자인 시스템** | 13가지 전문 테마와 에디토리얼, 경영 대시보드, Kanban, 데이터 중심의 다양한 레이아웃을 제공하며 오프라인으로 작동합니다. |
+| 🎨 **다중 레이아웃 디자인 시스템** | 14가지 전문 테마와 에디토리얼, 경영 대시보드, Kanban, 데이터 중심의 다양한 레이아웃을 제공하며 오프라인으로 작동합니다. |
 | 🔗 **소스 추적성** | 고유한 해시 ID를 사용해 모든 KPI와 목록 항목을 원본 파일 이름 및 줄 위치에 자동으로 매핑하여 데이터 신뢰성을 보장합니다. |
 | ✏️ **대화형 인라인 편집** | 출력된 HTML 보고서는 인라인 편집을 지원합니다. 텍스트와 숫자를 바로 수정하고, 테마 색상을 변경하여 PDF/인쇄로 출력할 수 있습니다. |
 | 📈 **ECharts 내장** | 로컬 ECharts 런타임(`echarts.min.js`)을 탑재해 꺾은선, 막대, 도넛 차트 등을 오프라인 환경에서 렌더링합니다. |
@@ -85,6 +85,9 @@ python3 scripts/weeklyviz.py render --report report-model.json --output weekly-r
 
 ## 📋 버전 정보
 
+*   **v0.1.2** (2026-06-11)
+    - 리스트 레이아웃(`layout-list`)에서 상태 점과 제목의 수직 정렬을 수정하여 모든 템플릿에서 중앙에 맞춰 렌더링되도록 개선.
+    - 샤오홍슈(Xiaohongshu) '시집(Shiji)' 탭 주간 보고서 쇼케이스를 보여주는 제품 모형 이미지를 재제작 및 업데이트.
 *   **v0.1.1** (2026-06-09)
     - 표준 에이전트 로드 및 설치를 위해 디렉터리 계층 구조를 루트 폴더로 평탄화.
     - `Editorial` 템플릿에 도트 배경, macOS 창 표시 장식, 하드 그림자 카드, 도트라인 리스트, 양측 사이드바 장식을 추가하는 프리미엄 업그레이드 단행.

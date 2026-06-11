@@ -16,6 +16,8 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+/output/
+/.playwright-cli/
 
 # WeeklyViz User Execution / Temporary Files
 /weekly-report.html
@@ -27,3 +29,5 @@ yarn-error.log*
 /*-report.html
 /social-card-weeklyviz/
 
+# Local benchmark/reference reports (sensitive data, do not upload)
+/evals/*-weekly-reference.html

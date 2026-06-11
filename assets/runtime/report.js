@@ -403,6 +403,30 @@
 
   function applyTheme() {
     const root = document.documentElement;
+    const design = model.template_design || {};
+    const typography = design.typography || {};
+    const geometry = design.geometry || {};
+    const hero = design.hero || {};
+    const chart = design.chart || {};
+    const designVariables = {
+      "--font-display": typography.display,
+      "--font-body": typography.body,
+      "--font-numeric": typography.numeric,
+      "--font-label": typography.label,
+      "--radius-lg": geometry.radius_lg,
+      "--radius-md": geometry.radius_md,
+      "--radius-sm": geometry.radius_sm,
+      "--border-width": geometry.border_width,
+      "--card-shadow": geometry.card_shadow,
+      "--page-shadow": geometry.page_shadow,
+    };
+    Object.entries(designVariables).forEach(([name, value]) => {
+      if (typeof value === "string" && value.trim()) root.style.setProperty(name, value);
+    });
+    root.setAttribute("data-card-shape", geometry.card_shape || "rounded");
+    root.setAttribute("data-section-style", geometry.section_style || "rule");
+    root.setAttribute("data-hero-style", hero.style || "slab");
+    root.setAttribute("data-chart-style", chart.style || "balanced");
     Object.entries(model.theme || {}).forEach(([key, value]) => {
       if (/^#[0-9a-f]{6}$/i.test(value)) root.style.setProperty(`--${key}`, value);
     });
@@ -432,25 +456,63 @@
       return;
     }
 
-    // 1. Setup Tab Switching Click Listeners
+    // 1. Setup Tab Switching Click Listeners (Scrolling Jump Links)
     const tabBtns = document.querySelectorAll(".operating-review-tabs .tab-btn");
     tabBtns.forEach(btn => {
       btn.onclick = () => {
         const tab = btn.dataset.tab;
-        document.documentElement.setAttribute("data-active-tab", tab);
-        tabBtns.forEach(b => b.classList.toggle("active", b === btn));
-        window.setTimeout(resizeCharts, 50);
+        let target = null;
+        if (tab === "summary") target = document.getElementById("summary-section");
+        else if (tab === "kpis") target = document.getElementById("kpis");
+        else if (tab === "metrics") target = document.getElementById("metrics-section");
+        else if (tab === "progress") target = document.getElementById("progress");
+        else if (tab === "charts") target = document.getElementById("charts");
+        else if (tab === "okrs") target = document.getElementById("okrs-section");
+        else if (tab === "sections") target = document.querySelector("[id^='work-']");
+        else if (tab === "requirements") target = document.getElementById("requirements-section");
+        else if (tab === "risks") target = document.getElementById("risks");
+        else if (tab === "next_actions") target = document.getElementById("next_actions");
+        else if (tab === "sources") target = document.querySelector(".source-section");
+
+        if (target) {
+          const topOffset = target.getBoundingClientRect().top + window.pageYOffset - 140; // Subtract sticky nav height
+          window.scrollTo({ top: topOffset, behavior: "smooth" });
+          tabBtns.forEach(b => b.classList.toggle("active", b === btn));
+        }
       };
     });
 
-    // Set default active tab if not present
-    if (!document.documentElement.hasAttribute("data-active-tab")) {
-      document.documentElement.setAttribute("data-active-tab", "summary");
-      const summaryBtn = document.querySelector('.operating-review-tabs .tab-btn[data-tab="summary"]');
-      if (summaryBtn) summaryBtn.classList.add("active");
+    // 2. Highlight tabs on scroll
+    if ("IntersectionObserver" in window) {
+      const observerLinks = [
+        { tab: "summary", el: document.getElementById("summary-section") },
+        { tab: "kpis", el: document.getElementById("kpis") },
+        { tab: "metrics", el: document.getElementById("metrics-section") },
+        { tab: "progress", el: document.getElementById("progress") },
+        { tab: "charts", el: document.getElementById("charts") },
+        { tab: "okrs", el: document.getElementById("okrs-section") },
+        { tab: "sections", el: document.querySelector("[id^='work-']") },
+        { tab: "requirements", el: document.getElementById("requirements-section") },
+        { tab: "risks", el: document.getElementById("risks") },
+        { tab: "next_actions", el: document.getElementById("next_actions") },
+        { tab: "sources", el: document.querySelector(".source-section") }
+      ].filter(item => item.el);
+
+      const observer = new IntersectionObserver((entries) => {
+        const visible = entries
+          .filter(e => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!visible) return;
+        const matchingLink = observerLinks.find(item => item.el === visible.target);
+        if (matchingLink) {
+          tabBtns.forEach(btn => btn.classList.toggle("active", btn.dataset.tab === matchingLink.tab));
+        }
+      }, { rootMargin: "-120px 0px -60% 0px", threshold: [0, 0.1, 0.5] });
+
+      observerLinks.forEach(item => observer.observe(item.el));
     }
 
-    // 2. OKR collapse/expand toggles
+    // 3. OKR collapse/expand toggles
     const okrHeaders = document.querySelectorAll(".okr-tree .okr-node-header");
     okrHeaders.forEach(header => {
       header.onclick = (e) => {
@@ -462,7 +524,7 @@
       };
     });
 
-    // 3. Requirements View Toggles (Table vs Kanban)
+    // 4. Requirements View Toggles (Table vs Kanban)
     const viewToggles = document.querySelectorAll(".view-toggles .toggle-btn");
     const viewContainers = document.querySelectorAll(".req-view-container");
     viewToggles.forEach(btn => {
@@ -642,19 +704,48 @@
   }
 
   function chartPalette() {
+    const configured = model.template_design?.chart?.palette;
+    const supplemental = Array.isArray(configured)
+      ? configured.filter((value) => /^#[0-9a-f]{6}$/i.test(value))
+      : [];
     return [
       cssColor("--primary"),
       cssColor("--accent"),
+      ...supplemental,
       cssColor("--success"),
       cssColor("--warning"),
       "#3B82F6",
       "#D65A8A",
-    ];
+    ].filter((value, index, values) => value && values.indexOf(value) === index).slice(0, 8);
+  }
+
+  function chartLanguage() {
+    const configured = model.template_design?.chart || {};
+    const gridTypes = { none: "solid", solid: "solid", dashed: "dashed", dotted: "dotted" };
+    const symbols = new Set(["circle", "rect", "roundRect", "triangle", "diamond", "pin", "arrow", "none"]);
+    const donut = Array.isArray(configured.donut) && configured.donut.length === 2
+      ? configured.donut
+      : ["48%", "72%"];
+    return {
+      style: configured.style || "balanced",
+      grid: configured.grid || "dashed",
+      gridType: gridTypes[configured.grid] || "dashed",
+      smooth: configured.smooth !== false,
+      symbol: symbols.has(configured.symbol) ? configured.symbol : "circle",
+      lineWidth: Number(configured.line_width) || 3,
+      symbolSize: Number(configured.symbol_size) || 7,
+      barRadius: Math.max(0, Number(configured.bar_radius) || 0),
+      areaOpacity: Math.max(0, Math.min(0.5, Number(configured.area_opacity) || 0.12)),
+      donut,
+      legend: configured.legend === "bottom" ? "bottom" : "top",
+    };
   }
 
   function commonChartOption(chart) {
     const muted = cssColor("--muted");
     const border = cssColor("--border");
+    const language = chartLanguage();
+    const legendAtBottom = language.legend === "bottom";
     return {
       animationDuration: matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 500,
       color: chartPalette(),
@@ -671,13 +762,14 @@
         valueFormatter: (value) => `${value}${chart.unit ? ` ${chart.unit}` : ""}`,
       },
       legend: {
-        top: 3,
+        top: legendAtBottom ? undefined : 3,
+        bottom: legendAtBottom ? 0 : undefined,
         right: 0,
         textStyle: { color: muted, fontSize: 10 },
         itemWidth: 12,
         itemHeight: 7,
       },
-      grid: { left: 52, right: 18, top: 52, bottom: 42, containLabel: true },
+      grid: { left: 52, right: 18, top: 52, bottom: legendAtBottom ? 58 : 42, containLabel: true },
       xAxis: {
         type: "category",
         data: chart.labels || [],
@@ -689,7 +781,10 @@
         type: "value",
         axisLine: { show: false },
         axisTick: { show: false },
-        splitLine: { lineStyle: { color: border, type: "dashed" } },
+        splitLine: {
+          show: language.grid !== "none",
+          lineStyle: { color: border, type: language.gridType },
+        },
         axisLabel: { color: muted, fontSize: 10 },
       },
     };
@@ -726,6 +821,7 @@
 
   function optionForChart(chart) {
     const common = commonChartOption(chart);
+    const language = chartLanguage();
     if (chart.type === "donut" || chart.type === "pie") {
       return {
         ...common,
@@ -734,10 +830,14 @@
         series: [{
           name: chart.series[0].name,
           type: "pie",
-          radius: chart.type === "donut" ? ["48%", "72%"] : "70%",
+          radius: chart.type === "donut" ? language.donut : language.donut[1],
           center: ["42%", "54%"],
           avoidLabelOverlap: true,
-          itemStyle: { borderColor: cssColor("--surface"), borderWidth: 3 },
+          itemStyle: {
+            borderColor: cssColor("--surface"),
+            borderWidth: language.style === "minimal" ? 1 : 3,
+            borderRadius: language.barRadius,
+          },
           label: { formatter: "{b}\n{d}%", color: cssColor("--muted"), fontSize: 10 },
           data: chart.labels.map((name, index) => ({ name, value: chart.series[0].values[index] })),
         }],
@@ -755,7 +855,11 @@
           top: 35,
           bottom: 20,
           label: { color: cssColor("--muted"), formatter: `{b}  {c}${chart.unit || ""}` },
-          itemStyle: { borderColor: cssColor("--surface"), borderWidth: 2 },
+          itemStyle: {
+            borderColor: cssColor("--surface"),
+            borderWidth: 2,
+            borderRadius: language.barRadius,
+          },
           data: chart.labels.map((name, index) => ({ name, value: chart.series[0].values[index] })),
         }],
       };
@@ -769,7 +873,8 @@
         series: chart.series.map((series) => ({
           name: series.name,
           type: "scatter",
-          symbolSize: 11,
+          symbol: language.symbol === "none" ? "circle" : language.symbol,
+          symbolSize: Math.max(9, language.symbolSize + 4),
           data: series.values,
         })),
       };
@@ -805,12 +910,22 @@
         name: series.name,
         type: seriesType,
         data: series.values,
-        smooth: seriesType === "line",
-        symbolSize: 7,
+        smooth: seriesType === "line" && language.smooth,
+        symbol: language.symbol,
+        showSymbol: language.symbol !== "none",
+        symbolSize: language.symbolSize,
         stack: chart.type === "stacked-bar" ? "total" : undefined,
-        areaStyle: chart.type === "area" ? { opacity: index === 0 ? 0.19 : 0.08 } : undefined,
-        lineStyle: seriesType === "line" ? { width: 3 } : undefined,
-        itemStyle: seriesType === "bar" ? { borderRadius: horizontal ? [0, 6, 6, 0] : [6, 6, 0, 0] } : undefined,
+        areaStyle: chart.type === "area"
+          ? { opacity: index === 0 ? language.areaOpacity : language.areaOpacity * 0.55 }
+          : undefined,
+        lineStyle: seriesType === "line" ? { width: language.lineWidth } : undefined,
+        itemStyle: seriesType === "bar"
+          ? {
+              borderRadius: horizontal
+                ? [0, language.barRadius, language.barRadius, 0]
+                : [language.barRadius, language.barRadius, 0, 0],
+            }
+          : undefined,
       })),
     };
     if (horizontal) option.yAxis.data = chart.labels || [];
@@ -979,6 +1094,27 @@
     targets.forEach((target) => observer.observe(target));
   }
 
+  function bindSpotlight() {
+    const selector = ".kpi-card, .metric-card, .okr-objective, .okr-kr, .okr-plan, .okr-requirement, .requirement-card, .action-card, .summary-band, .work-card, .work-item, .kanban-card";
+    const body = document.body;
+
+    document.addEventListener("mouseover", (event) => {
+      const card = event.target.closest(selector);
+      if (!card) return;
+      body.classList.add("spotlight-active");
+      card.classList.add("spotlight-focused");
+    });
+
+    document.addEventListener("mouseout", (event) => {
+      const card = event.target.closest(selector);
+      if (!card) return;
+      const related = event.relatedTarget;
+      if (related && card.contains(related)) return;
+      body.classList.remove("spotlight-active");
+      card.classList.remove("spotlight-focused");
+    });
+  }
+
   applyTheme();
   bindEditableContent();
   bindActions();
@@ -991,9 +1127,11 @@
   syncSourceToggle();
   bindReportIndex();
   initOperatingReview();
+  bindSpotlight();
   modelNode.textContent = JSON.stringify(model);
   window.WeeklyVizRuntime = Object.freeze({
     serialize: serializeReportDocument,
     snapshot: () => clone(model),
+    chartLanguage: () => clone(chartLanguage()),
   });
 })();

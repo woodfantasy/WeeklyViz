@@ -3,6 +3,8 @@
   "label": "秋栗 (Qiuli)",
   "description": "温暖沉稳的文艺叙事秋栗配色",
   "parent_style": "editorial",
+  "canonical_layout": "newsletter",
+  "canonical_section_layout": "list",
   "theme": {
     "primary": "#451A03",
     "accent": "#D97706",
@@ -10,5 +12,37 @@
     "surface": "#FFFFFF",
     "text": "#451A03",
     "muted": "#78350F"
+  },
+  "design": {
+    "typography": {
+      "display": "\"Songti SC\", Georgia, serif",
+      "body": "\"Songti SC\", \"STSong\", Georgia, serif",
+      "numeric": "\"SF Mono\", Menlo, monospace",
+      "label": "\"Kaiti SC\", \"PingFang SC\", serif"
+    },
+    "geometry": {
+      "card_shape": "book",
+      "section_style": "chapter",
+      "radius_lg": "16px",
+      "radius_md": "10px",
+      "radius_sm": "4px",
+      "border_width": "1px",
+      "card_shadow": "5px 7px 0 rgba(69, 26, 3, 0.08)",
+      "page_shadow": "0 22px 62px rgba(69, 26, 3, 0.15)"
+    },
+    "hero": {"style": "parchment"},
+    "chart": {
+      "style": "harvest",
+      "palette": ["#B45309", "#92400E", "#F59E0B", "#84CC16"],
+      "grid": "dotted",
+      "smooth": false,
+      "symbol": "roundRect",
+      "line_width": 2,
+      "symbol_size": 7,
+      "bar_radius": 4,
+      "area_opacity": 0.12,
+      "donut": ["48%", "70%"],
+      "legend": "bottom"
+    }
   }
 }

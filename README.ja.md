@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href=""><img src="https://img.shields.io/badge/version-0.1.1-blue.svg" alt="Version"></a>
+  <a href=""><img src="https://img.shields.io/badge/version-0.1.2-blue.svg" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"></a>
   <a href=""><img src="https://img.shields.io/badge/platform-Codex_/_Claude_Code-purple.svg" alt="Platform"></a>
 </p>
@@ -27,8 +27,8 @@
 ## 🖼️ 出力例
 
 <p align="center">
-  <a href="assets/weeklyviz-multi-layout-showcase.jpg">
-    <img src="assets/weeklyviz-multi-layout-showcase.jpg" width="860" alt="WeeklyVizのマルチレイアウト週報ショーケース">
+  <a href="assets/weeklyviz-multi-layout-showcase.png">
+    <img src="assets/weeklyviz-multi-layout-showcase.png" width="860" alt="WeeklyVizのマルチレイアウト週報ショーケース">
   </a>
 </p>
 
@@ -85,6 +85,9 @@ python3 scripts/weeklyviz.py render --report report-model.json --output weekly-r
 
 ## 📋 リリースバージョン
 
+*   **v0.1.2** (2026-06-11)
+    - リストレイアウト（`layout-list`）におけるステータスドットとタイトルの垂直中央揃えを修正し、すべてのテンプレートでの完璧なレンダリングを保証。
+    - 小紅書（Xiaohongshu）の「市集」週報ショーケースをフィーチャーした製品モックアップ画像を再作成し、アップデート。
 *   **v0.1.1** (2026-06-09)
     - エージェントの標準的な読み込みとインストールのために、ディレクトリ階層をルートフォルダにフラット化。
     - `Editorial` テンプレートのプレミアムアップグレード（ドット背景、macOSスタイルのウィンドウバー、ハードシャドウ、ドット付き指標リスト、ダブルサイドバー装飾の追加）。

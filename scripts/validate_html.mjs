@@ -87,6 +87,27 @@ if (!modelMatch) {
         errors.push("missing chart container");
       }
     }
+    const visibleCollections = [
+      ["kpis", /id="kpis"/i],
+      ["progress", /id="progress"/i],
+      ["charts", /id="charts"/i],
+      ["risks", /id="risks"/i],
+      ["next_actions", /id="next_actions"/i],
+    ];
+    for (const [collection, pattern] of visibleCollections) {
+      if (Array.isArray(model[collection]) && model[collection].length > 0 && !pattern.test(markupOnly)) {
+        errors.push(`embedded model contains ${collection}, but the rendered report omits that section`);
+      }
+    }
+    const metricsMustRender = Array.isArray(model.metrics) && model.metrics.length > 0 && (
+      !Array.isArray(model.kpis) ||
+      model.kpis.length === 0 ||
+      model.presentation?.layout === "operating-review" ||
+      model.presentation?.layout_order?.includes("metrics")
+    );
+    if (metricsMustRender && !/id="metrics-section"/i.test(markupOnly)) {
+      errors.push("embedded model contains required metric detail, but the rendered report omits that section");
+    }
     const sourceIds = new Set((model.sources || []).map((source) => source.id));
     for (const collection of ["kpis", "progress", "charts", "metrics", "okrs"]) {
       for (const [index, item] of (model[collection] || []).entries()) {

@@ -3,6 +3,8 @@
   "label": "胭脂 (Yanzhi)",
   "description": "时尚活力的大众运营胭脂配色",
   "parent_style": "product-operations",
+  "canonical_layout": "dashboard",
+  "canonical_section_layout": "table",
   "theme": {
     "primary": "#831843",
     "accent": "#F43F5E",
@@ -10,5 +12,37 @@
     "surface": "#FFFFFF",
     "text": "#831843",
     "muted": "#9D174D"
+  },
+  "design": {
+    "typography": {
+      "display": "\"Arial Black\", \"PingFang SC\", sans-serif",
+      "body": "\"Helvetica Neue\", \"PingFang SC\", sans-serif",
+      "numeric": "\"DIN Alternate\", \"SF Mono\", monospace",
+      "label": "\"Arial Narrow\", \"PingFang SC\", sans-serif"
+    },
+    "geometry": {
+      "card_shape": "angular",
+      "section_style": "slash",
+      "radius_lg": "18px",
+      "radius_md": "10px",
+      "radius_sm": "4px",
+      "border_width": "1px",
+      "card_shadow": "8px 8px 0 rgba(131, 24, 67, 0.08)",
+      "page_shadow": "0 24px 68px rgba(131, 24, 67, 0.16)"
+    },
+    "hero": {"style": "diagonal"},
+    "chart": {
+      "style": "pulse",
+      "palette": ["#FB7185", "#F97316", "#A855F7", "#FACC15"],
+      "grid": "none",
+      "smooth": false,
+      "symbol": "diamond",
+      "line_width": 3,
+      "symbol_size": 8,
+      "bar_radius": 0,
+      "area_opacity": 0.12,
+      "donut": ["46%", "72%"],
+      "legend": "top"
+    }
   }
 }

@@ -1,0 +1,3066 @@
+{
+  "schemaVersion": 1,
+  "fixture": "evals/fixtures/report-model.json",
+  "viewports": [
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 1200
+    },
+    {
+      "id": "laptop",
+      "width": 1024,
+      "height": 900
+    },
+    {
+      "id": "tablet",
+      "width": 768,
+      "height": 900
+    },
+    {
+      "id": "mobile",
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "themes": {
+    "canghai": {
+      "designSignature": "fb104b5b6306df9b",
+      "viewports": {
+        "desktop": {
+          "documentWidth": 1440,
+          "viewportWidth": 1440,
+          "widthDelta": 0,
+          "pageHeight": 4855,
+          "reportWidth": 1400,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 6,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "canghai",
+            "layout": "operating-review",
+            "cardShape": "glass",
+            "sectionStyle": "glow",
+            "heroStyle": "aurora",
+            "chartStyle": "neon"
+          },
+          "typography": {
+            "body": "\"SF Pro Text\", \"PingFang SC\", \"Microsoft YaHei\", sans-serif",
+            "display": "\"Avenir Next\", \"SF Pro Display\", \"PingFang SC\", sans-serif",
+            "numeric": "\"SF Mono\", \"DIN Alternate\", Menlo, monospace",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "22px",
+            "cardShadow": "rgba(0, 0, 0, 0.32) 0px 18px 48px 0px",
+            "sectionBorder": "solid",
+            "heroBackground": "radial-gradient(circle at 78% 18%, color(srgb 0.956863 0.447059 0.713726 / 0.55), rgba(0, 0, 0, 0) 28%), radial-gradient(circle at 12% 92%, color(srgb 0.654902 0.545098 0.980392 / 0.7), rgba(0, 0, 0, 0) 34%), none"
+          },
+          "chartLanguage": {
+            "style": "neon",
+            "grid": "none",
+            "gridType": "solid",
+            "smooth": true,
+            "symbol": "circle",
+            "lineWidth": 3,
+            "symbolSize": 7,
+            "barRadius": 8,
+            "areaOpacity": 0.18,
+            "donut": [
+              "52%",
+              "76%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "laptop": {
+          "documentWidth": 1024,
+          "viewportWidth": 1024,
+          "widthDelta": 0,
+          "pageHeight": 5032,
+          "reportWidth": 984,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 6,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "canghai",
+            "layout": "operating-review",
+            "cardShape": "glass",
+            "sectionStyle": "glow",
+            "heroStyle": "aurora",
+            "chartStyle": "neon"
+          },
+          "typography": {
+            "body": "\"SF Pro Text\", \"PingFang SC\", \"Microsoft YaHei\", sans-serif",
+            "display": "\"Avenir Next\", \"SF Pro Display\", \"PingFang SC\", sans-serif",
+            "numeric": "\"SF Mono\", \"DIN Alternate\", Menlo, monospace",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "22px",
+            "cardShadow": "rgba(0, 0, 0, 0.32) 0px 18px 48px 0px",
+            "sectionBorder": "solid",
+            "heroBackground": "radial-gradient(circle at 78% 18%, color(srgb 0.956863 0.447059 0.713726 / 0.55), rgba(0, 0, 0, 0) 28%), radial-gradient(circle at 12% 92%, color(srgb 0.654902 0.545098 0.980392 / 0.7), rgba(0, 0, 0, 0) 34%), none"
+          },
+          "chartLanguage": {
+            "style": "neon",
+            "grid": "none",
+            "gridType": "solid",
+            "smooth": true,
+            "symbol": "circle",
+            "lineWidth": 3,
+            "symbolSize": 7,
+            "barRadius": 8,
+            "areaOpacity": 0.18,
+            "donut": [
+              "52%",
+              "76%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "tablet": {
+          "documentWidth": 768,
+          "viewportWidth": 768,
+          "widthDelta": 0,
+          "pageHeight": 6121,
+          "reportWidth": 728,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "canghai",
+            "layout": "operating-review",
+            "cardShape": "glass",
+            "sectionStyle": "glow",
+            "heroStyle": "aurora",
+            "chartStyle": "neon"
+          },
+          "typography": {
+            "body": "\"SF Pro Text\", \"PingFang SC\", \"Microsoft YaHei\", sans-serif",
+            "display": "\"Avenir Next\", \"SF Pro Display\", \"PingFang SC\", sans-serif",
+            "numeric": "\"SF Mono\", \"DIN Alternate\", Menlo, monospace",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "22px",
+            "cardShadow": "rgba(0, 0, 0, 0.32) 0px 18px 48px 0px",
+            "sectionBorder": "solid",
+            "heroBackground": "radial-gradient(circle at 78% 18%, color(srgb 0.956863 0.447059 0.713726 / 0.55), rgba(0, 0, 0, 0) 28%), radial-gradient(circle at 12% 92%, color(srgb 0.654902 0.545098 0.980392 / 0.7), rgba(0, 0, 0, 0) 34%), none"
+          },
+          "chartLanguage": {
+            "style": "neon",
+            "grid": "none",
+            "gridType": "solid",
+            "smooth": true,
+            "symbol": "circle",
+            "lineWidth": 3,
+            "symbolSize": 7,
+            "barRadius": 8,
+            "areaOpacity": 0.18,
+            "donut": [
+              "52%",
+              "76%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "mobile": {
+          "documentWidth": 390,
+          "viewportWidth": 390,
+          "widthDelta": 0,
+          "pageHeight": 7307,
+          "reportWidth": 390,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 1,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "canghai",
+            "layout": "operating-review",
+            "cardShape": "glass",
+            "sectionStyle": "glow",
+            "heroStyle": "aurora",
+            "chartStyle": "neon"
+          },
+          "typography": {
+            "body": "\"SF Pro Text\", \"PingFang SC\", \"Microsoft YaHei\", sans-serif",
+            "display": "\"Avenir Next\", \"SF Pro Display\", \"PingFang SC\", sans-serif",
+            "numeric": "\"SF Mono\", \"DIN Alternate\", Menlo, monospace",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "22px",
+            "cardShadow": "rgba(0, 0, 0, 0.32) 0px 18px 48px 0px",
+            "sectionBorder": "solid",
+            "heroBackground": "radial-gradient(circle at 78% 18%, color(srgb 0.956863 0.447059 0.713726 / 0.55), rgba(0, 0, 0, 0) 28%), radial-gradient(circle at 12% 92%, color(srgb 0.654902 0.545098 0.980392 / 0.7), rgba(0, 0, 0, 0) 34%), none"
+          },
+          "chartLanguage": {
+            "style": "neon",
+            "grid": "none",
+            "gridType": "solid",
+            "smooth": true,
+            "symbol": "circle",
+            "lineWidth": 3,
+            "symbolSize": 7,
+            "barRadius": 8,
+            "areaOpacity": 0.18,
+            "donut": [
+              "52%",
+              "76%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        }
+      }
+    },
+    "cangshan": {
+      "designSignature": "ad5df37f2bf8d67b",
+      "viewports": {
+        "desktop": {
+          "documentWidth": 1440,
+          "viewportWidth": 1440,
+          "widthDelta": 0,
+          "pageHeight": 4553,
+          "reportWidth": 1240,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "cangshan",
+            "layout": "dashboard",
+            "cardShape": "structured",
+            "sectionStyle": "rule",
+            "heroStyle": "slab",
+            "chartStyle": "corporate"
+          },
+          "typography": {
+            "body": "\"Helvetica Neue\", \"PingFang SC\", Arial, sans-serif",
+            "display": "\"Helvetica Neue\", \"PingFang SC\", Arial, sans-serif",
+            "numeric": "\"DIN Alternate\", \"SF Mono\", Menlo, monospace",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "8px",
+            "cardShadow": "rgba(37, 50, 74, 0.07) 0px 6px 18px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(105deg, rgb(37, 50, 74) 0px, rgb(37, 50, 74) 68%, color(srgb 0.184627 0.249725 0.443608) 68%)"
+          },
+          "chartLanguage": {
+            "style": "corporate",
+            "grid": "dashed",
+            "gridType": "dashed",
+            "smooth": false,
+            "symbol": "rect",
+            "lineWidth": 2.5,
+            "symbolSize": 6,
+            "barRadius": 3,
+            "areaOpacity": 0.1,
+            "donut": [
+              "56%",
+              "74%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "laptop": {
+          "documentWidth": 1024,
+          "viewportWidth": 1024,
+          "widthDelta": 0,
+          "pageHeight": 4541,
+          "reportWidth": 984,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "cangshan",
+            "layout": "dashboard",
+            "cardShape": "structured",
+            "sectionStyle": "rule",
+            "heroStyle": "slab",
+            "chartStyle": "corporate"
+          },
+          "typography": {
+            "body": "\"Helvetica Neue\", \"PingFang SC\", Arial, sans-serif",
+            "display": "\"Helvetica Neue\", \"PingFang SC\", Arial, sans-serif",
+            "numeric": "\"DIN Alternate\", \"SF Mono\", Menlo, monospace",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "8px",
+            "cardShadow": "rgba(37, 50, 74, 0.07) 0px 6px 18px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(105deg, rgb(37, 50, 74) 0px, rgb(37, 50, 74) 68%, color(srgb 0.184627 0.249725 0.443608) 68%)"
+          },
+          "chartLanguage": {
+            "style": "corporate",
+            "grid": "dashed",
+            "gridType": "dashed",
+            "smooth": false,
+            "symbol": "rect",
+            "lineWidth": 2.5,
+            "symbolSize": 6,
+            "barRadius": 3,
+            "areaOpacity": 0.1,
+            "donut": [
+              "56%",
+              "74%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "tablet": {
+          "documentWidth": 768,
+          "viewportWidth": 768,
+          "widthDelta": 0,
+          "pageHeight": 5382,
+          "reportWidth": 728,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "cangshan",
+            "layout": "dashboard",
+            "cardShape": "structured",
+            "sectionStyle": "rule",
+            "heroStyle": "slab",
+            "chartStyle": "corporate"
+          },
+          "typography": {
+            "body": "\"Helvetica Neue\", \"PingFang SC\", Arial, sans-serif",
+            "display": "\"Helvetica Neue\", \"PingFang SC\", Arial, sans-serif",
+            "numeric": "\"DIN Alternate\", \"SF Mono\", Menlo, monospace",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "8px",
+            "cardShadow": "rgba(37, 50, 74, 0.07) 0px 6px 18px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(105deg, rgb(37, 50, 74) 0px, rgb(37, 50, 74) 68%, color(srgb 0.184627 0.249725 0.443608) 68%)"
+          },
+          "chartLanguage": {
+            "style": "corporate",
+            "grid": "dashed",
+            "gridType": "dashed",
+            "smooth": false,
+            "symbol": "rect",
+            "lineWidth": 2.5,
+            "symbolSize": 6,
+            "barRadius": 3,
+            "areaOpacity": 0.1,
+            "donut": [
+              "56%",
+              "74%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "mobile": {
+          "documentWidth": 390,
+          "viewportWidth": 390,
+          "widthDelta": 0,
+          "pageHeight": 6784,
+          "reportWidth": 390,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 1,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "cangshan",
+            "layout": "dashboard",
+            "cardShape": "structured",
+            "sectionStyle": "rule",
+            "heroStyle": "slab",
+            "chartStyle": "corporate"
+          },
+          "typography": {
+            "body": "\"Helvetica Neue\", \"PingFang SC\", Arial, sans-serif",
+            "display": "\"Helvetica Neue\", \"PingFang SC\", Arial, sans-serif",
+            "numeric": "\"DIN Alternate\", \"SF Mono\", Menlo, monospace",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "8px",
+            "cardShadow": "rgba(37, 50, 74, 0.07) 0px 6px 18px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(105deg, rgb(37, 50, 74) 0px, rgb(37, 50, 74) 68%, color(srgb 0.184627 0.249725 0.443608) 68%)"
+          },
+          "chartLanguage": {
+            "style": "corporate",
+            "grid": "dashed",
+            "gridType": "dashed",
+            "smooth": false,
+            "symbol": "rect",
+            "lineWidth": 2.5,
+            "symbolSize": 6,
+            "barRadius": 3,
+            "areaOpacity": 0.1,
+            "donut": [
+              "56%",
+              "74%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        }
+      }
+    },
+    "dailan": {
+      "designSignature": "e385c1cd091b3096",
+      "viewports": {
+        "desktop": {
+          "documentWidth": 1440,
+          "viewportWidth": 1440,
+          "widthDelta": 0,
+          "pageHeight": 4831,
+          "reportWidth": 1240,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "dailan",
+            "layout": "dashboard",
+            "cardShape": "square",
+            "sectionStyle": "ledger",
+            "heroStyle": "bands",
+            "chartStyle": "ledger"
+          },
+          "typography": {
+            "body": "Arial, \"PingFang SC\", \"Microsoft YaHei\", sans-serif",
+            "display": "\"Arial Narrow\", \"PingFang SC\", Arial, sans-serif",
+            "numeric": "\"SF Mono\", Menlo, monospace",
+            "label": "\"Arial Narrow\", \"SF Mono\", monospace"
+          },
+          "geometry": {
+            "cardRadius": "2px",
+            "cardShadow": "rgba(15, 23, 42, 0.08) 0px 4px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(115deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 58%, color(srgb 0.117647 0.25098 0.686275 / 0.28) 58%, color(srgb 0.117647 0.25098 0.686275 / 0.28) 68%, rgba(0, 0, 0, 0) 68%), repeating-linear-gradient(0deg, color(srgb 1 1 1 / 0.05) 0px, color(srgb 1 1 1 / 0.05) 1px, rgba(0, 0, 0, 0) 1px, rgba(0, 0, 0, 0) 28px), none"
+          },
+          "chartLanguage": {
+            "style": "ledger",
+            "grid": "solid",
+            "gridType": "solid",
+            "smooth": false,
+            "symbol": "none",
+            "lineWidth": 2,
+            "symbolSize": 5,
+            "barRadius": 0,
+            "areaOpacity": 0.08,
+            "donut": [
+              "58%",
+              "75%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        },
+        "laptop": {
+          "documentWidth": 1024,
+          "viewportWidth": 1024,
+          "widthDelta": 0,
+          "pageHeight": 4794,
+          "reportWidth": 984,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "dailan",
+            "layout": "dashboard",
+            "cardShape": "square",
+            "sectionStyle": "ledger",
+            "heroStyle": "bands",
+            "chartStyle": "ledger"
+          },
+          "typography": {
+            "body": "Arial, \"PingFang SC\", \"Microsoft YaHei\", sans-serif",
+            "display": "\"Arial Narrow\", \"PingFang SC\", Arial, sans-serif",
+            "numeric": "\"SF Mono\", Menlo, monospace",
+            "label": "\"Arial Narrow\", \"SF Mono\", monospace"
+          },
+          "geometry": {
+            "cardRadius": "2px",
+            "cardShadow": "rgba(15, 23, 42, 0.08) 0px 4px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(115deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 58%, color(srgb 0.117647 0.25098 0.686275 / 0.28) 58%, color(srgb 0.117647 0.25098 0.686275 / 0.28) 68%, rgba(0, 0, 0, 0) 68%), repeating-linear-gradient(0deg, color(srgb 1 1 1 / 0.05) 0px, color(srgb 1 1 1 / 0.05) 1px, rgba(0, 0, 0, 0) 1px, rgba(0, 0, 0, 0) 28px), none"
+          },
+          "chartLanguage": {
+            "style": "ledger",
+            "grid": "solid",
+            "gridType": "solid",
+            "smooth": false,
+            "symbol": "none",
+            "lineWidth": 2,
+            "symbolSize": 5,
+            "barRadius": 0,
+            "areaOpacity": 0.08,
+            "donut": [
+              "58%",
+              "75%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        },
+        "tablet": {
+          "documentWidth": 768,
+          "viewportWidth": 768,
+          "widthDelta": 0,
+          "pageHeight": 5281,
+          "reportWidth": 728,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "dailan",
+            "layout": "dashboard",
+            "cardShape": "square",
+            "sectionStyle": "ledger",
+            "heroStyle": "bands",
+            "chartStyle": "ledger"
+          },
+          "typography": {
+            "body": "Arial, \"PingFang SC\", \"Microsoft YaHei\", sans-serif",
+            "display": "\"Arial Narrow\", \"PingFang SC\", Arial, sans-serif",
+            "numeric": "\"SF Mono\", Menlo, monospace",
+            "label": "\"Arial Narrow\", \"SF Mono\", monospace"
+          },
+          "geometry": {
+            "cardRadius": "2px",
+            "cardShadow": "rgba(15, 23, 42, 0.08) 0px 4px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(115deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 58%, color(srgb 0.117647 0.25098 0.686275 / 0.28) 58%, color(srgb 0.117647 0.25098 0.686275 / 0.28) 68%, rgba(0, 0, 0, 0) 68%), repeating-linear-gradient(0deg, color(srgb 1 1 1 / 0.05) 0px, color(srgb 1 1 1 / 0.05) 1px, rgba(0, 0, 0, 0) 1px, rgba(0, 0, 0, 0) 28px), none"
+          },
+          "chartLanguage": {
+            "style": "ledger",
+            "grid": "solid",
+            "gridType": "solid",
+            "smooth": false,
+            "symbol": "none",
+            "lineWidth": 2,
+            "symbolSize": 5,
+            "barRadius": 0,
+            "areaOpacity": 0.08,
+            "donut": [
+              "58%",
+              "75%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        },
+        "mobile": {
+          "documentWidth": 390,
+          "viewportWidth": 390,
+          "widthDelta": 0,
+          "pageHeight": 6684,
+          "reportWidth": 390,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 1,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "dailan",
+            "layout": "dashboard",
+            "cardShape": "square",
+            "sectionStyle": "ledger",
+            "heroStyle": "bands",
+            "chartStyle": "ledger"
+          },
+          "typography": {
+            "body": "Arial, \"PingFang SC\", \"Microsoft YaHei\", sans-serif",
+            "display": "\"Arial Narrow\", \"PingFang SC\", Arial, sans-serif",
+            "numeric": "\"SF Mono\", Menlo, monospace",
+            "label": "\"Arial Narrow\", \"SF Mono\", monospace"
+          },
+          "geometry": {
+            "cardRadius": "2px",
+            "cardShadow": "rgba(15, 23, 42, 0.08) 0px 4px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(115deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 58%, color(srgb 0.117647 0.25098 0.686275 / 0.28) 58%, color(srgb 0.117647 0.25098 0.686275 / 0.28) 68%, rgba(0, 0, 0, 0) 68%), repeating-linear-gradient(0deg, color(srgb 1 1 1 / 0.05) 0px, color(srgb 1 1 1 / 0.05) 1px, rgba(0, 0, 0, 0) 1px, rgba(0, 0, 0, 0) 28px), none"
+          },
+          "chartLanguage": {
+            "style": "ledger",
+            "grid": "solid",
+            "gridType": "solid",
+            "smooth": false,
+            "symbol": "none",
+            "lineWidth": 2,
+            "symbolSize": 5,
+            "barRadius": 0,
+            "areaOpacity": 0.08,
+            "donut": [
+              "58%",
+              "75%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        }
+      }
+    },
+    "hupo": {
+      "designSignature": "149f9dc25dc0272d",
+      "viewports": {
+        "desktop": {
+          "documentWidth": 1440,
+          "viewportWidth": 1440,
+          "widthDelta": 0,
+          "pageHeight": 5829,
+          "reportWidth": 920,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "hupo",
+            "layout": "newsletter",
+            "cardShape": "paper",
+            "sectionStyle": "bookmark",
+            "heroStyle": "sunset",
+            "chartStyle": "warm"
+          },
+          "typography": {
+            "body": "Palatino, \"Songti SC\", STSong, serif",
+            "display": "Georgia, \"Songti SC\", STSong, serif",
+            "numeric": "Georgia, \"Songti SC\", STSong, serif",
+            "label": "\"Avenir Next Condensed\", \"PingFang SC\", sans-serif"
+          },
+          "geometry": {
+            "cardRadius": "3px 18px 18px 3px",
+            "cardShadow": "rgba(17, 17, 22, 0.05) 12px 12px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "radial-gradient(circle at 84% 30%, color(srgb 0.989412 0.752941 0.588824) 0px, color(srgb 0.989412 0.752941 0.588824) 14%, rgba(0, 0, 0, 0) 14.5%), linear-gradient(135deg, color(srgb 0.996706 0.923137 0.872078), rgb(255, 255, 255))"
+          },
+          "chartLanguage": {
+            "style": "warm",
+            "grid": "dotted",
+            "gridType": "dotted",
+            "smooth": true,
+            "symbol": "circle",
+            "lineWidth": 2.5,
+            "symbolSize": 7,
+            "barRadius": 12,
+            "areaOpacity": 0.16,
+            "donut": [
+              "45%",
+              "68%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        },
+        "laptop": {
+          "documentWidth": 1024,
+          "viewportWidth": 1024,
+          "widthDelta": 0,
+          "pageHeight": 5742,
+          "reportWidth": 920,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "hupo",
+            "layout": "newsletter",
+            "cardShape": "paper",
+            "sectionStyle": "bookmark",
+            "heroStyle": "sunset",
+            "chartStyle": "warm"
+          },
+          "typography": {
+            "body": "Palatino, \"Songti SC\", STSong, serif",
+            "display": "Georgia, \"Songti SC\", STSong, serif",
+            "numeric": "Georgia, \"Songti SC\", STSong, serif",
+            "label": "\"Avenir Next Condensed\", \"PingFang SC\", sans-serif"
+          },
+          "geometry": {
+            "cardRadius": "3px 18px 18px 3px",
+            "cardShadow": "rgba(17, 17, 22, 0.05) 12px 12px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "radial-gradient(circle at 84% 30%, color(srgb 0.989412 0.752941 0.588824) 0px, color(srgb 0.989412 0.752941 0.588824) 14%, rgba(0, 0, 0, 0) 14.5%), linear-gradient(135deg, color(srgb 0.996706 0.923137 0.872078), rgb(255, 255, 255))"
+          },
+          "chartLanguage": {
+            "style": "warm",
+            "grid": "dotted",
+            "gridType": "dotted",
+            "smooth": true,
+            "symbol": "circle",
+            "lineWidth": 2.5,
+            "symbolSize": 7,
+            "barRadius": 12,
+            "areaOpacity": 0.16,
+            "donut": [
+              "45%",
+              "68%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        },
+        "tablet": {
+          "documentWidth": 768,
+          "viewportWidth": 768,
+          "widthDelta": 0,
+          "pageHeight": 5719,
+          "reportWidth": 728,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "hupo",
+            "layout": "newsletter",
+            "cardShape": "paper",
+            "sectionStyle": "bookmark",
+            "heroStyle": "sunset",
+            "chartStyle": "warm"
+          },
+          "typography": {
+            "body": "Palatino, \"Songti SC\", STSong, serif",
+            "display": "Georgia, \"Songti SC\", STSong, serif",
+            "numeric": "Georgia, \"Songti SC\", STSong, serif",
+            "label": "\"Avenir Next Condensed\", \"PingFang SC\", sans-serif"
+          },
+          "geometry": {
+            "cardRadius": "3px 18px 18px 3px",
+            "cardShadow": "rgba(17, 17, 22, 0.05) 12px 12px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "radial-gradient(circle at 84% 30%, color(srgb 0.989412 0.752941 0.588824) 0px, color(srgb 0.989412 0.752941 0.588824) 14%, rgba(0, 0, 0, 0) 14.5%), linear-gradient(135deg, color(srgb 0.996706 0.923137 0.872078), rgb(255, 255, 255))"
+          },
+          "chartLanguage": {
+            "style": "warm",
+            "grid": "dotted",
+            "gridType": "dotted",
+            "smooth": true,
+            "symbol": "circle",
+            "lineWidth": 2.5,
+            "symbolSize": 7,
+            "barRadius": 12,
+            "areaOpacity": 0.16,
+            "donut": [
+              "45%",
+              "68%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        },
+        "mobile": {
+          "documentWidth": 390,
+          "viewportWidth": 390,
+          "widthDelta": 0,
+          "pageHeight": 6972,
+          "reportWidth": 390,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 1,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "hupo",
+            "layout": "newsletter",
+            "cardShape": "paper",
+            "sectionStyle": "bookmark",
+            "heroStyle": "sunset",
+            "chartStyle": "warm"
+          },
+          "typography": {
+            "body": "Palatino, \"Songti SC\", STSong, serif",
+            "display": "Georgia, \"Songti SC\", STSong, serif",
+            "numeric": "Georgia, \"Songti SC\", STSong, serif",
+            "label": "\"Avenir Next Condensed\", \"PingFang SC\", sans-serif"
+          },
+          "geometry": {
+            "cardRadius": "3px 18px 18px 3px",
+            "cardShadow": "rgba(17, 17, 22, 0.05) 12px 12px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "radial-gradient(circle at 84% 30%, color(srgb 0.989412 0.752941 0.588824) 0px, color(srgb 0.989412 0.752941 0.588824) 14%, rgba(0, 0, 0, 0) 14.5%), linear-gradient(135deg, color(srgb 0.996706 0.923137 0.872078), rgb(255, 255, 255))"
+          },
+          "chartLanguage": {
+            "style": "warm",
+            "grid": "dotted",
+            "gridType": "dotted",
+            "smooth": true,
+            "symbol": "circle",
+            "lineWidth": 2.5,
+            "symbolSize": 7,
+            "barRadius": 12,
+            "areaOpacity": 0.16,
+            "donut": [
+              "45%",
+              "68%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        }
+      }
+    },
+    "luoli": {
+      "designSignature": "4a4630fdb6136ed4",
+      "viewports": {
+        "desktop": {
+          "documentWidth": 1440,
+          "viewportWidth": 1440,
+          "widthDelta": 0,
+          "pageHeight": 4573,
+          "reportWidth": 1240,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "luoli",
+            "layout": "dashboard",
+            "cardShape": "framed",
+            "sectionStyle": "frame",
+            "heroStyle": "spotlight",
+            "chartStyle": "luxe"
+          },
+          "typography": {
+            "body": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "display": "Didot, Baskerville, \"Songti SC\", serif",
+            "numeric": "\"DIN Alternate\", \"SF Mono\", monospace",
+            "label": "\"Avenir Next Condensed\", \"SF Mono\", monospace"
+          },
+          "geometry": {
+            "cardRadius": "6px",
+            "cardShadow": "rgba(30, 27, 75, 0.1) 0px 12px 34px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "radial-gradient(circle at 82% 28%, color(srgb 0.971765 0.726118 0.311059) 0px, color(srgb 0.971765 0.726118 0.311059) 2%, rgba(0, 0, 0, 0) 24%), linear-gradient(125deg, rgb(30, 27, 75), color(srgb 0.0964706 0.0868235 0.241176))"
+          },
+          "chartLanguage": {
+            "style": "luxe",
+            "grid": "dotted",
+            "gridType": "dotted",
+            "smooth": true,
+            "symbol": "diamond",
+            "lineWidth": 2.5,
+            "symbolSize": 7,
+            "barRadius": 2,
+            "areaOpacity": 0.14,
+            "donut": [
+              "50%",
+              "72%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "laptop": {
+          "documentWidth": 1024,
+          "viewportWidth": 1024,
+          "widthDelta": 0,
+          "pageHeight": 4543,
+          "reportWidth": 984,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "luoli",
+            "layout": "dashboard",
+            "cardShape": "framed",
+            "sectionStyle": "frame",
+            "heroStyle": "spotlight",
+            "chartStyle": "luxe"
+          },
+          "typography": {
+            "body": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "display": "Didot, Baskerville, \"Songti SC\", serif",
+            "numeric": "\"DIN Alternate\", \"SF Mono\", monospace",
+            "label": "\"Avenir Next Condensed\", \"SF Mono\", monospace"
+          },
+          "geometry": {
+            "cardRadius": "6px",
+            "cardShadow": "rgba(30, 27, 75, 0.1) 0px 12px 34px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "radial-gradient(circle at 82% 28%, color(srgb 0.971765 0.726118 0.311059) 0px, color(srgb 0.971765 0.726118 0.311059) 2%, rgba(0, 0, 0, 0) 24%), linear-gradient(125deg, rgb(30, 27, 75), color(srgb 0.0964706 0.0868235 0.241176))"
+          },
+          "chartLanguage": {
+            "style": "luxe",
+            "grid": "dotted",
+            "gridType": "dotted",
+            "smooth": true,
+            "symbol": "diamond",
+            "lineWidth": 2.5,
+            "symbolSize": 7,
+            "barRadius": 2,
+            "areaOpacity": 0.14,
+            "donut": [
+              "50%",
+              "72%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "tablet": {
+          "documentWidth": 768,
+          "viewportWidth": 768,
+          "widthDelta": 0,
+          "pageHeight": 5402,
+          "reportWidth": 728,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "luoli",
+            "layout": "dashboard",
+            "cardShape": "framed",
+            "sectionStyle": "frame",
+            "heroStyle": "spotlight",
+            "chartStyle": "luxe"
+          },
+          "typography": {
+            "body": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "display": "Didot, Baskerville, \"Songti SC\", serif",
+            "numeric": "\"DIN Alternate\", \"SF Mono\", monospace",
+            "label": "\"Avenir Next Condensed\", \"SF Mono\", monospace"
+          },
+          "geometry": {
+            "cardRadius": "6px",
+            "cardShadow": "rgba(30, 27, 75, 0.1) 0px 12px 34px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "radial-gradient(circle at 82% 28%, color(srgb 0.971765 0.726118 0.311059) 0px, color(srgb 0.971765 0.726118 0.311059) 2%, rgba(0, 0, 0, 0) 24%), linear-gradient(125deg, rgb(30, 27, 75), color(srgb 0.0964706 0.0868235 0.241176))"
+          },
+          "chartLanguage": {
+            "style": "luxe",
+            "grid": "dotted",
+            "gridType": "dotted",
+            "smooth": true,
+            "symbol": "diamond",
+            "lineWidth": 2.5,
+            "symbolSize": 7,
+            "barRadius": 2,
+            "areaOpacity": 0.14,
+            "donut": [
+              "50%",
+              "72%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "mobile": {
+          "documentWidth": 390,
+          "viewportWidth": 390,
+          "widthDelta": 0,
+          "pageHeight": 6808,
+          "reportWidth": 390,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 1,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "luoli",
+            "layout": "dashboard",
+            "cardShape": "framed",
+            "sectionStyle": "frame",
+            "heroStyle": "spotlight",
+            "chartStyle": "luxe"
+          },
+          "typography": {
+            "body": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "display": "Didot, Baskerville, \"Songti SC\", serif",
+            "numeric": "\"DIN Alternate\", \"SF Mono\", monospace",
+            "label": "\"Avenir Next Condensed\", \"SF Mono\", monospace"
+          },
+          "geometry": {
+            "cardRadius": "6px",
+            "cardShadow": "rgba(30, 27, 75, 0.1) 0px 12px 34px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "radial-gradient(circle at 82% 28%, color(srgb 0.971765 0.726118 0.311059) 0px, color(srgb 0.971765 0.726118 0.311059) 2%, rgba(0, 0, 0, 0) 24%), linear-gradient(125deg, rgb(30, 27, 75), color(srgb 0.0964706 0.0868235 0.241176))"
+          },
+          "chartLanguage": {
+            "style": "luxe",
+            "grid": "dotted",
+            "gridType": "dotted",
+            "smooth": true,
+            "symbol": "diamond",
+            "lineWidth": 2.5,
+            "symbolSize": 7,
+            "barRadius": 2,
+            "areaOpacity": 0.14,
+            "donut": [
+              "50%",
+              "72%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        }
+      }
+    },
+    "moyi": {
+      "designSignature": "aa0ea238fbc3c463",
+      "viewports": {
+        "desktop": {
+          "documentWidth": 1440,
+          "viewportWidth": 1440,
+          "widthDelta": 0,
+          "pageHeight": 4828,
+          "reportWidth": 1240,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "moyi",
+            "layout": "dashboard",
+            "cardShape": "mono",
+            "sectionStyle": "index",
+            "heroStyle": "mono-grid",
+            "chartStyle": "ink"
+          },
+          "typography": {
+            "body": "\"Helvetica Neue\", \"PingFang SC\", Arial, sans-serif",
+            "display": "\"Helvetica Neue\", \"PingFang SC\", Arial, sans-serif",
+            "numeric": "\"SF Mono\", Menlo, monospace",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "0px",
+            "cardShadow": "rgba(0, 0, 0, 0.12) 6px 6px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(color(srgb 1 1 1 / 0.07) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(90deg, color(srgb 1 1 1 / 0.07) 1px, rgba(0, 0, 0, 0) 1px), none"
+          },
+          "chartLanguage": {
+            "style": "ink",
+            "grid": "solid",
+            "gridType": "solid",
+            "smooth": false,
+            "symbol": "rect",
+            "lineWidth": 2,
+            "symbolSize": 6,
+            "barRadius": 0,
+            "areaOpacity": 0.06,
+            "donut": [
+              "60%",
+              "76%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        },
+        "laptop": {
+          "documentWidth": 1024,
+          "viewportWidth": 1024,
+          "widthDelta": 0,
+          "pageHeight": 4791,
+          "reportWidth": 984,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "moyi",
+            "layout": "dashboard",
+            "cardShape": "mono",
+            "sectionStyle": "index",
+            "heroStyle": "mono-grid",
+            "chartStyle": "ink"
+          },
+          "typography": {
+            "body": "\"Helvetica Neue\", \"PingFang SC\", Arial, sans-serif",
+            "display": "\"Helvetica Neue\", \"PingFang SC\", Arial, sans-serif",
+            "numeric": "\"SF Mono\", Menlo, monospace",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "0px",
+            "cardShadow": "rgba(0, 0, 0, 0.12) 6px 6px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(color(srgb 1 1 1 / 0.07) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(90deg, color(srgb 1 1 1 / 0.07) 1px, rgba(0, 0, 0, 0) 1px), none"
+          },
+          "chartLanguage": {
+            "style": "ink",
+            "grid": "solid",
+            "gridType": "solid",
+            "smooth": false,
+            "symbol": "rect",
+            "lineWidth": 2,
+            "symbolSize": 6,
+            "barRadius": 0,
+            "areaOpacity": 0.06,
+            "donut": [
+              "60%",
+              "76%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        },
+        "tablet": {
+          "documentWidth": 768,
+          "viewportWidth": 768,
+          "widthDelta": 0,
+          "pageHeight": 5281,
+          "reportWidth": 728,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "moyi",
+            "layout": "dashboard",
+            "cardShape": "mono",
+            "sectionStyle": "index",
+            "heroStyle": "mono-grid",
+            "chartStyle": "ink"
+          },
+          "typography": {
+            "body": "\"Helvetica Neue\", \"PingFang SC\", Arial, sans-serif",
+            "display": "\"Helvetica Neue\", \"PingFang SC\", Arial, sans-serif",
+            "numeric": "\"SF Mono\", Menlo, monospace",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "0px",
+            "cardShadow": "rgba(0, 0, 0, 0.12) 6px 6px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(color(srgb 1 1 1 / 0.07) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(90deg, color(srgb 1 1 1 / 0.07) 1px, rgba(0, 0, 0, 0) 1px), none"
+          },
+          "chartLanguage": {
+            "style": "ink",
+            "grid": "solid",
+            "gridType": "solid",
+            "smooth": false,
+            "symbol": "rect",
+            "lineWidth": 2,
+            "symbolSize": 6,
+            "barRadius": 0,
+            "areaOpacity": 0.06,
+            "donut": [
+              "60%",
+              "76%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        },
+        "mobile": {
+          "documentWidth": 390,
+          "viewportWidth": 390,
+          "widthDelta": 0,
+          "pageHeight": 6684,
+          "reportWidth": 390,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 1,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "moyi",
+            "layout": "dashboard",
+            "cardShape": "mono",
+            "sectionStyle": "index",
+            "heroStyle": "mono-grid",
+            "chartStyle": "ink"
+          },
+          "typography": {
+            "body": "\"Helvetica Neue\", \"PingFang SC\", Arial, sans-serif",
+            "display": "\"Helvetica Neue\", \"PingFang SC\", Arial, sans-serif",
+            "numeric": "\"SF Mono\", Menlo, monospace",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "0px",
+            "cardShadow": "rgba(0, 0, 0, 0.12) 6px 6px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(color(srgb 1 1 1 / 0.07) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(90deg, color(srgb 1 1 1 / 0.07) 1px, rgba(0, 0, 0, 0) 1px), none"
+          },
+          "chartLanguage": {
+            "style": "ink",
+            "grid": "solid",
+            "gridType": "solid",
+            "smooth": false,
+            "symbol": "rect",
+            "lineWidth": 2,
+            "symbolSize": 6,
+            "barRadius": 0,
+            "areaOpacity": 0.06,
+            "donut": [
+              "60%",
+              "76%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        }
+      }
+    },
+    "mushanzi": {
+      "designSignature": "fe353122a35b0fbe",
+      "viewports": {
+        "desktop": {
+          "documentWidth": 1440,
+          "viewportWidth": 1440,
+          "widthDelta": 0,
+          "pageHeight": 4636,
+          "reportWidth": 1400,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 6,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "mushanzi",
+            "layout": "operating-review",
+            "cardShape": "crystal",
+            "sectionStyle": "beam",
+            "heroStyle": "nebula",
+            "chartStyle": "spectral"
+          },
+          "typography": {
+            "body": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "display": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "numeric": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "18px 4px",
+            "cardShadow": "rgba(17, 17, 22, 0.05) 12px 12px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "radial-gradient(circle at 72% 18%, color(srgb 0.658824 0.333333 0.968627 / 0.64), rgba(0, 0, 0, 0) 22%), radial-gradient(circle at 88% 75%, color(srgb 0.219608 0.741176 0.972549 / 0.28), rgba(0, 0, 0, 0) 24%), linear-gradient(130deg, color(srgb 0.193255 0.0246275 0.328627), rgb(59, 7, 100))"
+          },
+          "chartLanguage": {
+            "style": "spectral",
+            "grid": "dashed",
+            "gridType": "dashed",
+            "smooth": true,
+            "symbol": "diamond",
+            "lineWidth": 3,
+            "symbolSize": 8,
+            "barRadius": 6,
+            "areaOpacity": 0.2,
+            "donut": [
+              "50%",
+              "75%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "laptop": {
+          "documentWidth": 1024,
+          "viewportWidth": 1024,
+          "widthDelta": 0,
+          "pageHeight": 4921,
+          "reportWidth": 984,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 6,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "mushanzi",
+            "layout": "operating-review",
+            "cardShape": "crystal",
+            "sectionStyle": "beam",
+            "heroStyle": "nebula",
+            "chartStyle": "spectral"
+          },
+          "typography": {
+            "body": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "display": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "numeric": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "18px 4px",
+            "cardShadow": "rgba(17, 17, 22, 0.05) 12px 12px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "radial-gradient(circle at 72% 18%, color(srgb 0.658824 0.333333 0.968627 / 0.64), rgba(0, 0, 0, 0) 22%), radial-gradient(circle at 88% 75%, color(srgb 0.219608 0.741176 0.972549 / 0.28), rgba(0, 0, 0, 0) 24%), linear-gradient(130deg, color(srgb 0.193255 0.0246275 0.328627), rgb(59, 7, 100))"
+          },
+          "chartLanguage": {
+            "style": "spectral",
+            "grid": "dashed",
+            "gridType": "dashed",
+            "smooth": true,
+            "symbol": "diamond",
+            "lineWidth": 3,
+            "symbolSize": 8,
+            "barRadius": 6,
+            "areaOpacity": 0.2,
+            "donut": [
+              "50%",
+              "75%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "tablet": {
+          "documentWidth": 768,
+          "viewportWidth": 768,
+          "widthDelta": 0,
+          "pageHeight": 6135,
+          "reportWidth": 728,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "mushanzi",
+            "layout": "operating-review",
+            "cardShape": "crystal",
+            "sectionStyle": "beam",
+            "heroStyle": "nebula",
+            "chartStyle": "spectral"
+          },
+          "typography": {
+            "body": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "display": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "numeric": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "18px 4px",
+            "cardShadow": "rgba(17, 17, 22, 0.05) 12px 12px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "radial-gradient(circle at 72% 18%, color(srgb 0.658824 0.333333 0.968627 / 0.64), rgba(0, 0, 0, 0) 22%), radial-gradient(circle at 88% 75%, color(srgb 0.219608 0.741176 0.972549 / 0.28), rgba(0, 0, 0, 0) 24%), linear-gradient(130deg, color(srgb 0.193255 0.0246275 0.328627), rgb(59, 7, 100))"
+          },
+          "chartLanguage": {
+            "style": "spectral",
+            "grid": "dashed",
+            "gridType": "dashed",
+            "smooth": true,
+            "symbol": "diamond",
+            "lineWidth": 3,
+            "symbolSize": 8,
+            "barRadius": 6,
+            "areaOpacity": 0.2,
+            "donut": [
+              "50%",
+              "75%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "mobile": {
+          "documentWidth": 390,
+          "viewportWidth": 390,
+          "widthDelta": 0,
+          "pageHeight": 7399,
+          "reportWidth": 390,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 1,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "mushanzi",
+            "layout": "operating-review",
+            "cardShape": "crystal",
+            "sectionStyle": "beam",
+            "heroStyle": "nebula",
+            "chartStyle": "spectral"
+          },
+          "typography": {
+            "body": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "display": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "numeric": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "18px 4px",
+            "cardShadow": "rgba(17, 17, 22, 0.05) 12px 12px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "radial-gradient(circle at 72% 18%, color(srgb 0.658824 0.333333 0.968627 / 0.64), rgba(0, 0, 0, 0) 22%), radial-gradient(circle at 88% 75%, color(srgb 0.219608 0.741176 0.972549 / 0.28), rgba(0, 0, 0, 0) 24%), linear-gradient(130deg, color(srgb 0.193255 0.0246275 0.328627), rgb(59, 7, 100))"
+          },
+          "chartLanguage": {
+            "style": "spectral",
+            "grid": "dashed",
+            "gridType": "dashed",
+            "smooth": true,
+            "symbol": "diamond",
+            "lineWidth": 3,
+            "symbolSize": 8,
+            "barRadius": 6,
+            "areaOpacity": 0.2,
+            "donut": [
+              "50%",
+              "75%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        }
+      }
+    },
+    "qianzi": {
+      "designSignature": "c549c775a84314c2",
+      "viewports": {
+        "desktop": {
+          "documentWidth": 1440,
+          "viewportWidth": 1440,
+          "widthDelta": 0,
+          "pageHeight": 5629,
+          "reportWidth": 920,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "qianzi",
+            "layout": "newsletter",
+            "cardShape": "editorial",
+            "sectionStyle": "editorial-rule",
+            "heroStyle": "lavender-wash",
+            "chartStyle": "couture"
+          },
+          "typography": {
+            "body": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "display": "Didot, Georgia, \"Songti SC\", serif",
+            "numeric": "Didot, Georgia, \"Songti SC\", serif",
+            "label": "\"Avenir Next Condensed\", \"SF Mono\", monospace"
+          },
+          "geometry": {
+            "cardRadius": "20px",
+            "cardShadow": "rgba(17, 17, 22, 0.05) 12px 12px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(135deg, color(srgb 0.918118 0.907529 0.983765), rgba(0, 0, 0, 0) 58%), none"
+          },
+          "chartLanguage": {
+            "style": "couture",
+            "grid": "none",
+            "gridType": "solid",
+            "smooth": true,
+            "symbol": "circle",
+            "lineWidth": 3,
+            "symbolSize": 7,
+            "barRadius": 8,
+            "areaOpacity": 0.14,
+            "donut": [
+              "50%",
+              "73%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "laptop": {
+          "documentWidth": 1024,
+          "viewportWidth": 1024,
+          "widthDelta": 0,
+          "pageHeight": 5542,
+          "reportWidth": 920,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "qianzi",
+            "layout": "newsletter",
+            "cardShape": "editorial",
+            "sectionStyle": "editorial-rule",
+            "heroStyle": "lavender-wash",
+            "chartStyle": "couture"
+          },
+          "typography": {
+            "body": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "display": "Didot, Georgia, \"Songti SC\", serif",
+            "numeric": "Didot, Georgia, \"Songti SC\", serif",
+            "label": "\"Avenir Next Condensed\", \"SF Mono\", monospace"
+          },
+          "geometry": {
+            "cardRadius": "20px",
+            "cardShadow": "rgba(17, 17, 22, 0.05) 12px 12px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(135deg, color(srgb 0.918118 0.907529 0.983765), rgba(0, 0, 0, 0) 58%), none"
+          },
+          "chartLanguage": {
+            "style": "couture",
+            "grid": "none",
+            "gridType": "solid",
+            "smooth": true,
+            "symbol": "circle",
+            "lineWidth": 3,
+            "symbolSize": 7,
+            "barRadius": 8,
+            "areaOpacity": 0.14,
+            "donut": [
+              "50%",
+              "73%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "tablet": {
+          "documentWidth": 768,
+          "viewportWidth": 768,
+          "widthDelta": 0,
+          "pageHeight": 5846,
+          "reportWidth": 728,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "qianzi",
+            "layout": "newsletter",
+            "cardShape": "editorial",
+            "sectionStyle": "editorial-rule",
+            "heroStyle": "lavender-wash",
+            "chartStyle": "couture"
+          },
+          "typography": {
+            "body": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "display": "Didot, Georgia, \"Songti SC\", serif",
+            "numeric": "Didot, Georgia, \"Songti SC\", serif",
+            "label": "\"Avenir Next Condensed\", \"SF Mono\", monospace"
+          },
+          "geometry": {
+            "cardRadius": "20px",
+            "cardShadow": "rgba(17, 17, 22, 0.05) 12px 12px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(135deg, color(srgb 0.918118 0.907529 0.983765), rgba(0, 0, 0, 0) 58%), none"
+          },
+          "chartLanguage": {
+            "style": "couture",
+            "grid": "none",
+            "gridType": "solid",
+            "smooth": true,
+            "symbol": "circle",
+            "lineWidth": 3,
+            "symbolSize": 7,
+            "barRadius": 8,
+            "areaOpacity": 0.14,
+            "donut": [
+              "50%",
+              "73%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "mobile": {
+          "documentWidth": 390,
+          "viewportWidth": 390,
+          "widthDelta": 0,
+          "pageHeight": 7099,
+          "reportWidth": 390,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 1,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "qianzi",
+            "layout": "newsletter",
+            "cardShape": "editorial",
+            "sectionStyle": "editorial-rule",
+            "heroStyle": "lavender-wash",
+            "chartStyle": "couture"
+          },
+          "typography": {
+            "body": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "display": "Didot, Georgia, \"Songti SC\", serif",
+            "numeric": "Didot, Georgia, \"Songti SC\", serif",
+            "label": "\"Avenir Next Condensed\", \"SF Mono\", monospace"
+          },
+          "geometry": {
+            "cardRadius": "20px",
+            "cardShadow": "rgba(17, 17, 22, 0.05) 12px 12px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(135deg, color(srgb 0.918118 0.907529 0.983765), rgba(0, 0, 0, 0) 58%), none"
+          },
+          "chartLanguage": {
+            "style": "couture",
+            "grid": "none",
+            "gridType": "solid",
+            "smooth": true,
+            "symbol": "circle",
+            "lineWidth": 3,
+            "symbolSize": 7,
+            "barRadius": 8,
+            "areaOpacity": 0.14,
+            "donut": [
+              "50%",
+              "73%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        }
+      }
+    },
+    "qiuli": {
+      "designSignature": "63303cf31ad191fd",
+      "viewports": {
+        "desktop": {
+          "documentWidth": 1440,
+          "viewportWidth": 1440,
+          "widthDelta": 0,
+          "pageHeight": 5835,
+          "reportWidth": 920,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "qiuli",
+            "layout": "newsletter",
+            "cardShape": "book",
+            "sectionStyle": "chapter",
+            "heroStyle": "parchment",
+            "chartStyle": "harvest"
+          },
+          "typography": {
+            "body": "\"Songti SC\", STSong, Georgia, serif",
+            "display": "\"Songti SC\", Georgia, serif",
+            "numeric": "\"Songti SC\", Georgia, serif",
+            "label": "\"Kaiti SC\", \"PingFang SC\", serif"
+          },
+          "geometry": {
+            "cardRadius": "2px 16px 16px 2px",
+            "cardShadow": "rgba(17, 17, 22, 0.05) 12px 12px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "repeating-linear-gradient(0deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 25px, color(srgb 0.270588 0.101961 0.0117647 / 0.06) 25px, color(srgb 0.270588 0.101961 0.0117647 / 0.06) 26px), none"
+          },
+          "chartLanguage": {
+            "style": "harvest",
+            "grid": "dotted",
+            "gridType": "dotted",
+            "smooth": false,
+            "symbol": "roundRect",
+            "lineWidth": 2,
+            "symbolSize": 7,
+            "barRadius": 4,
+            "areaOpacity": 0.12,
+            "donut": [
+              "48%",
+              "70%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        },
+        "laptop": {
+          "documentWidth": 1024,
+          "viewportWidth": 1024,
+          "widthDelta": 0,
+          "pageHeight": 5748,
+          "reportWidth": 920,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "qiuli",
+            "layout": "newsletter",
+            "cardShape": "book",
+            "sectionStyle": "chapter",
+            "heroStyle": "parchment",
+            "chartStyle": "harvest"
+          },
+          "typography": {
+            "body": "\"Songti SC\", STSong, Georgia, serif",
+            "display": "\"Songti SC\", Georgia, serif",
+            "numeric": "\"Songti SC\", Georgia, serif",
+            "label": "\"Kaiti SC\", \"PingFang SC\", serif"
+          },
+          "geometry": {
+            "cardRadius": "2px 16px 16px 2px",
+            "cardShadow": "rgba(17, 17, 22, 0.05) 12px 12px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "repeating-linear-gradient(0deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 25px, color(srgb 0.270588 0.101961 0.0117647 / 0.06) 25px, color(srgb 0.270588 0.101961 0.0117647 / 0.06) 26px), none"
+          },
+          "chartLanguage": {
+            "style": "harvest",
+            "grid": "dotted",
+            "gridType": "dotted",
+            "smooth": false,
+            "symbol": "roundRect",
+            "lineWidth": 2,
+            "symbolSize": 7,
+            "barRadius": 4,
+            "areaOpacity": 0.12,
+            "donut": [
+              "48%",
+              "70%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        },
+        "tablet": {
+          "documentWidth": 768,
+          "viewportWidth": 768,
+          "widthDelta": 0,
+          "pageHeight": 5725,
+          "reportWidth": 728,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "qiuli",
+            "layout": "newsletter",
+            "cardShape": "book",
+            "sectionStyle": "chapter",
+            "heroStyle": "parchment",
+            "chartStyle": "harvest"
+          },
+          "typography": {
+            "body": "\"Songti SC\", STSong, Georgia, serif",
+            "display": "\"Songti SC\", Georgia, serif",
+            "numeric": "\"Songti SC\", Georgia, serif",
+            "label": "\"Kaiti SC\", \"PingFang SC\", serif"
+          },
+          "geometry": {
+            "cardRadius": "2px 16px 16px 2px",
+            "cardShadow": "rgba(17, 17, 22, 0.05) 12px 12px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "repeating-linear-gradient(0deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 25px, color(srgb 0.270588 0.101961 0.0117647 / 0.06) 25px, color(srgb 0.270588 0.101961 0.0117647 / 0.06) 26px), none"
+          },
+          "chartLanguage": {
+            "style": "harvest",
+            "grid": "dotted",
+            "gridType": "dotted",
+            "smooth": false,
+            "symbol": "roundRect",
+            "lineWidth": 2,
+            "symbolSize": 7,
+            "barRadius": 4,
+            "areaOpacity": 0.12,
+            "donut": [
+              "48%",
+              "70%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        },
+        "mobile": {
+          "documentWidth": 390,
+          "viewportWidth": 390,
+          "widthDelta": 0,
+          "pageHeight": 6978,
+          "reportWidth": 390,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 1,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "qiuli",
+            "layout": "newsletter",
+            "cardShape": "book",
+            "sectionStyle": "chapter",
+            "heroStyle": "parchment",
+            "chartStyle": "harvest"
+          },
+          "typography": {
+            "body": "\"Songti SC\", STSong, Georgia, serif",
+            "display": "\"Songti SC\", Georgia, serif",
+            "numeric": "\"Songti SC\", Georgia, serif",
+            "label": "\"Kaiti SC\", \"PingFang SC\", serif"
+          },
+          "geometry": {
+            "cardRadius": "2px 16px 16px 2px",
+            "cardShadow": "rgba(17, 17, 22, 0.05) 12px 12px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "repeating-linear-gradient(0deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 25px, color(srgb 0.270588 0.101961 0.0117647 / 0.06) 25px, color(srgb 0.270588 0.101961 0.0117647 / 0.06) 26px), none"
+          },
+          "chartLanguage": {
+            "style": "harvest",
+            "grid": "dotted",
+            "gridType": "dotted",
+            "smooth": false,
+            "symbol": "roundRect",
+            "lineWidth": 2,
+            "symbolSize": 7,
+            "barRadius": 4,
+            "areaOpacity": 0.12,
+            "donut": [
+              "48%",
+              "70%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        }
+      }
+    },
+    "songye": {
+      "designSignature": "cc5b122ff83d1497",
+      "viewports": {
+        "desktop": {
+          "documentWidth": 1440,
+          "viewportWidth": 1440,
+          "widthDelta": 0,
+          "pageHeight": 4356,
+          "reportWidth": 1240,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 6,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "songye",
+            "layout": "kanban",
+            "cardShape": "technical",
+            "sectionStyle": "rail",
+            "heroStyle": "blueprint",
+            "chartStyle": "technical"
+          },
+          "typography": {
+            "body": "\"SF Pro Text\", \"PingFang SC\", sans-serif",
+            "display": "\"DIN Alternate\", \"PingFang SC\", sans-serif",
+            "numeric": "\"SF Mono\", Menlo, monospace",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "2px 9px",
+            "cardShadow": "rgba(15, 91, 120, 0.08) 0px 8px 22px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(color(srgb 1 1 1 / 0.08) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(90deg, color(srgb 1 1 1 / 0.08) 1px, rgba(0, 0, 0, 0) 1px), none"
+          },
+          "chartLanguage": {
+            "style": "technical",
+            "grid": "solid",
+            "gridType": "solid",
+            "smooth": false,
+            "symbol": "rect",
+            "lineWidth": 2,
+            "symbolSize": 6,
+            "barRadius": 2,
+            "areaOpacity": 0.09,
+            "donut": [
+              "58%",
+              "76%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        },
+        "laptop": {
+          "documentWidth": 1024,
+          "viewportWidth": 1024,
+          "widthDelta": 0,
+          "pageHeight": 4244,
+          "reportWidth": 984,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 6,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "songye",
+            "layout": "kanban",
+            "cardShape": "technical",
+            "sectionStyle": "rail",
+            "heroStyle": "blueprint",
+            "chartStyle": "technical"
+          },
+          "typography": {
+            "body": "\"SF Pro Text\", \"PingFang SC\", sans-serif",
+            "display": "\"DIN Alternate\", \"PingFang SC\", sans-serif",
+            "numeric": "\"SF Mono\", Menlo, monospace",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "2px 9px",
+            "cardShadow": "rgba(15, 91, 120, 0.08) 0px 8px 22px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(color(srgb 1 1 1 / 0.08) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(90deg, color(srgb 1 1 1 / 0.08) 1px, rgba(0, 0, 0, 0) 1px), none"
+          },
+          "chartLanguage": {
+            "style": "technical",
+            "grid": "solid",
+            "gridType": "solid",
+            "smooth": false,
+            "symbol": "rect",
+            "lineWidth": 2,
+            "symbolSize": 6,
+            "barRadius": 2,
+            "areaOpacity": 0.09,
+            "donut": [
+              "58%",
+              "76%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        },
+        "tablet": {
+          "documentWidth": 768,
+          "viewportWidth": 768,
+          "widthDelta": 0,
+          "pageHeight": 5363,
+          "reportWidth": 728,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "songye",
+            "layout": "kanban",
+            "cardShape": "technical",
+            "sectionStyle": "rail",
+            "heroStyle": "blueprint",
+            "chartStyle": "technical"
+          },
+          "typography": {
+            "body": "\"SF Pro Text\", \"PingFang SC\", sans-serif",
+            "display": "\"DIN Alternate\", \"PingFang SC\", sans-serif",
+            "numeric": "\"SF Mono\", Menlo, monospace",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "2px 9px",
+            "cardShadow": "rgba(15, 91, 120, 0.08) 0px 8px 22px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(color(srgb 1 1 1 / 0.08) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(90deg, color(srgb 1 1 1 / 0.08) 1px, rgba(0, 0, 0, 0) 1px), none"
+          },
+          "chartLanguage": {
+            "style": "technical",
+            "grid": "solid",
+            "gridType": "solid",
+            "smooth": false,
+            "symbol": "rect",
+            "lineWidth": 2,
+            "symbolSize": 6,
+            "barRadius": 2,
+            "areaOpacity": 0.09,
+            "donut": [
+              "58%",
+              "76%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        },
+        "mobile": {
+          "documentWidth": 390,
+          "viewportWidth": 390,
+          "widthDelta": 0,
+          "pageHeight": 6877,
+          "reportWidth": 390,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 1,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "songye",
+            "layout": "kanban",
+            "cardShape": "technical",
+            "sectionStyle": "rail",
+            "heroStyle": "blueprint",
+            "chartStyle": "technical"
+          },
+          "typography": {
+            "body": "\"SF Pro Text\", \"PingFang SC\", sans-serif",
+            "display": "\"DIN Alternate\", \"PingFang SC\", sans-serif",
+            "numeric": "\"SF Mono\", Menlo, monospace",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "2px 9px",
+            "cardShadow": "rgba(15, 91, 120, 0.08) 0px 8px 22px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(color(srgb 1 1 1 / 0.08) 1px, rgba(0, 0, 0, 0) 1px), linear-gradient(90deg, color(srgb 1 1 1 / 0.08) 1px, rgba(0, 0, 0, 0) 1px), none"
+          },
+          "chartLanguage": {
+            "style": "technical",
+            "grid": "solid",
+            "gridType": "solid",
+            "smooth": false,
+            "symbol": "rect",
+            "lineWidth": 2,
+            "symbolSize": 6,
+            "barRadius": 2,
+            "areaOpacity": 0.09,
+            "donut": [
+              "58%",
+              "76%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        }
+      }
+    },
+    "wanying": {
+      "designSignature": "d4b76cf4239e8a44",
+      "viewports": {
+        "desktop": {
+          "documentWidth": 1440,
+          "viewportWidth": 1440,
+          "widthDelta": 0,
+          "pageHeight": 5641,
+          "reportWidth": 920,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "wanying",
+            "layout": "newsletter",
+            "cardShape": "pill",
+            "sectionStyle": "petal",
+            "heroStyle": "blossom",
+            "chartStyle": "blossom"
+          },
+          "typography": {
+            "body": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "display": "\"Hiragino Maru Gothic ProN\", \"PingFang SC\", sans-serif",
+            "numeric": "\"Hiragino Maru Gothic ProN\", \"PingFang SC\", sans-serif",
+            "label": "\"Avenir Next Condensed\", \"PingFang SC\", sans-serif"
+          },
+          "geometry": {
+            "cardRadius": "28px",
+            "cardShadow": "rgba(17, 17, 22, 0.05) 12px 12px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "radial-gradient(circle at 78% 24%, color(srgb 0.981373 0.820588 0.9) 0px, color(srgb 0.981373 0.820588 0.9) 7%, rgba(0, 0, 0, 0) 7.5%), radial-gradient(circle at 88% 42%, color(srgb 0.894706 0.867059 0.937647) 0px, color(srgb 0.894706 0.867059 0.937647) 5%, rgba(0, 0, 0, 0) 5.5%), linear-gradient(135deg, rgb(255, 255, 255), color(srgb 0.992549 0.928235 0.96))"
+          },
+          "chartLanguage": {
+            "style": "blossom",
+            "grid": "dashed",
+            "gridType": "dashed",
+            "smooth": true,
+            "symbol": "circle",
+            "lineWidth": 3,
+            "symbolSize": 8,
+            "barRadius": 14,
+            "areaOpacity": 0.18,
+            "donut": [
+              "54%",
+              "76%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "laptop": {
+          "documentWidth": 1024,
+          "viewportWidth": 1024,
+          "widthDelta": 0,
+          "pageHeight": 5554,
+          "reportWidth": 920,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "wanying",
+            "layout": "newsletter",
+            "cardShape": "pill",
+            "sectionStyle": "petal",
+            "heroStyle": "blossom",
+            "chartStyle": "blossom"
+          },
+          "typography": {
+            "body": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "display": "\"Hiragino Maru Gothic ProN\", \"PingFang SC\", sans-serif",
+            "numeric": "\"Hiragino Maru Gothic ProN\", \"PingFang SC\", sans-serif",
+            "label": "\"Avenir Next Condensed\", \"PingFang SC\", sans-serif"
+          },
+          "geometry": {
+            "cardRadius": "28px",
+            "cardShadow": "rgba(17, 17, 22, 0.05) 12px 12px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "radial-gradient(circle at 78% 24%, color(srgb 0.981373 0.820588 0.9) 0px, color(srgb 0.981373 0.820588 0.9) 7%, rgba(0, 0, 0, 0) 7.5%), radial-gradient(circle at 88% 42%, color(srgb 0.894706 0.867059 0.937647) 0px, color(srgb 0.894706 0.867059 0.937647) 5%, rgba(0, 0, 0, 0) 5.5%), linear-gradient(135deg, rgb(255, 255, 255), color(srgb 0.992549 0.928235 0.96))"
+          },
+          "chartLanguage": {
+            "style": "blossom",
+            "grid": "dashed",
+            "gridType": "dashed",
+            "smooth": true,
+            "symbol": "circle",
+            "lineWidth": 3,
+            "symbolSize": 8,
+            "barRadius": 14,
+            "areaOpacity": 0.18,
+            "donut": [
+              "54%",
+              "76%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "tablet": {
+          "documentWidth": 768,
+          "viewportWidth": 768,
+          "widthDelta": 0,
+          "pageHeight": 5858,
+          "reportWidth": 728,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "wanying",
+            "layout": "newsletter",
+            "cardShape": "pill",
+            "sectionStyle": "petal",
+            "heroStyle": "blossom",
+            "chartStyle": "blossom"
+          },
+          "typography": {
+            "body": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "display": "\"Hiragino Maru Gothic ProN\", \"PingFang SC\", sans-serif",
+            "numeric": "\"Hiragino Maru Gothic ProN\", \"PingFang SC\", sans-serif",
+            "label": "\"Avenir Next Condensed\", \"PingFang SC\", sans-serif"
+          },
+          "geometry": {
+            "cardRadius": "28px",
+            "cardShadow": "rgba(17, 17, 22, 0.05) 12px 12px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "radial-gradient(circle at 78% 24%, color(srgb 0.981373 0.820588 0.9) 0px, color(srgb 0.981373 0.820588 0.9) 7%, rgba(0, 0, 0, 0) 7.5%), radial-gradient(circle at 88% 42%, color(srgb 0.894706 0.867059 0.937647) 0px, color(srgb 0.894706 0.867059 0.937647) 5%, rgba(0, 0, 0, 0) 5.5%), linear-gradient(135deg, rgb(255, 255, 255), color(srgb 0.992549 0.928235 0.96))"
+          },
+          "chartLanguage": {
+            "style": "blossom",
+            "grid": "dashed",
+            "gridType": "dashed",
+            "smooth": true,
+            "symbol": "circle",
+            "lineWidth": 3,
+            "symbolSize": 8,
+            "barRadius": 14,
+            "areaOpacity": 0.18,
+            "donut": [
+              "54%",
+              "76%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "mobile": {
+          "documentWidth": 390,
+          "viewportWidth": 390,
+          "widthDelta": 0,
+          "pageHeight": 7111,
+          "reportWidth": 390,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 1,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "wanying",
+            "layout": "newsletter",
+            "cardShape": "pill",
+            "sectionStyle": "petal",
+            "heroStyle": "blossom",
+            "chartStyle": "blossom"
+          },
+          "typography": {
+            "body": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+            "display": "\"Hiragino Maru Gothic ProN\", \"PingFang SC\", sans-serif",
+            "numeric": "\"Hiragino Maru Gothic ProN\", \"PingFang SC\", sans-serif",
+            "label": "\"Avenir Next Condensed\", \"PingFang SC\", sans-serif"
+          },
+          "geometry": {
+            "cardRadius": "28px",
+            "cardShadow": "rgba(17, 17, 22, 0.05) 12px 12px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "radial-gradient(circle at 78% 24%, color(srgb 0.981373 0.820588 0.9) 0px, color(srgb 0.981373 0.820588 0.9) 7%, rgba(0, 0, 0, 0) 7.5%), radial-gradient(circle at 88% 42%, color(srgb 0.894706 0.867059 0.937647) 0px, color(srgb 0.894706 0.867059 0.937647) 5%, rgba(0, 0, 0, 0) 5.5%), linear-gradient(135deg, rgb(255, 255, 255), color(srgb 0.992549 0.928235 0.96))"
+          },
+          "chartLanguage": {
+            "style": "blossom",
+            "grid": "dashed",
+            "gridType": "dashed",
+            "smooth": true,
+            "symbol": "circle",
+            "lineWidth": 3,
+            "symbolSize": 8,
+            "barRadius": 14,
+            "areaOpacity": 0.18,
+            "donut": [
+              "54%",
+              "76%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        }
+      }
+    },
+    "yanzhi": {
+      "designSignature": "f0a3de4167c492fa",
+      "viewports": {
+        "desktop": {
+          "documentWidth": 1440,
+          "viewportWidth": 1440,
+          "widthDelta": 0,
+          "pageHeight": 4564,
+          "reportWidth": 1240,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "yanzhi",
+            "layout": "dashboard",
+            "cardShape": "angular",
+            "sectionStyle": "slash",
+            "heroStyle": "diagonal",
+            "chartStyle": "pulse"
+          },
+          "typography": {
+            "body": "\"Helvetica Neue\", \"PingFang SC\", sans-serif",
+            "display": "\"Arial Black\", \"PingFang SC\", sans-serif",
+            "numeric": "\"DIN Alternate\", \"SF Mono\", monospace",
+            "label": "\"Arial Narrow\", \"PingFang SC\", sans-serif"
+          },
+          "geometry": {
+            "cardRadius": "0px 18px",
+            "cardShadow": "rgba(131, 24, 67, 0.08) 8px 8px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "repeating-linear-gradient(125deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 38px, color(srgb 1 1 1 / 0.07) 38px, color(srgb 1 1 1 / 0.07) 40px), linear-gradient(110deg, rgb(131, 24, 67), rgb(244, 63, 94))"
+          },
+          "chartLanguage": {
+            "style": "pulse",
+            "grid": "none",
+            "gridType": "solid",
+            "smooth": false,
+            "symbol": "diamond",
+            "lineWidth": 3,
+            "symbolSize": 8,
+            "barRadius": 0,
+            "areaOpacity": 0.12,
+            "donut": [
+              "46%",
+              "72%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "laptop": {
+          "documentWidth": 1024,
+          "viewportWidth": 1024,
+          "widthDelta": 0,
+          "pageHeight": 4556,
+          "reportWidth": 984,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "yanzhi",
+            "layout": "dashboard",
+            "cardShape": "angular",
+            "sectionStyle": "slash",
+            "heroStyle": "diagonal",
+            "chartStyle": "pulse"
+          },
+          "typography": {
+            "body": "\"Helvetica Neue\", \"PingFang SC\", sans-serif",
+            "display": "\"Arial Black\", \"PingFang SC\", sans-serif",
+            "numeric": "\"DIN Alternate\", \"SF Mono\", monospace",
+            "label": "\"Arial Narrow\", \"PingFang SC\", sans-serif"
+          },
+          "geometry": {
+            "cardRadius": "0px 18px",
+            "cardShadow": "rgba(131, 24, 67, 0.08) 8px 8px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "repeating-linear-gradient(125deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 38px, color(srgb 1 1 1 / 0.07) 38px, color(srgb 1 1 1 / 0.07) 40px), linear-gradient(110deg, rgb(131, 24, 67), rgb(244, 63, 94))"
+          },
+          "chartLanguage": {
+            "style": "pulse",
+            "grid": "none",
+            "gridType": "solid",
+            "smooth": false,
+            "symbol": "diamond",
+            "lineWidth": 3,
+            "symbolSize": 8,
+            "barRadius": 0,
+            "areaOpacity": 0.12,
+            "donut": [
+              "46%",
+              "72%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "tablet": {
+          "documentWidth": 768,
+          "viewportWidth": 768,
+          "widthDelta": 0,
+          "pageHeight": 5234,
+          "reportWidth": 728,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "yanzhi",
+            "layout": "dashboard",
+            "cardShape": "angular",
+            "sectionStyle": "slash",
+            "heroStyle": "diagonal",
+            "chartStyle": "pulse"
+          },
+          "typography": {
+            "body": "\"Helvetica Neue\", \"PingFang SC\", sans-serif",
+            "display": "\"Arial Black\", \"PingFang SC\", sans-serif",
+            "numeric": "\"DIN Alternate\", \"SF Mono\", monospace",
+            "label": "\"Arial Narrow\", \"PingFang SC\", sans-serif"
+          },
+          "geometry": {
+            "cardRadius": "0px 18px",
+            "cardShadow": "rgba(131, 24, 67, 0.08) 8px 8px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "repeating-linear-gradient(125deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 38px, color(srgb 1 1 1 / 0.07) 38px, color(srgb 1 1 1 / 0.07) 40px), linear-gradient(110deg, rgb(131, 24, 67), rgb(244, 63, 94))"
+          },
+          "chartLanguage": {
+            "style": "pulse",
+            "grid": "none",
+            "gridType": "solid",
+            "smooth": false,
+            "symbol": "diamond",
+            "lineWidth": 3,
+            "symbolSize": 8,
+            "barRadius": 0,
+            "areaOpacity": 0.12,
+            "donut": [
+              "46%",
+              "72%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "mobile": {
+          "documentWidth": 390,
+          "viewportWidth": 390,
+          "widthDelta": 0,
+          "pageHeight": 6360,
+          "reportWidth": 390,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 1,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "yanzhi",
+            "layout": "dashboard",
+            "cardShape": "angular",
+            "sectionStyle": "slash",
+            "heroStyle": "diagonal",
+            "chartStyle": "pulse"
+          },
+          "typography": {
+            "body": "\"Helvetica Neue\", \"PingFang SC\", sans-serif",
+            "display": "\"Arial Black\", \"PingFang SC\", sans-serif",
+            "numeric": "\"DIN Alternate\", \"SF Mono\", monospace",
+            "label": "\"Arial Narrow\", \"PingFang SC\", sans-serif"
+          },
+          "geometry": {
+            "cardRadius": "0px 18px",
+            "cardShadow": "rgba(131, 24, 67, 0.08) 8px 8px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "repeating-linear-gradient(125deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 38px, color(srgb 1 1 1 / 0.07) 38px, color(srgb 1 1 1 / 0.07) 40px), linear-gradient(110deg, rgb(131, 24, 67), rgb(244, 63, 94))"
+          },
+          "chartLanguage": {
+            "style": "pulse",
+            "grid": "none",
+            "gridType": "solid",
+            "smooth": false,
+            "symbol": "diamond",
+            "lineWidth": 3,
+            "symbolSize": 8,
+            "barRadius": 0,
+            "areaOpacity": 0.12,
+            "donut": [
+              "46%",
+              "72%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        }
+      }
+    },
+    "yuanshan": {
+      "designSignature": "bdf63bf354faf487",
+      "viewports": {
+        "desktop": {
+          "documentWidth": 1440,
+          "viewportWidth": 1440,
+          "widthDelta": 0,
+          "pageHeight": 4350,
+          "reportWidth": 1240,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 6,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "yuanshan",
+            "layout": "kanban",
+            "cardShape": "air",
+            "sectionStyle": "airline",
+            "heroStyle": "horizon",
+            "chartStyle": "airy"
+          },
+          "typography": {
+            "body": "\"Helvetica Neue\", \"PingFang SC\", sans-serif",
+            "display": "Optima, \"PingFang SC\", sans-serif",
+            "numeric": "\"SF Mono\", Menlo, monospace",
+            "label": "\"Avenir Next Condensed\", \"PingFang SC\", sans-serif"
+          },
+          "geometry": {
+            "cardRadius": "24px",
+            "cardShadow": "rgba(6, 182, 212, 0.08) 0px 14px 34px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(176deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 66%, color(srgb 0.0235294 0.713726 0.831373 / 0.22) 66%, color(srgb 0.0235294 0.713726 0.831373 / 0.22) 68%, rgba(0, 0, 0, 0) 68%), linear-gradient(135deg, rgb(255, 255, 255), color(srgb 0.947843 0.997255 1))"
+          },
+          "chartLanguage": {
+            "style": "airy",
+            "grid": "dashed",
+            "gridType": "dashed",
+            "smooth": true,
+            "symbol": "circle",
+            "lineWidth": 2,
+            "symbolSize": 6,
+            "barRadius": 10,
+            "areaOpacity": 0.1,
+            "donut": [
+              "55%",
+              "74%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "laptop": {
+          "documentWidth": 1024,
+          "viewportWidth": 1024,
+          "widthDelta": 0,
+          "pageHeight": 4220,
+          "reportWidth": 984,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 6,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "yuanshan",
+            "layout": "kanban",
+            "cardShape": "air",
+            "sectionStyle": "airline",
+            "heroStyle": "horizon",
+            "chartStyle": "airy"
+          },
+          "typography": {
+            "body": "\"Helvetica Neue\", \"PingFang SC\", sans-serif",
+            "display": "Optima, \"PingFang SC\", sans-serif",
+            "numeric": "\"SF Mono\", Menlo, monospace",
+            "label": "\"Avenir Next Condensed\", \"PingFang SC\", sans-serif"
+          },
+          "geometry": {
+            "cardRadius": "24px",
+            "cardShadow": "rgba(6, 182, 212, 0.08) 0px 14px 34px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(176deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 66%, color(srgb 0.0235294 0.713726 0.831373 / 0.22) 66%, color(srgb 0.0235294 0.713726 0.831373 / 0.22) 68%, rgba(0, 0, 0, 0) 68%), linear-gradient(135deg, rgb(255, 255, 255), color(srgb 0.947843 0.997255 1))"
+          },
+          "chartLanguage": {
+            "style": "airy",
+            "grid": "dashed",
+            "gridType": "dashed",
+            "smooth": true,
+            "symbol": "circle",
+            "lineWidth": 2,
+            "symbolSize": 6,
+            "barRadius": 10,
+            "areaOpacity": 0.1,
+            "donut": [
+              "55%",
+              "74%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "tablet": {
+          "documentWidth": 768,
+          "viewportWidth": 768,
+          "widthDelta": 0,
+          "pageHeight": 5353,
+          "reportWidth": 728,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "yuanshan",
+            "layout": "kanban",
+            "cardShape": "air",
+            "sectionStyle": "airline",
+            "heroStyle": "horizon",
+            "chartStyle": "airy"
+          },
+          "typography": {
+            "body": "\"Helvetica Neue\", \"PingFang SC\", sans-serif",
+            "display": "Optima, \"PingFang SC\", sans-serif",
+            "numeric": "\"SF Mono\", Menlo, monospace",
+            "label": "\"Avenir Next Condensed\", \"PingFang SC\", sans-serif"
+          },
+          "geometry": {
+            "cardRadius": "24px",
+            "cardShadow": "rgba(6, 182, 212, 0.08) 0px 14px 34px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(176deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 66%, color(srgb 0.0235294 0.713726 0.831373 / 0.22) 66%, color(srgb 0.0235294 0.713726 0.831373 / 0.22) 68%, rgba(0, 0, 0, 0) 68%), linear-gradient(135deg, rgb(255, 255, 255), color(srgb 0.947843 0.997255 1))"
+          },
+          "chartLanguage": {
+            "style": "airy",
+            "grid": "dashed",
+            "gridType": "dashed",
+            "smooth": true,
+            "symbol": "circle",
+            "lineWidth": 2,
+            "symbolSize": 6,
+            "barRadius": 10,
+            "areaOpacity": 0.1,
+            "donut": [
+              "55%",
+              "74%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        },
+        "mobile": {
+          "documentWidth": 390,
+          "viewportWidth": 390,
+          "widthDelta": 0,
+          "pageHeight": 6865,
+          "reportWidth": 390,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 1,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "yuanshan",
+            "layout": "kanban",
+            "cardShape": "air",
+            "sectionStyle": "airline",
+            "heroStyle": "horizon",
+            "chartStyle": "airy"
+          },
+          "typography": {
+            "body": "\"Helvetica Neue\", \"PingFang SC\", sans-serif",
+            "display": "Optima, \"PingFang SC\", sans-serif",
+            "numeric": "\"SF Mono\", Menlo, monospace",
+            "label": "\"Avenir Next Condensed\", \"PingFang SC\", sans-serif"
+          },
+          "geometry": {
+            "cardRadius": "24px",
+            "cardShadow": "rgba(6, 182, 212, 0.08) 0px 14px 34px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "linear-gradient(176deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 66%, color(srgb 0.0235294 0.713726 0.831373 / 0.22) 66%, color(srgb 0.0235294 0.713726 0.831373 / 0.22) 68%, rgba(0, 0, 0, 0) 68%), linear-gradient(135deg, rgb(255, 255, 255), color(srgb 0.947843 0.997255 1))"
+          },
+          "chartLanguage": {
+            "style": "airy",
+            "grid": "dashed",
+            "gridType": "dashed",
+            "smooth": true,
+            "symbol": "circle",
+            "lineWidth": 2,
+            "symbolSize": 6,
+            "barRadius": 10,
+            "areaOpacity": 0.1,
+            "donut": [
+              "55%",
+              "74%"
+            ],
+            "legend": "top"
+          },
+          "visualDiffRatio": 0
+        }
+      }
+    },
+    "zhuqing": {
+      "designSignature": "71eb027c0c6f26c4",
+      "viewports": {
+        "desktop": {
+          "documentWidth": 1440,
+          "viewportWidth": 1440,
+          "widthDelta": 0,
+          "pageHeight": 4392,
+          "reportWidth": 1240,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 6,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "zhuqing",
+            "layout": "kanban",
+            "cardShape": "cut",
+            "sectionStyle": "stamp",
+            "heroStyle": "bamboo-grid",
+            "chartStyle": "bamboo"
+          },
+          "typography": {
+            "body": "\"PingFang SC\", \"Microsoft YaHei\", sans-serif",
+            "display": "\"DIN Alternate\", \"PingFang SC\", sans-serif",
+            "numeric": "\"SF Mono\", Menlo, monospace",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "0px",
+            "cardShadow": "rgba(6, 78, 59, 0.08) 5px 5px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "repeating-linear-gradient(90deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 74px, color(srgb 1 1 1 / 0.08) 74px, color(srgb 1 1 1 / 0.08) 76px), linear-gradient(120deg, rgb(6, 78, 59), color(srgb 0.0337255 0.41498 0.302745))"
+          },
+          "chartLanguage": {
+            "style": "bamboo",
+            "grid": "solid",
+            "gridType": "solid",
+            "smooth": false,
+            "symbol": "rect",
+            "lineWidth": 2,
+            "symbolSize": 6,
+            "barRadius": 0,
+            "areaOpacity": 0.08,
+            "donut": [
+              "60%",
+              "78%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        },
+        "laptop": {
+          "documentWidth": 1024,
+          "viewportWidth": 1024,
+          "widthDelta": 0,
+          "pageHeight": 4280,
+          "reportWidth": 984,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 6,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "zhuqing",
+            "layout": "kanban",
+            "cardShape": "cut",
+            "sectionStyle": "stamp",
+            "heroStyle": "bamboo-grid",
+            "chartStyle": "bamboo"
+          },
+          "typography": {
+            "body": "\"PingFang SC\", \"Microsoft YaHei\", sans-serif",
+            "display": "\"DIN Alternate\", \"PingFang SC\", sans-serif",
+            "numeric": "\"SF Mono\", Menlo, monospace",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "0px",
+            "cardShadow": "rgba(6, 78, 59, 0.08) 5px 5px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "repeating-linear-gradient(90deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 74px, color(srgb 1 1 1 / 0.08) 74px, color(srgb 1 1 1 / 0.08) 76px), linear-gradient(120deg, rgb(6, 78, 59), color(srgb 0.0337255 0.41498 0.302745))"
+          },
+          "chartLanguage": {
+            "style": "bamboo",
+            "grid": "solid",
+            "gridType": "solid",
+            "smooth": false,
+            "symbol": "rect",
+            "lineWidth": 2,
+            "symbolSize": 6,
+            "barRadius": 0,
+            "areaOpacity": 0.08,
+            "donut": [
+              "60%",
+              "78%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        },
+        "tablet": {
+          "documentWidth": 768,
+          "viewportWidth": 768,
+          "widthDelta": 0,
+          "pageHeight": 5395,
+          "reportWidth": 728,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 2,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "zhuqing",
+            "layout": "kanban",
+            "cardShape": "cut",
+            "sectionStyle": "stamp",
+            "heroStyle": "bamboo-grid",
+            "chartStyle": "bamboo"
+          },
+          "typography": {
+            "body": "\"PingFang SC\", \"Microsoft YaHei\", sans-serif",
+            "display": "\"DIN Alternate\", \"PingFang SC\", sans-serif",
+            "numeric": "\"SF Mono\", Menlo, monospace",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "0px",
+            "cardShadow": "rgba(6, 78, 59, 0.08) 5px 5px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "repeating-linear-gradient(90deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 74px, color(srgb 1 1 1 / 0.08) 74px, color(srgb 1 1 1 / 0.08) 76px), linear-gradient(120deg, rgb(6, 78, 59), color(srgb 0.0337255 0.41498 0.302745))"
+          },
+          "chartLanguage": {
+            "style": "bamboo",
+            "grid": "solid",
+            "gridType": "solid",
+            "smooth": false,
+            "symbol": "rect",
+            "lineWidth": 2,
+            "symbolSize": 6,
+            "barRadius": 0,
+            "areaOpacity": 0.08,
+            "donut": [
+              "60%",
+              "78%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        },
+        "mobile": {
+          "documentWidth": 390,
+          "viewportWidth": 390,
+          "widthDelta": 0,
+          "pageHeight": 6907,
+          "reportWidth": 390,
+          "minFontSize": 10,
+          "tinyTextCount": 0,
+          "clipped": [],
+          "deadNavTargets": [],
+          "kpiCount": 3,
+          "kpiColumns": 1,
+          "sectionCount": 7,
+          "chartCount": 3,
+          "renderedChartCount": 3,
+          "attributes": {
+            "template": "zhuqing",
+            "layout": "kanban",
+            "cardShape": "cut",
+            "sectionStyle": "stamp",
+            "heroStyle": "bamboo-grid",
+            "chartStyle": "bamboo"
+          },
+          "typography": {
+            "body": "\"PingFang SC\", \"Microsoft YaHei\", sans-serif",
+            "display": "\"DIN Alternate\", \"PingFang SC\", sans-serif",
+            "numeric": "\"SF Mono\", Menlo, monospace",
+            "label": "\"SF Mono\", Menlo, monospace"
+          },
+          "geometry": {
+            "cardRadius": "0px",
+            "cardShadow": "rgba(6, 78, 59, 0.08) 5px 5px 0px 0px",
+            "sectionBorder": "none",
+            "heroBackground": "repeating-linear-gradient(90deg, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 74px, color(srgb 1 1 1 / 0.08) 74px, color(srgb 1 1 1 / 0.08) 76px), linear-gradient(120deg, rgb(6, 78, 59), color(srgb 0.0337255 0.41498 0.302745))"
+          },
+          "chartLanguage": {
+            "style": "bamboo",
+            "grid": "solid",
+            "gridType": "solid",
+            "smooth": false,
+            "symbol": "rect",
+            "lineWidth": 2,
+            "symbolSize": 6,
+            "barRadius": 0,
+            "areaOpacity": 0.08,
+            "donut": [
+              "60%",
+              "78%"
+            ],
+            "legend": "bottom"
+          },
+          "visualDiffRatio": 0
+        }
+      }
+    }
+  }
+}

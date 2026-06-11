@@ -10,7 +10,16 @@ Use [visual-composition.md](visual-composition.md) for page-level narrative and 
 - **Editorial**: expressive lavender reference style, larger typography, richer section transitions.
 - **Product Operations**: precise grid, technical labels, strong progress and status treatment.
 
-Templates define layout and default tokens. Theme colors remain editable independently.
+Templates define visual language and canonical composition. Theme colors remain editable independently.
+
+Each template has a `design` contract:
+
+- `typography`: separate display, body, numeric, and label stacks.
+- `geometry`: card shape, section treatment, radii, borders, and shadows.
+- `hero`: a theme-specific opening motif.
+- `chart`: palette, grid, curve, symbol, bar, area, donut, and legend behavior.
+
+Keep these signatures distinct across the theme library. See [theme-language.md](theme-language.md).
 
 ## Tokens
 
@@ -32,6 +41,8 @@ Use continuous animation only when it communicates state. Respect `prefers-reduc
 - Section `outcome` records the verified result; `next` records the next action.
 - Source markers stay summarized by default and expand through the source control.
 - Avoid orphan cards. When a row has an odd final chart, use the wide chart composition with a dedicated takeaway panel.
+- Format large numeric values for the reader's locale; do not expose schema unit names such as `integer` or `currency`.
+- Keep metadata and badges at 10px or larger. Use 12-16px for recurring body copy and 30-48px for primary KPI values.
 
 ## Presentation Controls
 
@@ -51,3 +62,10 @@ Sections may override the global layout with their own `layout`.
 - Mobile: use 1 column, preserve readable chart height, and allow tables to scroll.
 - Never preserve a desktop multi-column card grid by squeezing columns below readable width.
 - Never hide source notes, units, or chart meaning to make a layout fit.
+- Operating-review filters and tabs must remain usable without clipping at 390px.
+
+## Visual Regression
+
+Run `npm run visual:test` after any template or runtime visual change. The browser audit renders all themes at 1440x1200, 1024x900, 768x900, and 390x844, checks computed font floors, overflow, clipped text, navigation targets, chart initialization, design attributes, and KPI responsiveness, then compares full-page screenshots against synthetic baselines.
+
+Use `npm run visual:update` only for an intentional visual change after inspecting the generated output under `output/playwright/visual-regression/`.

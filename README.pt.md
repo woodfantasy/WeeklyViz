@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href=""><img src="https://img.shields.io/badge/version-0.1.1-blue.svg" alt="Version"></a>
+  <a href=""><img src="https://img.shields.io/badge/version-0.1.2-blue.svg" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"></a>
   <a href=""><img src="https://img.shields.io/badge/platform-Codex_/_Claude_Code-purple.svg" alt="Platform"></a>
 </p>
@@ -27,8 +27,8 @@
 ## 🖼️ Exemplo de Resultado
 
 <p align="center">
-  <a href="assets/weeklyviz-multi-layout-showcase.jpg">
-    <img src="assets/weeklyviz-multi-layout-showcase.jpg" width="860" alt="Demonstração de relatórios semanais com vários layouts do WeeklyViz">
+  <a href="assets/weeklyviz-multi-layout-showcase.png">
+    <img src="assets/weeklyviz-multi-layout-showcase.png" width="860" alt="Demonstração de relatórios semanais com vários layouts do WeeklyViz">
   </a>
 </p>
 
@@ -41,7 +41,7 @@
 | Recurso | Descrição |
 |---------|-----------|
 | 📊 **Extração de Várias Fontes** | Processa arquivos `.xlsx`, `.csv`, `.docx`, `.md` e `.txt` automaticamente para extrair métricas e listas de progresso. |
-| 🎨 **Sistema de Design Multilayout** | Inclui 13 temas profissionais e vários layouts para narrativa editorial, dashboards executivos, acompanhamento Kanban e visualizações densas de dados, todos responsivos e offline. |
+| 🎨 **Sistema de Design Multilayout** | Inclui 14 temas profissionais e vários layouts para narrativa editorial, dashboards executivos, acompanhamento Kanban e visualizações densas de dados, todos responsivos e offline. |
 | 🔗 **Rastreabilidade de Origem** | Mapeia automaticamente cada KPI, barra de progresso, gráfico e item de volta ao arquivo e linha originais usando IDs hash estáveis. |
 | ✏️ **Edição Inline Interativa** | O relatório HTML final suporta edição de textos e números em tempo real, ajustes de tema e exportação simples para PDF/impressão. |
 | 📈 **Apache ECharts Integrado** | Inclui runtime local do ECharts (`echarts.min.js`) para criar gráficos de linhas, barras, roscas e funis sem acesso à internet. |
@@ -85,10 +85,13 @@ python3 scripts/weeklyviz.py render --report report-model.json --output weekly-r
 
 ## 📋 Versões de Lançamento
 
+*   **v0.1.2** (2026-06-11)
+    - Corrigido o alinhamento vertical dos pontos de status e títulos no layout de lista (`layout-list`) para garantir renderização centrada em todos os modelos.
+    - Recriada e atualizada a imagem de demonstração do produto apresentando o relatório semanal do Xiaohongshu Shiji Tab.
 *   **v0.1.1** (2026-06-09)
     - Estrutura de diretórios aplanada na pasta raiz para instalação e execução padrão do agente.
     - Design e atualização premium do modelo `Editorial` com fundos pontilhados, barra de estilo macOS, sombras sólidas deslocadas, listas de tópicos e barras laterais.
-    - Política de segurança para excluir dados locais sensíveis do Shiji no repositório público do GitHub.
+    - Política de segurança para excluir dados locais sensíveis de negócios no repositório público do GitHub.
 *   **v0.1.0** (2026-06-09)
     - Lançamento inicial.
 ```

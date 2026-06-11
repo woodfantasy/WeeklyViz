@@ -1,0 +1,16 @@
+{
+  "name": "weeklyviz",
+  "private": true,
+  "scripts": {
+    "test": "npm run test:unit && npm run visual:test",
+    "test:unit": "python3 -m unittest tests/test_weeklyviz.py",
+    "visual:test": "node scripts/visual_regression.mjs",
+    "visual:update": "node scripts/visual_regression.mjs --update"
+  },
+  "devDependencies": {
+    "jpeg-js": "^0.4.4",
+    "pixelmatch": "^7.1.0",
+    "playwright": "^1.60.0",
+    "pngjs": "^7.0.0"
+  }
+}

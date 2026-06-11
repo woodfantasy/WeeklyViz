@@ -3,6 +3,8 @@
   "label": "暮山紫 (Mushanzi)",
   "description": "神秘高雅的暮山紫高新技术配色",
   "parent_style": "editorial",
+  "canonical_layout": "operating-review",
+  "canonical_section_layout": "cards",
   "theme": {
     "primary": "#3B0764",
     "accent": "#A855F7",
@@ -10,5 +12,37 @@
     "surface": "#FFFFFF",
     "text": "#3B0764",
     "muted": "#7E22CE"
+  },
+  "design": {
+    "typography": {
+      "display": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+      "body": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+      "numeric": "\"SF Mono\", Menlo, monospace",
+      "label": "\"SF Mono\", Menlo, monospace"
+    },
+    "geometry": {
+      "card_shape": "crystal",
+      "section_style": "beam",
+      "radius_lg": "18px",
+      "radius_md": "12px",
+      "radius_sm": "6px",
+      "border_width": "1px",
+      "card_shadow": "0 16px 38px rgba(59, 7, 100, 0.12)",
+      "page_shadow": "0 28px 78px rgba(59, 7, 100, 0.2)"
+    },
+    "hero": {"style": "nebula"},
+    "chart": {
+      "style": "spectral",
+      "palette": ["#38BDF8", "#C084FC", "#F472B6", "#22D3EE"],
+      "grid": "dashed",
+      "smooth": true,
+      "symbol": "diamond",
+      "line_width": 3,
+      "symbol_size": 8,
+      "bar_radius": 6,
+      "area_opacity": 0.2,
+      "donut": ["50%", "75%"],
+      "legend": "top"
+    }
   }
 }

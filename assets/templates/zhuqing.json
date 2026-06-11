@@ -3,6 +3,8 @@
   "label": "竹青 (Zhuqing)",
   "description": "清爽生动的敏捷研发竹青配色",
   "parent_style": "product-operations",
+  "canonical_layout": "kanban",
+  "canonical_section_layout": "kanban",
   "theme": {
     "primary": "#064E3B",
     "accent": "#10B981",
@@ -10,5 +12,37 @@
     "surface": "#FFFFFF",
     "text": "#064E3B",
     "muted": "#4B5563"
+  },
+  "design": {
+    "typography": {
+      "display": "\"DIN Alternate\", \"PingFang SC\", sans-serif",
+      "body": "\"PingFang SC\", \"Microsoft YaHei\", sans-serif",
+      "numeric": "\"SF Mono\", Menlo, monospace",
+      "label": "\"SF Mono\", Menlo, monospace"
+    },
+    "geometry": {
+      "card_shape": "cut",
+      "section_style": "stamp",
+      "radius_lg": "8px",
+      "radius_md": "4px",
+      "radius_sm": "2px",
+      "border_width": "1px",
+      "card_shadow": "5px 5px 0 rgba(6, 78, 59, 0.08)",
+      "page_shadow": "0 22px 64px rgba(6, 78, 59, 0.15)"
+    },
+    "hero": {"style": "bamboo-grid"},
+    "chart": {
+      "style": "bamboo",
+      "palette": ["#22C55E", "#84CC16", "#14B8A6", "#A3E635"],
+      "grid": "solid",
+      "smooth": false,
+      "symbol": "rect",
+      "line_width": 2,
+      "symbol_size": 6,
+      "bar_radius": 0,
+      "area_opacity": 0.08,
+      "donut": ["60%", "78%"],
+      "legend": "bottom"
+    }
   }
 }

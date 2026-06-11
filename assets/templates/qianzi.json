@@ -3,6 +3,8 @@
   "label": "浅紫 (Qianzi)",
   "description": "品牌感更强的优雅薰衣草叙事配色",
   "parent_style": "editorial",
+  "canonical_layout": "newsletter",
+  "canonical_section_layout": "cards",
   "theme": {
     "primary": "#111116",
     "accent": "#8B7CE8",
@@ -10,5 +12,37 @@
     "surface": "#FFFFFF",
     "text": "#111116",
     "muted": "#5F5F6E"
+  },
+  "design": {
+    "typography": {
+      "display": "Didot, Georgia, \"Songti SC\", serif",
+      "body": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+      "numeric": "\"DIN Alternate\", \"SF Mono\", monospace",
+      "label": "\"Avenir Next Condensed\", \"SF Mono\", monospace"
+    },
+    "geometry": {
+      "card_shape": "editorial",
+      "section_style": "editorial-rule",
+      "radius_lg": "20px",
+      "radius_md": "14px",
+      "radius_sm": "8px",
+      "border_width": "1.5px",
+      "card_shadow": "10px 10px 0 rgba(17, 17, 22, 0.06)",
+      "page_shadow": "14px 18px 0 rgba(17, 17, 22, 0.06)"
+    },
+    "hero": {"style": "lavender-wash"},
+    "chart": {
+      "style": "couture",
+      "palette": ["#C4B5FD", "#F0ABFC", "#60A5FA", "#F59E0B"],
+      "grid": "none",
+      "smooth": true,
+      "symbol": "circle",
+      "line_width": 3,
+      "symbol_size": 7,
+      "bar_radius": 8,
+      "area_opacity": 0.14,
+      "donut": ["50%", "73%"],
+      "legend": "top"
+    }
   }
 }

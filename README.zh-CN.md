@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href=""><img src="https://img.shields.io/badge/version-0.1.1-blue.svg" alt="版本"></a>
+  <a href=""><img src="https://img.shields.io/badge/version-0.1.2-blue.svg" alt="版本"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="协议"></a>
   <a href=""><img src="https://img.shields.io/badge/platform-Codex_/_Claude_Code-purple.svg" alt="平台"></a>
 </p>
@@ -27,8 +27,8 @@
 ## 🖼️ 产出示例
 
 <p align="center">
-  <a href="assets/weeklyviz-multi-layout-showcase.jpg">
-    <img src="assets/weeklyviz-multi-layout-showcase.jpg" width="860" alt="WeeklyViz 多版式周报产品展示">
+  <a href="assets/weeklyviz-multi-layout-showcase.png">
+    <img src="assets/weeklyviz-multi-layout-showcase.png" width="860" alt="WeeklyViz 多版式周报产品展示">
   </a>
 </p>
 
@@ -85,6 +85,9 @@ python3 scripts/weeklyviz.py render --report report-model.json --output weekly-r
 
 ## 📋 发布版本
 
+*   **v0.1.2** (2026-06-11)
+    - 修复了列表布局（`layout-list`）中状态圆点与标题垂直居中对齐的问题，确保所有模版下渲染完美。
+    - 重新制作了产品效果图，以当前小红书「市集」运营周报为样例展示多模版周报渲染效果。
 *   **v0.1.1** (2026-06-09)
     - 扁平化目录结构至根目录，适配标准的 Agent 加载与安装规范。
     - 升级并重构 `Editorial` 模版为更高级的社论风格，加入 dots 背景、macOS 窗口栏装饰、硬投影卡片、点线指标列表与双侧边栏装饰。

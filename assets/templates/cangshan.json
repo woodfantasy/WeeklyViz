@@ -3,6 +3,8 @@
   "label": "苍山 (Cangshan)",
   "description": "克制高密度的行政商务深蓝配色",
   "parent_style": "executive",
+  "canonical_layout": "dashboard",
+  "canonical_section_layout": "cards",
   "theme": {
     "primary": "#25324A",
     "accent": "#4F6BED",
@@ -10,5 +12,37 @@
     "surface": "#FFFFFF",
     "text": "#172033",
     "muted": "#61708A"
+  },
+  "design": {
+    "typography": {
+      "display": "\"Helvetica Neue\", \"PingFang SC\", Arial, sans-serif",
+      "body": "\"Helvetica Neue\", \"PingFang SC\", Arial, sans-serif",
+      "numeric": "\"DIN Alternate\", \"SF Mono\", Menlo, monospace",
+      "label": "\"SF Mono\", Menlo, monospace"
+    },
+    "geometry": {
+      "card_shape": "structured",
+      "section_style": "rule",
+      "radius_lg": "12px",
+      "radius_md": "8px",
+      "radius_sm": "4px",
+      "border_width": "1px",
+      "card_shadow": "0 6px 18px rgba(37, 50, 74, 0.07)",
+      "page_shadow": "0 24px 64px rgba(37, 50, 74, 0.14)"
+    },
+    "hero": {"style": "slab"},
+    "chart": {
+      "style": "corporate",
+      "palette": ["#7C8DB5", "#90A4D4", "#2F855A", "#C47F16"],
+      "grid": "dashed",
+      "smooth": false,
+      "symbol": "rect",
+      "line_width": 2.5,
+      "symbol_size": 6,
+      "bar_radius": 3,
+      "area_opacity": 0.1,
+      "donut": ["56%", "74%"],
+      "legend": "top"
+    }
   }
 }

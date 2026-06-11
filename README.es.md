@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href=""><img src="https://img.shields.io/badge/version-0.1.1-blue.svg" alt="Version"></a>
+  <a href=""><img src="https://img.shields.io/badge/version-0.1.2-blue.svg" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"></a>
   <a href=""><img src="https://img.shields.io/badge/platform-Codex_/_Claude_Code-purple.svg" alt="Platform"></a>
 </p>
@@ -27,8 +27,8 @@ Es un Claude Skill y herramienta independiente construida bajo la especificació
 ## 🖼️ Ejemplo de Resultado
 
 <p align="center">
-  <a href="assets/weeklyviz-multi-layout-showcase.jpg">
-    <img src="assets/weeklyviz-multi-layout-showcase.jpg" width="860" alt="Muestra de informes semanales con múltiples diseños de WeeklyViz">
+  <a href="assets/weeklyviz-multi-layout-showcase.png">
+    <img src="assets/weeklyviz-multi-layout-showcase.png" width="860" alt="Muestra de informes semanales con múltiples diseños de WeeklyViz">
   </a>
 </p>
 
@@ -41,7 +41,7 @@ Es un Claude Skill y herramienta independiente construida bajo la especificació
 | Capacidad | Descripción |
 |------------|-------------|
 | 📊 **Extracción Multifuente** | Procesa automáticamente archivos `.xlsx`, `.csv`, `.docx`, `.md` y `.txt` para extraer métricas y listas de progreso. |
-| 🎨 **Sistema de Diseño Multiformato** | Incluye 13 temas profesionales y múltiples diseños para narrativa editorial, paneles ejecutivos, seguimiento Kanban y vistas de datos densas, todos adaptables y sin conexión. |
+| 🎨 **Sistema de Diseño Multiformato** | Incluye 14 temas profesionales y múltiples diseños para narrativa editorial, paneles ejecutivos, seguimiento Kanban y vistas de datos densas, todos adaptables y sin conexión. |
 | 🔗 **Trazabilidad de Origen** | Vincula automáticamente cada KPI, barra de progreso, gráfico y lista con su archivo y línea de origen mediante IDs hash estables. |
 | ✏️ **Edición Interactiva** | El HTML generado permite editar textos y números en línea, cambiar colores de temas y exportar directamente a formato impreso o PDF. |
 | 📈 **Integración de ECharts** | Incluye un motor de ECharts local (`echarts.min.js`) para renderizar gráficos de línea, barra, rosca y embudo sin conexión. |
@@ -85,9 +85,12 @@ python3 scripts/weeklyviz.py render --report report-model.json --output weekly-r
 
 ## 📋 Versiones de Lanzamiento
 
+*   **v0.1.2** (2026-06-11)
+    - Se corrigió la alineación vertical de los puntos de estado y los títulos en el diseño de lista (`layout-list`) para un renderizado centrado en todas las plantillas.
+    - Se recreó y actualizó la imagen de demostración del producto que presenta el informe semanal de Xiaohongshu Shiji Tab.
 *   **v0.1.1** (2026-06-09)
     - Estructura de directorios aplanada a la raíz para la instalación y ejecución estándar de agentes.
     - Diseño y actualización premium de la plantilla `Editorial` con fondos de puntos, barra de estilo macOS, sombras sólidas desplazadas, listas de puntos y barras laterales.
-    - Política de seguridad para excluir datos locales sensibles de Shiji en el repositorio público.
+    - Política de seguridad para excluir datos locales sensibles del negocio en el repositorio público.
 *   **v0.1.0** (2026-06-09)
     - Versión inicial.

@@ -3,6 +3,8 @@
   "label": "松野 (Songye)",
   "description": "清晰精确的研发与运营墨绿配色",
   "parent_style": "product-operations",
+  "canonical_layout": "kanban",
+  "canonical_section_layout": "kanban",
   "theme": {
     "primary": "#0F5B78",
     "accent": "#14B8A6",
@@ -10,5 +12,37 @@
     "surface": "#FFFFFF",
     "text": "#102A34",
     "muted": "#607780"
+  },
+  "design": {
+    "typography": {
+      "display": "\"DIN Alternate\", \"PingFang SC\", sans-serif",
+      "body": "\"SF Pro Text\", \"PingFang SC\", sans-serif",
+      "numeric": "\"SF Mono\", Menlo, monospace",
+      "label": "\"SF Mono\", Menlo, monospace"
+    },
+    "geometry": {
+      "card_shape": "technical",
+      "section_style": "rail",
+      "radius_lg": "14px",
+      "radius_md": "9px",
+      "radius_sm": "4px",
+      "border_width": "1px",
+      "card_shadow": "0 8px 22px rgba(15, 91, 120, 0.08)",
+      "page_shadow": "0 24px 66px rgba(15, 91, 120, 0.15)"
+    },
+    "hero": {"style": "blueprint"},
+    "chart": {
+      "style": "technical",
+      "palette": ["#06B6D4", "#22C55E", "#F59E0B", "#64748B"],
+      "grid": "solid",
+      "smooth": false,
+      "symbol": "rect",
+      "line_width": 2,
+      "symbol_size": 6,
+      "bar_radius": 2,
+      "area_opacity": 0.09,
+      "donut": ["58%", "76%"],
+      "legend": "bottom"
+    }
   }
 }

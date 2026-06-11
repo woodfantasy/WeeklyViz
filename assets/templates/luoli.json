@@ -3,6 +3,8 @@
   "label": "落栗 (Luoli)",
   "description": "奢华稳重的深色调商务落栗配色",
   "parent_style": "executive",
+  "canonical_layout": "dashboard",
+  "canonical_section_layout": "cards",
   "theme": {
     "primary": "#1E1B4B",
     "accent": "#F59E0B",
@@ -10,5 +12,37 @@
     "surface": "#FFFFFF",
     "text": "#1E1B4B",
     "muted": "#4F46E5"
+  },
+  "design": {
+    "typography": {
+      "display": "Didot, Baskerville, \"Songti SC\", serif",
+      "body": "\"Avenir Next\", \"PingFang SC\", sans-serif",
+      "numeric": "\"DIN Alternate\", \"SF Mono\", monospace",
+      "label": "\"Avenir Next Condensed\", \"SF Mono\", monospace"
+    },
+    "geometry": {
+      "card_shape": "framed",
+      "section_style": "frame",
+      "radius_lg": "14px",
+      "radius_md": "10px",
+      "radius_sm": "6px",
+      "border_width": "1px",
+      "card_shadow": "0 12px 34px rgba(30, 27, 75, 0.1)",
+      "page_shadow": "0 26px 72px rgba(30, 27, 75, 0.18)"
+    },
+    "hero": {"style": "spotlight"},
+    "chart": {
+      "style": "luxe",
+      "palette": ["#F59E0B", "#A78BFA", "#7C3AED", "#D97706"],
+      "grid": "dotted",
+      "smooth": true,
+      "symbol": "diamond",
+      "line_width": 2.5,
+      "symbol_size": 7,
+      "bar_radius": 2,
+      "area_opacity": 0.14,
+      "donut": ["50%", "72%"],
+      "legend": "top"
+    }
   }
 }

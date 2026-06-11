@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href=""><img src="https://img.shields.io/badge/version-0.1.1-blue.svg" alt="Version"></a>
+  <a href=""><img src="https://img.shields.io/badge/version-0.1.2-blue.svg" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License"></a>
   <a href=""><img src="https://img.shields.io/badge/platform-Codex_/_Claude_Code-purple.svg" alt="Platform"></a>
 </p>
@@ -27,8 +27,8 @@ A Claude Skill and standalone tool built on the [Agent Skills](https://agentskil
 ## 🖼️ Example Output
 
 <p align="center">
-  <a href="assets/weeklyviz-multi-layout-showcase.jpg">
-    <img src="assets/weeklyviz-multi-layout-showcase.jpg" width="860" alt="WeeklyViz multi-layout weekly report showcase">
+  <a href="assets/weeklyviz-multi-layout-showcase.png">
+    <img src="assets/weeklyviz-multi-layout-showcase.png" width="860" alt="WeeklyViz multi-layout weekly report showcase">
   </a>
 </p>
 
@@ -41,7 +41,7 @@ A Claude Skill and standalone tool built on the [Agent Skills](https://agentskil
 | Capability | Description |
 |------------|-------------|
 | 📊 **Multi-Source Extraction** | Automatically parses and processes `.xlsx`, `.csv`, `.docx`, `.md`, and `.txt` files to extract raw metrics and update lists. |
-| 🎨 **Multi-Layout Design System** | Includes 13 professional themes and multiple report layouts for editorial storytelling, executive dashboards, Kanban progress, and dense data views, all responsive and offline-ready. |
+| 🎨 **Multi-Layout Design System** | Includes 14 professional themes and multiple report layouts for editorial storytelling, executive dashboards, Kanban progress, and dense data views, all responsive and offline-ready. |
 | 🔗 **Source Traceability** | Links every KPI, progress bar, chart, and list item back to its origin file and line location, ensuring complete data integrity. |
 | ✏️ **Interactive Editing** | The output HTML is fully interactive: edit text and numbers inline, modify chart data, adjust theme colors, and save/print directly. |
 | 📈 **ECharts Integration** | Pinned Apache ECharts runtime for rendering interactive lines, bars, donuts, and funnels offline. |
@@ -85,6 +85,9 @@ python3 scripts/weeklyviz.py render --report report-model.json --output weekly-r
 
 ## 📋 Release Versions
 
+*   **v0.1.2** (2026-06-11)
+    - Fixed vertical alignment of status dots and titles in list layout (`layout-list`) to ensure centered rendering across all templates.
+    - Recreated and updated the product mockup image featuring Xiaohongshu Shiji Tab weekly report layout showcase.
 *   **v0.1.1** (2026-06-09)
     - Flattened directory hierarchy to root folder for standard agent execution and installation.
     - Redesigned and upgraded the `Editorial` template with Y2K-neutral layouts, glassmorphism, hard-offset shadows, dotted lists, and double sidebars.

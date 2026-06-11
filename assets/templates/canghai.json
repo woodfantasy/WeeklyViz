@@ -1,0 +1,48 @@
+{
+  "id": "canghai",
+  "label": "沧海 (Canghai)",
+  "description": "极具质感的暗色玻璃拟态多维度数据看板配色",
+  "parent_style": "executive",
+  "canonical_layout": "operating-review",
+  "canonical_section_layout": "cards",
+  "theme": {
+    "primary": "#A78BFA",
+    "accent": "#F472B6",
+    "background": "#07090E",
+    "surface": "#111622",
+    "text": "#F8FAFC",
+    "muted": "#CBD5E1"
+  },
+  "design": {
+    "typography": {
+      "display": "\"Avenir Next\", \"SF Pro Display\", \"PingFang SC\", sans-serif",
+      "body": "\"SF Pro Text\", \"PingFang SC\", \"Microsoft YaHei\", sans-serif",
+      "numeric": "\"SF Mono\", \"DIN Alternate\", Menlo, monospace",
+      "label": "\"SF Mono\", Menlo, monospace"
+    },
+    "geometry": {
+      "card_shape": "glass",
+      "section_style": "glow",
+      "radius_lg": "22px",
+      "radius_md": "16px",
+      "radius_sm": "9px",
+      "border_width": "1px",
+      "card_shadow": "0 18px 48px rgba(0, 0, 0, 0.32)",
+      "page_shadow": "0 28px 80px rgba(0, 0, 0, 0.46)"
+    },
+    "hero": {"style": "aurora"},
+    "chart": {
+      "style": "neon",
+      "palette": ["#38BDF8", "#34D399", "#FBBF24", "#FB7185"],
+      "grid": "none",
+      "smooth": true,
+      "symbol": "circle",
+      "line_width": 3,
+      "symbol_size": 7,
+      "bar_radius": 8,
+      "area_opacity": 0.18,
+      "donut": ["52%", "76%"],
+      "legend": "top"
+    }
+  }
+}

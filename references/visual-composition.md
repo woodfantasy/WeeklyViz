@@ -52,6 +52,15 @@ Avoid more than two consecutive sections with the same visual rhythm when anothe
 - Use larger headings and fewer sections.
 - Do not use spacious mode to hide weak information architecture.
 
+## Count-Aware Layout
+
+- 1 KPI may stand alone; 2-3 should form one balanced row.
+- 4-6 KPIs should form a compact matrix rather than a desktop single-column stack.
+- For 7 or more KPIs, promote only the decision set and place supporting metrics in detail cards or a table.
+- A business card should normally contain a claim plus at least one of: evidence, verified outcome, next action.
+- Remove empty kanban columns. Do not reserve equal width for absent content.
+- Use a wide final card only to resolve an odd row when it adds hierarchy, not as decorative filler.
+
 ## Reference Use
 
 Treat a reference report as a quality bar, not a template to copy blindly.
@@ -86,3 +95,5 @@ The page should show:
 - a concise ending with risks and next actions
 
 Then capture 390px. Cards must stack, text must remain horizontal and readable, and no fixed desktop grid may survive by shrinking into narrow columns.
+
+Treat 10px as the floor for metadata and 12px as the practical floor for sustained reading. If the page only fits by going smaller, reduce repetition or change composition.
