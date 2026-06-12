@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser(description="Render a collision-free gallery for every WeeklyViz theme.")
 parser.add_argument(
     "--report",
-    default=str(ROOT / "red-shiji-report-model.json"),
+    default=str(ROOT / "evals" / "fixtures" / "red-shiji-report-model.json"),
     help="Base report model used for every theme.",
 )
 parser.add_argument(

@@ -1,0 +1,532 @@
+{
+  "metadata": {
+    "report_id": "red-shiji-weekly-report-0607",
+    "title": "小红书「市集」Tab 运营周报",
+    "subtitle": "渗透率稳步拉升至 22.3%，闭环电商 GMV 持续爬坡，详情页转化率待算法优化",
+    "locale": "zh-CN",
+    "source_label": "红书大盘运营库/交易监测系统",
+    "synthetic": true,
+    "period": {
+      "label": "2026.06.01 - 2026.06.07",
+      "start": "2026-06-01",
+      "end": "2026-06-07"
+    }
+  },
+  "template": "editorial",
+  "theme": {
+    "primary": "#FF2442",
+    "accent": "#3366FF",
+    "background": "#FAF9F9",
+    "surface": "#FFFFFF",
+    "text": "#1A1919",
+    "muted": "#7E7979"
+  },
+  "presentation": {
+    "density": "balanced",
+    "section_layout": "cards",
+    "source_display": "summary",
+    "show_toc": true
+  },
+  "summary": {
+    "headline": "小红书「市集」Tab 上线首周大盘渗透率达 22.3%，DAU 突破 2,450 万，但详情页漏斗转化率存在调优空间",
+    "body": "本周是新版闭环电商入口「市集」Tab 灰度上线的首个完整运行周。在大盘未开启外导流和高强度曝光的情况下，市集 Tab 日均活跃用户（DAU）稳定增至 2,450 万，大盘 DAU 渗透率达到 22.3%，周累计交易额（GMV）实现 1.85 亿元，证明了社区种草与交易闭环链路的高接受度。然而，收银台微调后存在 2.4% 的跳失波动，且首周主 Feed 从详情页至下单的转化率偏低（2.8%）。下周将上线 A/B 测试调整推荐策略，并启动“红种计划”引入 500 个原生品牌进行冷启动。",
+    "highlights": [
+      "市集 Tab 日活跃用户数（DAU）达 2,450 万，峰值突破 2,680 万，渗透率超预期突破 22%",
+      "首周累计成交 GMV 达 1.85 亿元，日均成交 2,640 万元，客单价（AOV）稳定在 48.5 元",
+      "创作者商品挂件笔记发布数环比增加 25%，社区交易闭环生态初见成效"
+    ]
+  },
+  "kpis": [
+    {
+      "id": "app-dau",
+      "label": "小红书大盘 DAU",
+      "value": 110000000,
+      "display": "1.1亿",
+      "unit": "人",
+      "note": "每日大盘活跃用户总数",
+      "source_refs": [
+        "src-oper-data"
+      ]
+    },
+    {
+      "id": "shiji-dau",
+      "label": "市集 Tab DAU",
+      "value": 24500000,
+      "display": "2,450万",
+      "unit": "人",
+      "note": "灰度上线首周日活跃用户",
+      "details": [
+        {
+          "label": "自然推荐分流",
+          "value": "45%"
+        },
+        {
+          "label": "大盘渗透率",
+          "value": "22.3%"
+        }
+      ],
+      "trend": {
+        "value": "+15.3%",
+        "label": "较前一测试周",
+        "direction": "up"
+      },
+      "source_refs": [
+        "src-oper-data"
+      ]
+    },
+    {
+      "id": "shiji-penetration",
+      "label": "大盘 DAU 渗透率",
+      "value": 22.3,
+      "display": "22.3%",
+      "unit": "%",
+      "note": "市集 Tab DAU / 大盘 DAU",
+      "derived": true,
+      "formula": "shiji-dau / app-dau * 100",
+      "source_refs": [
+        "src-oper-data"
+      ]
+    },
+    {
+      "id": "shiji-gmv",
+      "label": "周累计交易额 (GMV)",
+      "value": 185000000,
+      "display": "1.85亿",
+      "unit": "元",
+      "note": "闭环电商成交总额",
+      "details": [
+        {
+          "label": "白牌成交占比",
+          "value": "18%"
+        },
+        {
+          "label": "客单价",
+          "value": "48.5元"
+        }
+      ],
+      "trend": {
+        "value": "+24.8%",
+        "label": "较前一测试周",
+        "direction": "up"
+      },
+      "source_refs": [
+        "src-sales-db"
+      ]
+    },
+    {
+      "id": "shiji-buyers",
+      "label": "交易买家数",
+      "value": 3810000,
+      "display": "381万",
+      "unit": "人",
+      "note": "周累计购买用户数",
+      "source_refs": [
+        "src-sales-db"
+      ]
+    },
+    {
+      "id": "shiji-aov",
+      "label": "客单价 (AOV)",
+      "value": 48.5,
+      "display": "48.5",
+      "unit": "元",
+      "derived": true,
+      "formula": "shiji-gmv / shiji-buyers",
+      "source_refs": [
+        "src-sales-db"
+      ]
+    }
+  ],
+  "progress": [
+    {
+      "id": "shiji-rollout-percent",
+      "label": "市集 Tab 灰度比例",
+      "current": 20,
+      "target": 100,
+      "unit": "%",
+      "status": "complete",
+      "source_refs": [
+        "src-oper-data"
+      ]
+    },
+    {
+      "id": "brand-onboarding-count",
+      "label": "红种计划品牌入驻",
+      "current": 420,
+      "target": 500,
+      "unit": "家",
+      "status": "on-track",
+      "source_refs": [
+        "src-merchant-db"
+      ]
+    },
+    {
+      "id": "detail-to-pay-conversion",
+      "label": "详情页至支付转化",
+      "current": 28,
+      "target": 35,
+      "unit": "分",
+      "status": "watch",
+      "source_refs": [
+        "src-user-log"
+      ]
+    }
+  ],
+  "charts": [
+    {
+      "id": "shiji-dau-gmv-trend",
+      "type": "bar",
+      "title": "市集 Tab 灰度首周 DAU 与交易走势",
+      "question": "每日流量与成交规模是否同步稳步爬坡？",
+      "unit": "万/百万元",
+      "insight": "DAU 与交易额在周五与周末呈明显爆发，与社区周末种草流量峰值吻合。",
+      "insight_points": [
+        "周一 DAU 为 2,120万，日成交金额为 2,150万元",
+        "周日 DAU 录得峰值 2,680万，日成交金额冲至 3,120万元"
+      ],
+      "labels": [
+        "06-01",
+        "06-02",
+        "06-03",
+        "06-04",
+        "06-05",
+        "06-06",
+        "06-07"
+      ],
+      "series": [
+        {
+          "name": "日活跃用户 (DAU)",
+          "values": [
+            2120,
+            2250,
+            2310,
+            2280,
+            2560,
+            2650,
+            2680
+          ]
+        },
+        {
+          "name": "日成交金额 (GMV)",
+          "values": [
+            21.5,
+            23.2,
+            24.8,
+            23.9,
+            28.5,
+            30.2,
+            31.2
+          ]
+        }
+      ],
+      "source_refs": [
+        "src-oper-data",
+        "src-sales-db"
+      ]
+    },
+    {
+      "id": "shiji-traffic-mix",
+      "type": "donut",
+      "title": "市集 Tab 流量来源构成",
+      "question": "灰度首周进入市集的用户主要来自哪些入口？",
+      "unit": "%",
+      "insight": "主 Feed 商品挂件和首页 Tab 分流占比超过 80%，是核心流量支撑。",
+      "labels": [
+        "主 Feed 挂件",
+        "首页 Tab 分流",
+        "搜索直达",
+        "其他分发"
+      ],
+      "series": [
+        {
+          "name": "流量占比",
+          "values": [
+            45,
+            36,
+            12,
+            7
+          ]
+        }
+      ],
+      "source_refs": [
+        "src-user-log"
+      ]
+    },
+    {
+      "id": "shiji-order-status-distribution",
+      "type": "horizontal-bar",
+      "title": "市集订单状态分布",
+      "question": "首周市集订单在各生命周期阶段的分布如何？",
+      "unit": "万笔",
+      "insight": "大部分订单已完成支付并进入待发货/待收货状态，物流履约较为稳定。",
+      "labels": [
+        "已完成",
+        "待收货",
+        "待发货",
+        "待支付"
+      ],
+      "series": [
+        {
+          "name": "订单量",
+          "values": [
+            268,
+            85,
+            24,
+            4
+          ]
+        }
+      ],
+      "source_refs": [
+        "src-sales-db"
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "id": "delivery-progress",
+      "title": "本周交付进展",
+      "summary": "市集 Tab v1.2 版本灰度功能已全部上线，收银台与商品详情页正在进行首轮体验调优。",
+      "layout": "grid",
+      "items": [
+        {
+          "title": "新版闭环电商「市集」Tab 灰度发布",
+          "body": "大盘 20% 灰度测试已完成，页面核心框架及组件渲染性能稳定，首周 DAU 达到预定目标。",
+          "status": "complete",
+          "owner": "大盘流量运营组",
+          "meta": "灰度比例 20%",
+          "outcome": "无重大崩溃，ECharts 与 CSS 渲染耗时控制在 120ms 以内。",
+          "next": "根据性能日志评估下周开启 50% 极速放量。",
+          "metrics": [
+            {
+              "label": "首周 DAU",
+              "value": "2,450万"
+            },
+            {
+              "label": "渲染耗时",
+              "value": "118ms"
+            }
+          ],
+          "source_refs": [
+            "src-oper-data",
+            "src-prd-doc"
+          ]
+        },
+        {
+          "title": "收银台体验微调及支付防漏斗流失",
+          "body": "收银台新增优惠券一键勾选功能，但上线后发现因接口丢包导致支付跳失率上涨 2.4%。",
+          "status": "watch",
+          "owner": "电商交易研发组",
+          "meta": "开发联调中",
+          "outcome": "定位为收银台缓存未同步导致接口延迟，已紧急发布热修补丁。",
+          "next": "监控本周热修后的流失数据，确保跳失率降至 1.5% 以下。",
+          "metrics": [
+            {
+              "label": "跳失率波动",
+              "value": "+2.4%"
+            },
+            {
+              "label": "目标跳失率",
+              "value": "<1.5%"
+            }
+          ],
+          "source_refs": [
+            "src-user-log"
+          ]
+        },
+        {
+          "title": "小红书市集「红种计划」白牌冷启动",
+          "body": "联合创作者部门引入 500 个国货白牌及设计师品牌商家入驻，白牌挂件笔记发布环比增长 25%。",
+          "status": "on-track",
+          "owner": "招商与生态运营组",
+          "meta": "首期 500 商家",
+          "outcome": "目前已完成 420 家店铺的上线和商品上架，白牌挂件交易额占首周 GMV 的 18%。",
+          "next": "推进剩余 80 家品牌在 6 月 15 日前完成入驻。",
+          "metrics": [
+            {
+              "label": "已入驻品牌",
+              "value": "420家"
+            },
+            {
+              "label": "GMV占比",
+              "value": "18%"
+            }
+          ],
+          "source_refs": [
+            "src-merchant-db"
+          ]
+        }
+      ]
+    }
+  ],
+  "risks": [
+    {
+      "title": "详情页至下单的转化率偏低",
+      "body": "首周主 Feed 从商品详情页至下单的转化率仅为 2.8%，未达到 3.5% 的基准线，算法匹配度亟待优化。",
+      "owner": "电商算法策略组",
+      "severity": "high",
+      "source_refs": [
+        "src-user-log"
+      ]
+    },
+    {
+      "title": "收银台部分接口在高并发下丢包",
+      "body": "支付确认接口在晚高峰（21:00-23:00）响应时间从 150ms 升高至 650ms，伴随 0.8% 的网络丢包。",
+      "owner": "交易底座工程组",
+      "severity": "medium",
+      "source_refs": [
+        "src-sales-db"
+      ]
+    }
+  ],
+  "next_actions": [
+    {
+      "title": "启动推荐策略 A/B 测试",
+      "body": "灰度上线协同过滤 vs 内容语义特征与搜索意图加权算法，以提升详情页曝光到支付的转化。",
+      "owner": "电商算法策略组",
+      "due": "06-15",
+      "status": "planned",
+      "source_refs": [
+        "src-prd-doc"
+      ]
+    },
+    {
+      "title": "优化交易链路响应延时",
+      "body": "优化收银台缓存同步机制，完成交易底座高并发压力测试，消除网络丢包风险。",
+      "owner": "交易底座工程组",
+      "due": "06-12",
+      "status": "on-track",
+      "source_refs": [
+        "src-sales-db"
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "id": "metric-shiji-dau",
+      "name": "市集日活用户 (DAU)",
+      "value": 24500000,
+      "unit": "integer",
+      "scope": [
+        "大盘",
+        "流量"
+      ],
+      "time_grain": "week",
+      "aggregation": "average",
+      "source_refs": [
+        "src-oper-data"
+      ],
+      "target": {
+        "value": 25000000,
+        "period": "2026-Q2"
+      }
+    },
+    {
+      "id": "metric-shiji-gmv",
+      "name": "周成交额 (GMV)",
+      "value": 185000000,
+      "unit": "currency",
+      "scope": [
+        "交易",
+        "电商"
+      ],
+      "time_grain": "week",
+      "aggregation": "sum",
+      "source_refs": [
+        "src-sales-db"
+      ],
+      "target": {
+        "value": 200000000,
+        "period": "2026-Q2"
+      }
+    }
+  ],
+  "okrs": [
+    {
+      "id": "okr-o1",
+      "type": "objective",
+      "label": "O1: 优化小红书「市集」Tab 闭环交易体验，大盘 DAU 渗透率稳定提升至 25%",
+      "owner": "大盘流量运营组",
+      "health": "正常",
+      "source_refs": [
+        "src-prd-doc"
+      ]
+    },
+    {
+      "id": "okr-kr1.1",
+      "type": "key-result",
+      "parent_id": "okr-o1",
+      "label": "KR1.1: 灰度期市集 Tab 日活跃用户（DAU）稳定在 2,500 万，新访客 7 日留存率提升至 12.0%",
+      "owner": "流量增长运营组",
+      "health": "正常",
+      "current": 24.5,
+      "target": 25,
+      "unit": "百万",
+      "source_refs": [
+        "src-oper-data"
+      ]
+    },
+    {
+      "id": "okr-kr1.2",
+      "type": "key-result",
+      "parent_id": "okr-o1",
+      "label": "KR1.2: 电商闭环交易漏斗优化，详情页至下单支付转化率由 2.8% 提升至 3.5%，防范网络抖动 and 接口延迟",
+      "owner": "电商研发组",
+      "health": "关注",
+      "current": 2.8,
+      "target": 3.5,
+      "unit": "%",
+      "source_refs": [
+        "src-user-log"
+      ]
+    },
+    {
+      "id": "okr-p1.2.1",
+      "type": "requirement",
+      "parent_id": "okr-kr1.2",
+      "label": "收银台一键优惠券结算体验及缓存异步预加载优化",
+      "owner": "电商交易研发组",
+      "stage": "开发",
+      "health": "on-track",
+      "source_refs": [
+        "src-user-log"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-oper-data",
+      "label": "大盘运营数据报表 (xhs_oper_daily_dw)",
+      "type": "Hive Table / Data Warehouse",
+      "location": "dw.t_shiji_dau_summary_daily",
+      "note": "每日市集大盘流量、大盘渗透率、人均停留时长及分类筛选器使用率明细日志汇总。"
+    },
+    {
+      "id": "src-sales-db",
+      "label": "电商交易及订单追踪系统 (xhs_order_summary_weekly)",
+      "type": "MySQL Database",
+      "location": "order.t_sales_metrics_weekly",
+      "note": "周累计销售总 GMV、日均销售额分布、客单价 (AOV) 及接口丢包率监控记录。"
+    },
+    {
+      "id": "src-user-log",
+      "label": "市集用户行为与漏斗流向日志 (xhs_user_behavior_stream)",
+      "type": "Kafka Topic / Log",
+      "location": "behavior.shiji_click_funnel",
+      "note": "追踪用户在市集内从曝光、点击卡片、浏览商品详情、跳转收银台到支付完成的全漏斗漏点。"
+    },
+    {
+      "id": "src-merchant-db",
+      "label": "商家入驻与活跃状态库 (xhs_merchant_dw)",
+      "type": "MySQL Database",
+      "location": "merchant.t_brand_status_weekly",
+      "note": "记录本季度入驻 of the 商家总数、活跃品类比例及自服务管理后台 ERP 对接日志。"
+    },
+    {
+      "id": "src-prd-doc",
+      "label": "小红书「市集」Tab 产品规划与功能定义 v1.2",
+      "type": "Lark Wiki / Product Spec",
+      "location": "feishu.wiki/xhs_shiji_spec_v1_2",
+      "note": "市集 Tab 年度 OKR 拆解、v1.2 版本功能排期设计图以及 A/B 测试指标规划。"
+    }
+  ]
+}
